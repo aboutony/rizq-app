@@ -1,30 +1,22 @@
-
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import * as jose from 'jose';
-
-export async function middleware(request: NextRequest) {
-  const sessionCookie = request.cookies.get('rizq_session');
-  const { pathname } = request.nextUrl;
-
-  if (!sessionCookie) {
-    return NextResponse.redirect(new URL('/tutor/login', request.url));
-  }
-
-  try {
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'default-secret-key-for-dev');
-    await jose.jwtVerify(sessionCookie.value, secret);
-    return NextResponse.next();
-  } catch (err) {
-    // Token is invalid, redirect to login
-    const response = NextResponse.redirect(new URL('/tutor/login', request.url));
-    // Clear the invalid cookie
-    response.cookies.delete('rizq_session');
-    return response;
-  }
-}
-
-// See "Matching Paths" below to learn more
+import createMiddleware from 'next-intl/middleware';
+ 
+export default createMiddleware({
+  // A list of all locales that are supported
+  locales: ['en', 'ar', 'fr'],
+ 
+  // Used when no locale matches
+  defaultLocale: 'en'
+});
+ 
 export const config = {
-  matcher: ['/tutor/dashboard/:path*', '/tutor/setup/:path*', '/tutor/reschedules/:path*', '/tutor/log/:path*'],
+  // Match only internationalized pathnames
+  matcher: [
+    // Match all pathnames except for
+    // - API routes
+    // - _next (internal files)
+    // - Static files (e.g. .svg, .jpg, .png)
+    '/((?!api|_next|.*\\..*).*)',
+    // Match all pathnames within locales
+    '/(ar|en|fr)/:path*'
+  ]
 };

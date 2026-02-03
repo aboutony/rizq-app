@@ -13,5 +13,14 @@
     "monthlyEarnings": "الأقساط الشهرية",
     "activeStudents": "الطلاب الحاليين",
     "viewAll": "عرض الكل"
+  },
+  "LoginPage": {
+    "title": "تسجيل الدخول",
+    "subtitle": "عد للتواصل مع طلابك وإدارة دروسك بكل سهولة.",
+    "emailLabel": "البريد الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "submit": "دخول",
+    "forgotPassword": "استعادة كلمة المرور",
+    "signUp": "إنشاء حساب جديد"
   }
 }

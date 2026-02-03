@@ -13,5 +13,14 @@
     "monthlyEarnings": "Monthly Tuition",
     "activeStudents": "Active Students",
     "viewAll": "View All"
+  },
+  "LoginPage": {
+    "title": "Login",
+    "subtitle": "Log back in to manage your students and lessons with ease.",
+    "emailLabel": "Email Address",
+    "passwordLabel": "Password",
+    "submit": "Sign In",
+    "forgotPassword": "Forgot Password?",
+    "signUp": "Create an Account"
   }
 }

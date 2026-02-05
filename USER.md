@@ -1,9 +1,9 @@
 # USER.md - About Your Human
 
-- **Name:** 
+- **Name:** Adonis
 - **What to call them:** Operator
 - **Pronouns:** *(optional)*
-- **Timezone:** 
+- **Timezone:** Arabian Standard Time (Riyadh, GMT+3)
 - **Notes:** 
 
 ## Context

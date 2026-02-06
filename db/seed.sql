@@ -60,4 +60,29 @@ VALUES
     ((SELECT id FROM new_tutor), 3, '15:00', '18:00'), -- Wednesday 3-6 PM
     ((SELECT id FROM new_tutor), 5, '14:00', '17:00'); -- Friday 2-5 PM
 
+-- Add a sample lesson request
+INSERT INTO lessons (
+  tutor_id,
+  lesson_type_id,
+  student_name,
+  level,
+  duration_minutes,
+  price_amount,
+  status,
+  requested_start_at_utc
+)
+SELECT
+  t.id,
+  lt.id,
+  'Client Libanais',
+  'Terminale',
+  60,
+  25.00,
+  'requested',
+  NOW() + INTERVAL '3 days'
+FROM tutors t
+JOIN lesson_types lt ON lt.tutor_id = t.id
+WHERE t.slug = 'farah-fayad' AND lt.label = 'Math'
+LIMIT 1;
+
 SELECT 'Seed data successfully inserted.' as status;

@@ -15,12 +15,16 @@
     "viewAll": "Voir tout"
   },
   "LoginPage": {
-    "title": "Connexion",
-    "subtitle": "Reconnectez-vous pour gérer vos cours et vos élèves en toute simplicité.",
-    "emailLabel": "Adresse Email",
-    "passwordLabel": "Mot de Passe",
-    "submit": "Se connecter",
-    "forgotPassword": "Mot de passe oublié ?",
-    "signUp": "Créer un compte"
-  }
+  "title": "Connexion",
+  "subtitle": "Reconnectez-vous pour gérer vos cours et vos élèves en toute simplicité.",
+  "emailLabel": "Adresse Email",
+  "passwordLabel": "Mot de Passe",
+  "submit": "Se connecter",
+  "forgotPassword": "Mot de passe oublié ?",
+  "signUp": "Créer un compte",
+  "phoneLabel": "Numéro de téléphone",
+  "sendOtp": "Envoyer le code",
+  "otpLabel": "Code OTP",
+  "verifyOtp": "Vérifier"
 }
+

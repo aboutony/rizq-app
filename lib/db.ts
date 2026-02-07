@@ -1,18 +1,23 @@
-
 import { Pool } from 'pg';
 
 let pool: Pool;
 
+const connectionString =
+  process.env.SUPABASE_POSTGRES_URL ||
+  process.env.POSTGRES_URL;
+
+if (!connectionString) {
+  throw new Error('Missing database connection string');
+}
+
 if (process.env.NODE_ENV === 'production') {
   pool = new Pool({
-    connectionString: process.env.POSTGRES_URL,
-    // Production-specific settings like SSL can be added here
+    connectionString,
   });
 } else {
-  // In development, reuse the connection across hot reloads
   if (!global._pgPool) {
     global._pgPool = new Pool({
-      connectionString: process.env.POSTGRES_URL,
+      connectionString,
     });
   }
   pool = global._pgPool;

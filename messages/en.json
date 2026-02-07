@@ -15,16 +15,16 @@
     "viewAll": "View All"
   },
   "LoginPage": {
-  "title": "Login",
-  "subtitle": "Log back in to manage your students and lessons with ease.",
-  "emailLabel": "Email Address",
-  "passwordLabel": "Password",
-  "submit": "Sign In",
-  "forgotPassword": "Forgot Password?",
-  "signUp": "Create an Account",
-  "phoneLabel": "Phone Number",
-  "sendOtp": "Send OTP",
-  "otpLabel": "OTP Code",
-  "verifyOtp": "Verify OTP"
-},
-
+    "title": "Login",
+    "subtitle": "Log back in to manage your students and lessons with ease.",
+    "emailLabel": "Email Address",
+    "passwordLabel": "Password",
+    "submit": "Sign In",
+    "forgotPassword": "Forgot Password?",
+    "signUp": "Create an Account",
+    "phoneLabel": "Phone Number",
+    "sendOtp": "Send OTP",
+    "otpLabel": "OTP Code",
+    "verifyOtp": "Verify OTP"
+  }
+}

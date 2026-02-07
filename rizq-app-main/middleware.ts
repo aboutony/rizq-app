@@ -1,16 +1,22 @@
 import createMiddleware from 'next-intl/middleware';
+import { NextRequest, NextResponse } from 'next/server';
 
-export default createMiddleware({
+const intlMiddleware = createMiddleware({
   locales: ['en', 'ar', 'fr'],
-  defaultLocale: 'en'
+  defaultLocale: 'en',
+  localeDetection: false
 });
+
+export default function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname === '/') {
+    return NextResponse.next();
+  }
+  return intlMiddleware(request);
+}
 
 export const config = {
   matcher: [
-    // Skip all internal files and static assets
-    // NOTE: use .+ to avoid matching the root path “/” so we can show the language picker
-    '/((?!api|_next|.*\\..*).+)',
-    // Optional: Only run on these locales
+    '/((?!api|_next|.*\\..*).*)',
     '/(ar|en|fr)/:path*'
   ]
 };

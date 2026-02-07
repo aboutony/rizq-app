@@ -24,7 +24,7 @@ export default function LoginPage() {
     await fetch('/api/auth/otp/verify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone, otp }),
+      body: JSON.stringify({ phone, code: otp }),
     });
     // TODO: route to dashboard after success
     window.location.href = `/${window.location.pathname.split('/')[1]}/dashboard`;

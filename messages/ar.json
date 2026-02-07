@@ -15,16 +15,16 @@
     "viewAll": "عرض الكل"
   },
   "LoginPage": {
-  "title": "تسجيل الدخول",
-  "subtitle": "عد للتواصل مع طلابك وإدارة دروسك بكل سهولة.",
-  "emailLabel": "البريد الإلكتروني",
-  "passwordLabel": "كلمة المرور",
-  "submit": "دخول",
-  "forgotPassword": "استعادة كلمة المرور",
-  "signUp": "إنشاء حساب جديد",
-  "phoneLabel": "رقم الجوال",
-  "sendOtp": "إرسال الرمز",
-  "otpLabel": "رمز التحقق",
-  "verifyOtp": "تحقق"
-},
-
+    "title": "تسجيل الدخول",
+    "subtitle": "عد للتواصل مع طلابك وإدارة دروسك بكل سهولة.",
+    "emailLabel": "البريد الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "submit": "دخول",
+    "forgotPassword": "استعادة كلمة المرور",
+    "signUp": "إنشاء حساب جديد",
+    "phoneLabel": "رقم الجوال",
+    "sendOtp": "إرسال الرمز",
+    "otpLabel": "رمز التحقق",
+    "verifyOtp": "تحقق"
+  }
+}

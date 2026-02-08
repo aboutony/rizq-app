@@ -49,7 +49,8 @@
     "pickTutor": "اختر مدرسًا ووقتًا",
     "activeTutors": "المدرسون النشطون",
     "payments": "المدفوعات",
-    "requests": "الطلبات"
+    "requests": "الطلبات",
+    "logout": "تسجيل الخروج"
   },
   "Logout": {
     "title": "تسجيل الخروج",

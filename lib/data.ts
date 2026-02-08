@@ -1,4 +1,3 @@
-
 import { unstable_noStore as noStore } from 'next/cache';
 import pool from '@/lib/db';
 import { hashToken } from './tokens';
@@ -76,14 +75,19 @@ export async function getTutorBySlug(slug: string): Promise<TutorPublicProfile |
   }
 }
 
-
 export type LessonRequest = {
   id: string;
   student_name: string;
+  student_name_en?: string;
+  student_name_ar?: string;
+  student_name_fr?: string;
   duration_minutes: number;
   requested_start_at_utc: Date;
   created_at: Date;
   lesson_type_label: string;
+  lesson_type_label_en?: string;
+  lesson_type_label_ar?: string;
+  lesson_type_label_fr?: string;
 }
 
 export async function getLessonRequests(tutorId: string): Promise<LessonRequest[]> {
@@ -93,7 +97,18 @@ export async function getLessonRequests(tutorId: string): Promise<LessonRequest[
   try {
     const res = await client.query(
       `SELECT 
-         l.id, l.student_name, l.duration_minutes, l.requested_start_at_utc, l.created_at, lt.label as lesson_type_label
+         l.id,
+         l.student_name,
+         l.student_name_en,
+         l.student_name_ar,
+         l.student_name_fr,
+         l.duration_minutes,
+         l.requested_start_at_utc,
+         l.created_at,
+         lt.label as lesson_type_label,
+         lt.label_en as lesson_type_label_en,
+         lt.label_ar as lesson_type_label_ar,
+         lt.label_fr as lesson_type_label_fr
        FROM lessons l
        JOIN lesson_types lt ON l.lesson_type_id = lt.id
        WHERE l.tutor_id = $1 AND l.status = 'requested'
@@ -114,16 +129,13 @@ export type LessonDetailsForParent = {
     student_name: string;
     lesson_label: string;
     tutor_name: string;
-    // These fields are only present for specific token purposes
     confirmed_start_at_utc?: Date;
     cutoff_hours?: number;
 };
-
 export async function getLessonDetailsByToken(token: string, purpose: 'cancel' | 'reschedule' | 'rate'): Promise<LessonDetailsForParent | null> {
     noStore();
     const tokenHash = hashToken(token);
     
-    // Define the valid statuses for each token purpose
     const validStatuses: Record<typeof purpose, string[]> = {
         cancel: ['confirmed', 'reschedule_requested'],
         reschedule: ['confirmed', 'reschedule_requested'],
@@ -156,7 +168,6 @@ export async function getLessonDetailsByToken(token: string, purpose: 'cancel' |
         client.release();
     }
 }
-
 
 export type RescheduleRequestDetails = {
     request_id: string;

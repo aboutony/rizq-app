@@ -2,7 +2,7 @@
   "HomePage": {
     "welcomeBadge": "L'avenir de l'éducation au Liban",
     "heroTitle": "Trouvez le tuteur idéal pour votre enfant",
-    "heroSubtitle": "RIZQ connecte les étudiants avec les meilleurs enseignants au Liban pour une réussite académique garantie.",
+"heroSubtitle": "RIZQ connecte les étudiants avec les meilleurs enseignants au Liban pour une réussite académique garantie.",
     "getStarted": "Commencer",
     "learnMore": "En savoir plus"
   },
@@ -11,7 +11,7 @@
     "lessonRequests": "Demandes de Cours",
     "nextLesson": "Prochain Cours",
     "monthlyEarnings": "Écolage Mensuel",
-"activeStudents": "Élèves Actifs",
+    "activeStudents": "Élèves Actifs",
     "viewAll": "Voir tout",
     "newCount": "Nouveau",
     "noLessonRequests": "Aucune demande pour le moment.",
@@ -21,7 +21,8 @@
     "home": "Accueil",
     "schedule": "Planning",
     "students": "Élèves",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "logout": "Déconnexion"
   },
   "LoginPage": {
     "title": "Connexion",
@@ -49,5 +50,10 @@
     "activeTutors": "Tuteurs actifs",
     "payments": "Paiements",
     "requests": "Demandes"
+  },
+  "Logout": {
+    "title": "Déconnexion",
+    "subtitle": "Vous serez déconnecté de votre compte.",
+    "confirm": "Confirmer la déconnexion"
   }
 }

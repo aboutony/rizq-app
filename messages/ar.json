@@ -12,7 +12,16 @@
     "nextLesson": "الدرس القادم",
     "monthlyEarnings": "الأقساط الشهرية",
     "activeStudents": "الطلاب الحاليين",
-    "viewAll": "عرض الكل"
+    "viewAll": "عرض الكل",
+    "newCount": "جديد",
+    "noLessonRequests": "لا توجد طلبات دروس بعد.",
+    "manualPayment": "دفع يدوي",
+    "reschedule": "إعادة جدولة",
+    "approve": "موافقة",
+    "home": "الرئيسية",
+    "schedule": "الجدول",
+    "students": "الطلاب",
+    "settings": "الإعدادات"
   },
   "LoginPage": {
     "title": "تسجيل الدخول",

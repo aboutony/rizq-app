@@ -11,7 +11,7 @@
     "lessonRequests": "Demandes de Cours",
     "nextLesson": "Prochain Cours",
     "monthlyEarnings": "Écolage Mensuel",
-    "activeStudents": "Élèves Actifs",
+"activeStudents": "Élèves Actifs",
     "viewAll": "Voir tout",
     "newCount": "Nouveau",
     "noLessonRequests": "Aucune demande pour le moment.",
@@ -35,5 +35,19 @@
     "sendOtp": "Envoyer le code",
     "otpLabel": "Code OTP",
     "verifyOtp": "Vérifier"
+  },
+  "StudentDashboard": {
+    "title": "Tableau de Bord",
+    "upcomingLessons": "Cours à venir",
+    "noLessonsTitle": "Aucun cours à venir",
+    "noLessonsSubtitle": "Réservez un tuteur pour commencer",
+    "findTutor": "Trouver un tuteur",
+    "nextLesson": "Prochain cours",
+    "tbd": "À venir",
+    "noLessonScheduled": "Aucun cours planifié",
+    "pickTutor": "Choisissez un tuteur et un horaire",
+    "activeTutors": "Tuteurs actifs",
+    "payments": "Paiements",
+    "requests": "Demandes"
   }
 }

@@ -3,13 +3,16 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
+type Step = 'phone' | 'otp' | 'role';
+
 export default function LoginPage() {
   const t = useTranslations('LoginPage');
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
-  const [step, setStep] = useState<'phone' | 'otp'>('phone');
+  const [step, setStep] = useState<Step>('phone');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [roleLoading, setRoleLoading] = useState(false);
 
   const sendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,14 +50,34 @@ export default function LoginPage() {
       if (!res.ok) {
         throw new Error(data.message || 'Invalid OTP');
       }
-      const role = data.role || 'tutor';
-      const vertical = data.vertical || 'education';
-      const locale = window.location.pathname.split('/')[1] || 'en';
-      window.location.href = `/${locale}/${vertical}/${role}/dashboard`;
+      // OTP ok → go to role selection
+      setStep('role');
     } catch (err: any) {
       setError(err.message || 'Invalid OTP');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const chooseRole = async (role: 'tutor' | 'student') => {
+    setError('');
+    setRoleLoading(true);
+    try {
+      const res = await fetch('/api/auth/profile/role', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, role, vertical: 'education' })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || 'Failed to set role');
+      }
+      const locale = window.location.pathname.split('/')[1] || 'en';
+      window.location.href = `/${locale}/${data.vertical}/${data.role}/dashboard`;
+    } catch (err: any) {
+      setError(err.message || 'Failed to set role');
+    } finally {
+      setRoleLoading(false);
     }
   };
 return (
@@ -109,6 +132,26 @@ return (
                 {loading ? 'Verifying...' : t('verifyOtp')}
               </button>
             </form>
+          )}
+
+          {step === 'role' && (
+            <div className="mt-10 space-y-4">
+              <p className="text-sm text-slate-600">Select your role</p>
+              <button
+                onClick={() => chooseRole('tutor')}
+                disabled={roleLoading}
+                className="w-full py-4 font-semibold text-white transition-all bg-slate-900 rounded-2xl hover:bg-slate-800 disabled:opacity-60"
+              >
+                I’m a Tutor
+              </button>
+              <button
+                onClick={() => chooseRole('student')}
+                disabled={roleLoading}
+                className="w-full py-4 font-semibold text-slate-900 transition-all bg-slate-100 rounded-2xl hover:bg-slate-200 disabled:opacity-60"
+              >
+                I’m a Student/Parent
+              </button>
+            </div>
           )}
         </div>
       </div>

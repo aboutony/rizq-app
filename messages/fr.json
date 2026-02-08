@@ -2,7 +2,7 @@
   "HomePage": {
     "welcomeBadge": "L'avenir de l'éducation au Liban",
     "heroTitle": "Trouvez le tuteur idéal pour votre enfant",
-"heroSubtitle": "RIZQ connecte les étudiants avec les meilleurs enseignants au Liban pour une réussite académique garantie.",
+    "heroSubtitle": "RIZQ connecte les étudiants avec les meilleurs enseignants au Liban pour une réussite académique garantie.",
     "getStarted": "Commencer",
     "learnMore": "En savoir plus"
   },
@@ -29,7 +29,7 @@
     "subtitle": "Reconnectez-vous pour gérer vos cours et vos élèves en toute simplicité.",
     "emailLabel": "Adresse Email",
     "passwordLabel": "Mot de Passe",
-    "submit": "Se connecter",
+"submit": "Se connecter",
     "forgotPassword": "Mot de passe oublié ?",
     "signUp": "Créer un compte",
     "phoneLabel": "Numéro de téléphone",
@@ -49,7 +49,8 @@
     "pickTutor": "Choisissez un tuteur et un horaire",
     "activeTutors": "Tuteurs actifs",
     "payments": "Paiements",
-    "requests": "Demandes"
+    "requests": "Demandes",
+    "logout": "Déconnexion"
   },
   "Logout": {
     "title": "Déconnexion",

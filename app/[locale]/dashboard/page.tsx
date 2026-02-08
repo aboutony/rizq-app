@@ -21,7 +21,8 @@ export default async function DashboardPage({
 
   const tutor = await getTutorBySlug('farah-fayad');
   const lessonRequests = tutor ? await getLessonRequests(tutor.id) : [];
-return (
+return
+(
     <div className="min-h-screen bg-slate-50">
       {/* Top Bar */}
       <div className="flex items-center justify-between px-5 py-4 bg-white shadow-sm">
@@ -48,14 +49,25 @@ return (
 
           {lessonRequests.map((req) => {
             const date = new Date(req.requested_start_at_utc);
+
+            const name =
+              locale.startsWith('ar') ? req.student_name_ar || req.student_name :
+              locale.startsWith('fr') ? req.student_name_fr || req.student_name :
+              req.student_name_en || req.student_name;
+
+            const subject =
+              locale.startsWith('ar') ? req.lesson_type_label_ar || req.lesson_type_label :
+              locale.startsWith('fr') ? req.lesson_type_label_fr || req.lesson_type_label :
+              req.lesson_type_label_en || req.lesson_type_label;
+
             return (
               <div key={req.id} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
                 <div className="flex items-center gap-3">
                   <div className="h-12 w-12 rounded-full bg-slate-200" />
                   <div>
-                    <p className="font-semibold text-slate-900">{req.student_name}</p>
+                    <p className="font-semibold text-slate-900">{name}</p>
                     <p className="text-sm text-slate-500">
-                      {req.lesson_type_label} • {req.duration_minutes} min
+                      {subject} • {req.duration_minutes} min
                     </p>
                   </div>
                 </div>
@@ -98,7 +110,7 @@ return (
           <div className="flex flex-col items-center gap-1 text-emerald-500">⬛️ {t('home')}</div>
           <div className="flex flex-col items-center gap-1">📅 {t('schedule')}</div>
           <div className="flex flex-col items-center gap-1">👤 {t('students')}</div>
-          <div className="flex flex-col items-center gap-1">⚙️ {t('settings')}</div>
+<div className="flex flex-col items-center gap-1">⚙️ {t('settings')}</div>
         </div>
       </div>
     </div>

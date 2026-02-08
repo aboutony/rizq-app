@@ -35,5 +35,19 @@
     "sendOtp": "إرسال الرمز",
     "otpLabel": "رمز التحقق",
     "verifyOtp": "تحقق"
+  },
+  "StudentDashboard": {
+    "title": "لوحة التحكم",
+    "upcomingLessons": "الدروس القادمة",
+    "noLessonsTitle": "لا توجد دروس قادمة",
+    "noLessonsSubtitle": "احجز مدرسًا للبدء",
+    "findTutor": "ابحث عن مدرس",
+    "nextLesson": "الدرس القادم",
+    "tbd": "قريبًا",
+    "noLessonScheduled": "لا يوجد درس مجدول",
+    "pickTutor": "اختر مدرسًا ووقتًا",
+    "activeTutors": "المدرسون النشطون",
+    "payments": "المدفوعات",
+    "requests": "الطلبات"
   }
 }

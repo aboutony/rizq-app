@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
 import * as jose from 'jose';
@@ -12,25 +11,36 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Phone and code are required' }, { status: 400 });
     }
 
-    // --- OTP Verification ---
-    // In a real application, you would check the code against the one stored in your DB/cache.
     const MOCK_OTP = '123456';
     if (code !== MOCK_OTP) {
       return NextResponse.json({ message: 'Invalid OTP' }, { status: 401 });
     }
-    // ----------------------
-    
+
     const client = await pool.connect();
     try {
       const result = await client.query('SELECT id FROM tutors WHERE phone = $1', [phone]);
 
       if (result.rows.length === 0) {
-        return NextResponse.json({ message: 'Tutor not found' }, { status: 404 });
+return NextResponse.json({ message: 'Tutor not found' }, { status: 404 });
       }
 
       const tutor = result.rows[0];
 
-      // --- Create Session Token (JWT) ---
+      // Ensure a profile exists
+      await client.query(
+        `INSERT INTO user_profiles (phone, role, vertical, tutor_id)
+         VALUES ($1, 'tutor', 'education', $2)
+         ON CONFLICT (phone) DO NOTHING`,
+        [phone, tutor.id]
+      );
+
+      const profileRes = await client.query(
+        'SELECT role, vertical FROM user_profiles WHERE phone = $1',
+        [phone]
+      );
+
+      const profile = profileRes.rows[0] || { role: 'tutor', vertical: 'education' };
+
       const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'default-secret-key-for-dev');
       const alg = 'HS256';
 
@@ -39,16 +49,20 @@ export async function POST(request: Request) {
         .setExpirationTime('24h')
         .setIssuedAt()
         .sign(secret);
-      
+
       cookies().set('rizq_session', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
         path: '/',
-        maxAge: 60 * 60 * 24, // 24 hours
+        maxAge: 60 * 60 * 24,
       });
 
-      return NextResponse.json({ message: 'Login successful' }, { status: 200 });
+      return NextResponse.json({
+        message: 'Login successful',
+        role: profile.role,
+        vertical: profile.vertical
+      }, { status: 200 });
     } finally {
       client.release();
     }

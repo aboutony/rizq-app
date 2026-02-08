@@ -1,16 +1,15 @@
 import { getTranslations } from 'next-intl/server';
 
-export default async function StudentDashboard({
-  params
-}: {
-  params: { locale: string };
-}) {
+export default async function StudentDashboard({ params }: { params: { locale: string } }) {
   const t = await getTranslations('StudentDashboard');
   const locale = params?.locale || 'en';
 
   return (
     <div className="min-h-screen bg-slate-50 px-8 py-10">
-      <h1 className="text-2xl font-bold text-slate-900 mb-8">{t('title')}</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-slate-900">{t('title')}</h1>
+        <a href={`/${locale}/logout`} className="text-xs font-semibold text-slate-600">Logout</a>
+      </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 bg-white rounded-3xl p-6 shadow-sm border border-slate-100">

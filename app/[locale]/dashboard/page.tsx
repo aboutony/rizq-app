@@ -11,27 +11,20 @@ function formatTime(d: Date, locale: string) {
   return new Intl.DateTimeFormat(locale, { hour: 'numeric', minute: '2-digit' }).format(d);
 }
 
-export default async function DashboardPage({
-  params
-}: {
-  params: { locale: string };
-}) {
+export default async function DashboardPage({ params }: { params: { locale: string } }) {
   const t = await getTranslations('Dashboard');
   const locale = params?.locale || 'en';
 
   const tutor = await getTutorBySlug('farah-fayad');
   const lessonRequests = tutor ? await getLessonRequests(tutor.id) : [];
-return
-(
+return (
     <div className="min-h-screen bg-slate-50">
-      {/* Top Bar */}
       <div className="flex items-center justify-between px-5 py-4 bg-white shadow-sm">
         <button className="text-2xl">☰</button>
         <div className="font-bold tracking-wide">RIZQ</div>
         <button className="text-xl">🔔</button>
       </div>
 
-      {/* Content */}
       <div className="px-5 py-4 max-w-md mx-auto">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-xl font-bold text-slate-900">{t('lessonRequests')}</h1>
@@ -49,7 +42,6 @@ return
 
           {lessonRequests.map((req) => {
             const date = new Date(req.requested_start_at_utc);
-
             const name =
               locale.startsWith('ar') ? req.student_name_ar || req.student_name :
               locale.startsWith('fr') ? req.student_name_fr || req.student_name :
@@ -101,16 +93,6 @@ return
               </div>
             );
           })}
-        </div>
-      </div>
-
-      {/* Bottom Nav */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200">
-        <div className="max-w-md mx-auto flex justify-between px-6 py-3 text-xs text-slate-500">
-          <div className="flex flex-col items-center gap-1 text-emerald-500">⬛️ {t('home')}</div>
-          <div className="flex flex-col items-center gap-1">📅 {t('schedule')}</div>
-          <div className="flex flex-col items-center gap-1">👤 {t('students')}</div>
-<div className="flex flex-col items-center gap-1">⚙️ {t('settings')}</div>
         </div>
       </div>
     </div>

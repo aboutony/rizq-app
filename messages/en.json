@@ -21,7 +21,8 @@
     "home": "Home",
     "schedule": "Schedule",
     "students": "Students",
-    "settings": "Settings"
+    "settings": "Settings",
+    "logout": "Logout"
   },
   "LoginPage": {
     "title": "Login",
@@ -49,5 +50,10 @@
     "activeTutors": "Active Tutors",
     "payments": "Payments",
     "requests": "Requests"
+  },
+  "Logout": {
+    "title": "Log out",
+    "subtitle": "You will be signed out of your account.",
+    "confirm": "Confirm Logout"
   }
 }

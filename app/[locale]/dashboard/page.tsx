@@ -17,8 +17,7 @@ export default async function DashboardPage({ params }: { params: { locale: stri
 
   const tutor = await getTutorBySlug('farah-fayad');
   const lessonRequests = tutor ? await getLessonRequests(tutor.id) : [];
-return
-(
+return (
     <div className="min-h-screen bg-slate-50">
       <div className="flex items-center justify-between px-5 py-4 bg-white shadow-sm">
         <button className="text-2xl">☰</button>
@@ -94,16 +93,6 @@ return
               </div>
             );
           })}
-        </div>
-      </div>
-
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200">
-        <div className="max-w-md mx-auto flex justify-between px-6 py-3 text-xs text-slate-500">
-          <div className="flex flex-col items-center gap-1 text-emerald-500">⬛️ {t('home')}</div>
-          <div className="flex flex-col items-center gap-1">📅 {t('schedule')}</div>
-          <div className="flex flex-col items-center gap-1">👤 {t('students')}</div>
-          <d
-iv className="flex flex-col items-center gap-1">⚙️ {t('settings')}</div>
         </div>
       </div>
     </div>

@@ -24,8 +24,8 @@
     "settings": "Settings",
     "logout": "Logout"
   },
-  "LoginPage": {
-"title": "Login",
+"LoginPage": {
+    "title": "Login",
     "subtitle": "Log back in to manage your students and lessons with ease.",
     "emailLabel": "Email Address",
     "passwordLabel": "Password",
@@ -35,7 +35,11 @@
     "phoneLabel": "Phone Number",
     "sendOtp": "Send OTP",
     "otpLabel": "OTP Code",
-    "verifyOtp": "Verify OTP"
+    "verifyOtp": "Verify OTP",
+    "sending": "Sending...",
+    "verifying": "Verifying...",
+    "heroTitle": "Empowering Lebanese Education",
+    "heroSubtitle": "Manage your tutoring schedule and payments in one secure place."
   },
   "StudentDashboard": {
     "title": "Dashboard",

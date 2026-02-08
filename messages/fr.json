@@ -12,7 +12,16 @@
     "nextLesson": "Prochain Cours",
     "monthlyEarnings": "Écolage Mensuel",
     "activeStudents": "Élèves Actifs",
-    "viewAll": "Voir tout"
+    "viewAll": "Voir tout",
+    "newCount": "Nouveau",
+    "noLessonRequests": "Aucune demande pour le moment.",
+    "manualPayment": "Paiement manuel",
+    "reschedule": "Replanifier",
+    "approve": "Approuver",
+    "home": "Accueil",
+    "schedule": "Planning",
+    "students": "Élèves",
+    "settings": "Paramètres"
   },
   "LoginPage": {
     "title": "Connexion",

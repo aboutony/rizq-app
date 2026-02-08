@@ -3,16 +3,13 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-type Step = 'phone' | 'otp' | 'role';
-
 export default function LoginPage() {
   const t = useTranslations('LoginPage');
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
-  const [step, setStep] = useState<Step>('phone');
+  const [step, setStep] = useState<'phone' | 'otp'>('phone');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [roleLoading, setRoleLoading] = useState(false);
 
   const sendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,34 +47,15 @@ export default function LoginPage() {
       if (!res.ok) {
         throw new Error(data.message || 'Invalid OTP');
       }
-      // OTP ok → go to role selection
-      setStep('role');
+
+      const role = data.role || 'tutor';
+      const vertical = data.vertical || 'education';
+      const locale = window.location.pathname.split('/')[1] || 'en';
+      window.location.href = `/${locale}/${vertical}/${role}/dashboard`;
     } catch (err: any) {
       setError(err.message || 'Invalid OTP');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const chooseRole = async (role: 'tutor' | 'student') => {
-    setError('');
-    setRoleLoading(true);
-    try {
-      const res = await fetch('/api/auth/profile/role', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, role, vertical: 'education' })
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        throw new Error(data.message || 'Failed to set role');
-      }
-      const locale = window.location.pathname.split('/')[1] || 'en';
-      window.location.href = `/${locale}/${data.vertical}/${data.role}/dashboard`;
-    } catch (err: any) {
-      setError(err.message || 'Failed to set role');
-    } finally {
-      setRoleLoading(false);
     }
   };
 return (
@@ -107,7 +85,7 @@ return (
                 disabled={loading}
                 className="w-full py-4 font-semibold text-white transition-all bg-slate-900 rounded-2xl hover:bg-slate-800 disabled:opacity-60"
               >
-                {loading ? 'Sending...' : t('sendOtp')}
+                {loading ? t('sending') : t('sendOtp')}
               </button>
             </form>
           )}
@@ -129,29 +107,9 @@ return (
                 disabled={loading}
                 className="w-full py-4 font-semibold text-white transition-all bg-slate-900 rounded-2xl hover:bg-slate-800 disabled:opacity-60"
               >
-                {loading ? 'Verifying...' : t('verifyOtp')}
+                {loading ? t('verifying') : t('verifyOtp')}
               </button>
             </form>
-          )}
-
-          {step === 'role' && (
-            <div className="mt-10 space-y-4">
-              <p className="text-sm text-slate-600">Select your role</p>
-              <button
-                onClick={() => chooseRole('tutor')}
-                disabled={roleLoading}
-                className="w-full py-4 font-semibold text-white transition-all bg-slate-900 rounded-2xl hover:bg-slate-800 disabled:opacity-60"
-              >
-                I’m a Tutor
-              </button>
-              <button
-                onClick={() => chooseRole('student')}
-                disabled={roleLoading}
-                className="w-full py-4 font-semibold text-slate-900 transition-all bg-slate-100 rounded-2xl hover:bg-slate-200 disabled:opacity-60"
-              >
-                I’m a Student/Parent
-              </button>
-            </div>
           )}
         </div>
       </div>
@@ -160,8 +118,8 @@ return (
           <div className="w-24 h-24 mb-8 bg-white/10 rounded-3xl backdrop-blur-xl flex items-center justify-center border border-white/20">
             <span className="text-4xl font-bold italic">r</span>
           </div>
-          <h2 className="text-3xl font-bold mb-4">Empowering Lebanese Education</h2>
-          <p className="max-w-md text-slate-400">Manage your tutoring schedule and payments in one secure place.</p>
+          <h2 className="text-3xl font-bold mb-4">{t('heroTitle')}</h2>
+          <p className="max-w-md text-slate-400">{t('heroSubtitle')}</p>
         </div>
       </div>
     </div>

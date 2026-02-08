@@ -3,7 +3,7 @@
     "welcomeBadge": "The future of Lebanese education",
     "heroTitle": "Find the perfect tutor for your child",
     "heroSubtitle": "RIZQ connects students with the top educational talents in Lebanon to ensure academic success.",
-"getStarted": "Get Started",
+    "getStarted": "Get Started",
     "learnMore": "Learn More"
   },
   "Dashboard": {
@@ -35,5 +35,19 @@
     "sendOtp": "Send OTP",
     "otpLabel": "OTP Code",
     "verifyOtp": "Verify OTP"
+  },
+  "StudentDashboard": {
+    "title": "Dashboard",
+    "upcomingLessons": "Upcoming Lessons",
+    "noLessonsTitle": "No upcoming lessons",
+    "noLessonsSubtitle": "Book a tutor to get started",
+    "findTutor": "Find a Tutor",
+    "nextLesson": "Next Lesson",
+    "tbd": "TBD",
+    "noLessonScheduled": "No lesson scheduled",
+    "pickTutor": "Pick a tutor & time",
+    "activeTutors": "Active Tutors",
+    "payments": "Payments",
+    "requests": "Requests"
   }
 }

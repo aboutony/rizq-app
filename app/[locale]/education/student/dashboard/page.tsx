@@ -8,7 +8,7 @@ export default async function StudentDashboard({ params }: { params: { locale: s
     <div className="min-h-screen bg-slate-50 px-8 py-10">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-slate-900">{t('title')}</h1>
-        <a href={`/${locale}/logout`} className="text-xs font-semibold text-slate-600">Logout</a>
+        <a href={`/${locale}/logout`} className="text-xs font-semibold text-slate-600">{t('logout')}</a>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">

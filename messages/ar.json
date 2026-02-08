@@ -35,7 +35,11 @@
     "phoneLabel": "رقم الجوال",
     "sendOtp": "إرسال الرمز",
     "otpLabel": "رمز التحقق",
-    "verifyOtp": "تحقق"
+    "verifyOtp": "تحقق",
+    "sending": "جارٍ الإرسال...",
+    "verifying": "جارٍ التحقق...",
+    "heroTitle": "تمكين التعليم اللبناني",
+    "heroSubtitle": "أدر جدول الدروس والمدفوعات في مكان واحد آمن."
   },
   "StudentDashboard": {
     "title": "لوحة التحكم",

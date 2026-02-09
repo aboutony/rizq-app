@@ -16,7 +16,7 @@
     "newCount": "Nouveau",
     "noLessonRequests": "Aucune demande pour le moment.",
     "manualPayment": "Paiement manuel",
-"reschedule": "Replanifier",
+    "reschedule": "Replanifier",
     "approve": "Approuver",
     "home": "Accueil",
     "schedule": "Planning",
@@ -39,7 +39,11 @@
     "sending": "Envoi...",
     "verifying": "Vérification...",
     "heroTitle": "Renforcer l’éducation libanaise",
-    "heroSubtitle": "Gérez votre planning de tutorat et vos paiements en un seul endroit sécurisé."
+    "heroSubtitle": "Gérez votre planning de tutorat et vos paiements en un seul endroit sécurisé.",
+    "roleTitle": "Choisissez votre rôle",
+    "roleSubtitle": "Sélectionnez votre usage de RIZQ",
+    "roleTutor": "Tuteur",
+    "roleStudent": "Étudiant / Parent"
   },
   "StudentDashboard": {
     "title": "Tableau de Bord",

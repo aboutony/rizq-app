@@ -1,5 +1,5 @@
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import "../../theme.css";
 
@@ -10,13 +10,14 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  // Validate that the incoming `locale` is one of our supported Lebanese languages
   const locales = ['en', 'ar', 'fr'];
   if (!locales.includes(locale)) {
     notFound();
   }
 
-  // Receive messages for the specific language (Arabic, French, or English)
+  // ✅ Force locale here so middleware is not required
+  setRequestLocale(locale);
+
   const messages = await getMessages();
 
   return (

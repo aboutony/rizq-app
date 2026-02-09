@@ -1,12 +1,64 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+
+const copy = {
+  en: {
+    title: 'Login',
+    subtitle: 'Log back in to manage your students and lessons with ease.',
+    phoneLabel: 'Phone Number',
+    sendOtp: 'Send OTP',
+    otpLabel: 'OTP Code',
+    verifyOtp: 'Verify OTP',
+    sending: 'Sending...',
+    verifying: 'Verifying...',
+    heroTitle: 'Empowering Lebanese Education',
+    heroSubtitle: 'Manage your tutoring schedule and payments in one secure place.',
+    roleTitle: 'Choose your role',
+    roleSubtitle: 'Select how you want to use RIZQ',
+    roleTutor: 'Tutor',
+    roleStudent: 'Student / Parent'
+  },
+  ar: {
+    title: 'تسجيل الدخول',
+    subtitle: 'عد للتواصل مع طلابك وإدارة دروسك بكل سهولة.',
+    phoneLabel: 'رقم الجوال',
+    sendOtp: 'إرسال الرمز',
+    otpLabel: 'رمز التحقق',
+    verifyOtp: 'تحقق',
+    sending: 'جارٍ الإرسال...',
+    verifying: 'جارٍ التحقق...',
+    heroTitle: 'تمكين التعليم اللبناني',
+    heroSubtitle: 'أدر جدول الدروس والمدفوعات في مكان واحد آمن.',
+    roleTitle: 'اختر دورك',
+    roleSubtitle: 'حدد كيف تريد استخدام رِزق',
+    roleTutor: 'مدرّس',
+    roleStudent: 'طالب / ولي أمر'
+  },
+  fr: {
+    title: 'Connexion',
+    subtitle: 'Reconnectez-vous pour gérer vos cours et vos élèves en toute simplicité.',
+    phoneLabel: 'Numéro de téléphone',
+    sendOtp: 'Envoyer le code',
+    otpLabel: 'Code OTP',
+    verifyOtp: 'Vérifier',
+    sending: 'Envoi...',
+    verifying: 'Vérification...',
+    heroTitle: 'Renforcer l’éducation libanaise',
+    heroSubtitle: 'Gérez votre planning de tutorat et vos paiements en un seul endroit sécurisé.',
+    roleTitle: 'Choisissez votre rôle',
+    roleSubtitle: 'Sélectionnez votre usage de RIZQ',
+    roleTutor: 'Tuteur',
+    roleStudent: 'Étudiant / Parent'
+  }
+};
 
 type Step = 'phone' | 'otp' | 'role';
 
 export default function LoginPage() {
-  const t = useTranslations('LoginPage');
+  const locale = (typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'en') as 'en' | 'ar' | 'fr';
+  const t = copy[locale] || copy.en;
+
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState<Step>('phone');
@@ -49,7 +101,6 @@ export default function LoginPage() {
       if (!res.ok) {
         throw new Error(data.message || 'Invalid OTP');
       }
-      // ✅ After OTP, show role selection
       setStep('role');
     } catch (err: any) {
       setError(err.message || 'Invalid OTP');
@@ -62,7 +113,7 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
     try {
-      const res = await fetch('/api/auth/profile/role', {
+const res = await fetch('/api/auth/profile/role', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone, role, vertical: 'education' })
@@ -71,7 +122,6 @@ export default function LoginPage() {
       if (!res.ok) {
         throw new Error(data.message || 'Failed to set role');
       }
-      const locale = window.location.pathname.split('/')[1] || 'en';
       window.location.href = `/${locale}/education/${role}/dashboard`;
     } catch (err: any) {
       setError(err.message || 'Failed to set role');
@@ -79,21 +129,20 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
-return
-(
+return (
     <div className="flex min-h-screen bg-white">
       <div className="flex flex-col justify-center flex-1 px-8 py-12 sm:px-12 lg:flex-none lg:w-[500px]">
         <div className="w-full max-w-sm mx-auto">
           <div className="mb-10 text-2xl font-bold italic tracking-tighter text-slate-900">rizq</div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">{t('title')}</h1>
-          <p className="mt-2 text-sm text-slate-600">{t('subtitle')}</p>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">{t.title}</h1>
+          <p className="mt-2 text-sm text-slate-600">{t.subtitle}</p>
 
           {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
           {step === 'phone' && (
             <form className="mt-10 space-y-6" onSubmit={sendOtp}>
               <div>
-                <label className="block text-sm font-medium text-slate-700">{t('phoneLabel')}</label>
+                <label className="block text-sm font-medium text-slate-700">{t.phoneLabel}</label>
                 <input
                   type="tel"
                   required
@@ -107,7 +156,7 @@ return
                 disabled={loading}
                 className="w-full py-4 font-semibold text-white transition-all bg-slate-900 rounded-2xl hover:bg-slate-800 disabled:opacity-60"
               >
-                {loading ? t('sending') : t('sendOtp')}
+                {loading ? t.sending : t.sendOtp}
               </button>
             </form>
           )}
@@ -115,7 +164,7 @@ return
           {step === 'otp' && (
             <form className="mt-10 space-y-6" onSubmit={verifyOtp}>
               <div>
-                <label className="block text-sm font-medium text-slate-700">{t('otpLabel')}</label>
+                <label className="block text-sm font-medium text-slate-700">{t.otpLabel}</label>
                 <input
                   type="text"
                   required
@@ -129,22 +178,22 @@ return
                 disabled={loading}
                 className="w-full py-4 font-semibold text-white transition-all bg-slate-900 rounded-2xl hover:bg-slate-800 disabled:opacity-60"
               >
-                {loading ? t('verifying') : t('verifyOtp')}
+                {loading ? t.verifying : t.verifyOtp}
               </button>
             </form>
           )}
 
           {step === 'role' && (
             <div className="mt-10 space-y-4">
-              <h2 className="text-lg font-semibold text-slate-900">{t('roleTitle')}</h2>
-              <p className="text-sm text-slate-600">{t('roleSubtitle')}</p>
+              <h2 className="text-lg font-semibold text-slate-900">{t.roleTitle}</h2>
+              <p className="text-sm text-slate-600">{t.roleSubtitle}</p>
 
               <button
                 onClick={() => chooseRole('tutor')}
                 disabled={loading}
                 className="w-full py-4 font-semibold text-white transition-all bg-emerald-600 rounded-2xl hover:bg-emerald-500 disabled:opacity-60"
               >
-                {t('roleTutor')}
+                {t.roleTutor}
               </button>
 
               <button
@@ -152,7 +201,7 @@ return
                 disabled={loading}
                 className="w-full py-4 font-semibold text-slate-900 transition-all bg-slate-100 rounded-2xl hover:bg-slate-200 disabled:opacity-60"
               >
-                {t('roleStudent')}
+                {t.roleStudent}
               </button>
             </div>
           )}
@@ -164,10 +213,10 @@ return
           <div className="w-24 h-24 mb-8 bg-white/10 rounded-3xl backdrop-blur-xl flex items-center justify-center border border-white/20">
             <span className="text-4xl font-bold italic">r</span>
           </div>
-          <h2 className="text-3xl font-bold mb-4">{t('heroTitle')}</h2>
-          <p className="max-w-md text-slate-400">{t('heroSubtitle')}</p>
+          <h2 className="text-3xl font-bold mb-4">{t.heroTitle}</h2>
+          <p className="max-w-md text-slate-400">{t.heroSubtitle}</p>
         </div>
       </div>
-</div>
+    </div>
   );
 }

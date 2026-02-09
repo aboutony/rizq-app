@@ -1,7 +1,7 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import "../../theme.css";
+import '../../theme.css';
 
 export default async function LocaleLayout({
   children,
@@ -15,7 +15,7 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  // ✅ Force locale here so middleware is not required
+  // ✅ Required by next-intl (fixes blank screen)
   setRequestLocale(locale);
 
   const messages = await getMessages();

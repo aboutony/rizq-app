@@ -12,8 +12,6 @@ const copy = {
     verifyOtp: 'Verify OTP',
     sending: 'Sending...',
     verifying: 'Verifying...',
-    heroTitle: 'Empowering Lebanese Education',
-    heroSubtitle: 'Manage your tutoring schedule and payments in one secure place.',
     roleTitle: 'Choose your role',
     roleSubtitle: 'Select how you want to use RIZQ',
     roleTutor: 'Tutor',
@@ -28,8 +26,6 @@ const copy = {
     verifyOtp: 'تحقق',
     sending: 'جارٍ الإرسال...',
     verifying: 'جارٍ التحقق...',
-    heroTitle: 'تمكين التعليم اللبناني',
-    heroSubtitle: 'أدر جدول الدروس والمدفوعات في مكان واحد آمن.',
     roleTitle: 'اختر دورك',
     roleSubtitle: 'حدد كيف تريد استخدام رِزق',
     roleTutor: 'مدرّس',
@@ -44,8 +40,6 @@ const copy = {
     verifyOtp: 'Vérifier',
     sending: 'Envoi...',
     verifying: 'Vérification...',
-    heroTitle: 'Renforcer l’éducation libanaise',
-    heroSubtitle: 'Gérez votre planning de tutorat et vos paiements en un seul endroit sécurisé.',
     roleTitle: 'Choisissez votre rôle',
     roleSubtitle: 'Sélectionnez votre usage de RIZQ',
     roleTutor: 'Tuteur',
@@ -113,15 +107,12 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
     try {
-const res = await fetch('/api/auth/profile/role', {
+      const res = await fetch('/api/auth/profile/role', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone, role, vertical: 'education' })
       });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        throw new Error(data.message || 'Failed to set role');
-      }
+      if (!res.ok) throw new Error('Failed to set role');
       window.location.href = `/${locale}/education/${role}/dashboard`;
     } catch (err: any) {
       setError(err.message || 'Failed to set role');
@@ -130,92 +121,61 @@ const res = await fetch('/api/auth/profile/role', {
     }
   };
 return (
-    <div className="flex min-h-screen bg-white">
-      <div className="flex flex-col justify-center flex-1 px-8 py-12 sm:px-12 lg:flex-none lg:w-[500px]">
-        <div className="w-full max-w-sm mx-auto">
-          <div className="mb-10 text-2xl font-bold italic tracking-tighter text-slate-900">rizq</div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">{t.title}</h1>
-          <p className="mt-2 text-sm text-slate-600">{t.subtitle}</p>
-
-          {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
-
-          {step === 'phone' && (
-            <form className="mt-10 space-y-6" onSubmit={sendOtp}>
-              <div>
-                <label className="block text-sm font-medium text-slate-700">{t.phoneLabel}</label>
-                <input
-                  type="tel"
-                  required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="block w-full px-4 py-3 mt-2 border rounded-2xl border-slate-200 focus:ring-2 focus:ring-slate-900 outline-none transition-all"
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full py-4 font-semibold text-white transition-all bg-slate-900 rounded-2xl hover:bg-slate-800 disabled:opacity-60"
-              >
-                {loading ? t.sending : t.sendOtp}
-              </button>
-            </form>
-          )}
-
-          {step === 'otp' && (
-            <form className="mt-10 space-y-6" onSubmit={verifyOtp}>
-              <div>
-                <label className="block text-sm font-medium text-slate-700">{t.otpLabel}</label>
-                <input
-                  type="text"
-                  required
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  className="block w-full px-4 py-3 mt-2 border rounded-2xl border-slate-200 focus:ring-2 focus:ring-slate-900 outline-none transition-all"
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full py-4 font-semibold text-white transition-all bg-slate-900 rounded-2xl hover:bg-slate-800 disabled:opacity-60"
-              >
-                {loading ? t.verifying : t.verifyOtp}
-              </button>
-            </form>
-          )}
-
-          {step === 'role' && (
-            <div className="mt-10 space-y-4">
-              <h2 className="text-lg font-semibold text-slate-900">{t.roleTitle}</h2>
-              <p className="text-sm text-slate-600">{t.roleSubtitle}</p>
-
-              <button
-                onClick={() => chooseRole('tutor')}
-                disabled={loading}
-                className="w-full py-4 font-semibold text-white transition-all bg-emerald-600 rounded-2xl hover:bg-emerald-500 disabled:opacity-60"
-              >
-                {t.roleTutor}
-              </button>
-
-              <button
-                onClick={() => chooseRole('student')}
-                disabled={loading}
-                className="w-full py-4 font-semibold text-slate-900 transition-all bg-slate-100 rounded-2xl hover:bg-slate-200 disabled:opacity-60"
-              >
-                {t.roleStudent}
-              </button>
-            </div>
-          )}
+    <div style={{ minHeight: '100vh', background: '#f6f7fb', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+      <div style={{ width: '100%', maxWidth: 420, background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 10px 30px rgba(0,0,0,0.06)' }}>
+        <div style={{ textAlign: 'center', marginBottom: 16 }}>
+          <div style={{ fontSize: 24, fontWeight: 800, color: '#0F172A' }}>RIZQ</div>
+          <div style={{ fontSize: 13, color: '#6B7280', marginTop: 6 }}>{t.subtitle}</div>
         </div>
-      </div>
 
-      <div className="relative hidden w-0 flex-1 lg:block bg-slate-900">
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center text-white">
-          <div className="w-24 h-24 mb-8 bg-white/10 rounded-3xl backdrop-blur-xl flex items-center justify-center border border-white/20">
-            <span className="text-4xl font-bold italic">r</span>
+        <h1 style={{ fontSize: 20, fontWeight: 700, color: '#0F172A' }}>{t.title}</h1>
+
+        {error && <p style={{ marginTop: 8, color: '#ef4444', fontSize: 12 }}>{error}</p>}
+
+        {step === 'phone' && (
+          <form style={{ marginTop: 16, display: 'grid', gap: 12 }} onSubmit={sendOtp}>
+            <label style={{ fontSize: 12, color: '#6B7280' }}>{t.phoneLabel}</label>
+            <input
+              type="tel"
+              required
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              style={{ padding: 12, borderRadius: 14, border: '1px solid #e6e8ef' }}
+            />
+            <button type="submit" disabled={loading} style={{ padding: 12, borderRadius: 14, background: '#20c997', color: '#fff', fontWeight: 700, border: 'none' }}>
+              {loading ? t.sending : t.sendOtp}
+            </button>
+          </form>
+        )}
+
+        {step === 'otp' && (
+          <form style={{ marginTop: 16, display: 'grid', gap: 12 }} onSubmit={verifyOtp}>
+            <label style={{ fontSize: 12, color: '#6B7280' }}>{t.otpLabel}</label>
+            <input
+              type="text"
+              required
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              style={{ padding: 12, borderRadius: 14, border: '1px solid #e6e8ef' }}
+            />
+            <button type="submit" disabled={loading} style={{ padding: 12, borderRadius: 14, background: '#20c997', color: '#fff', fontWeight: 700, border: 'none' }}>
+              {loading ? t.verifying : t.verifyOtp}
+            </button>
+          </form>
+        )}
+
+        {step === 'role' && (
+          <div style={{ marginTop: 16, display: 'grid', gap: 10 }}>
+            <div style={{ fontWeight: 700 }}>{t.roleTitle}</div>
+            <div style={{ fontSize: 12, color: '#6B7280' }}>{t.roleSubtitle}</div>
+            <button onClick={() => chooseRole('tutor')} style={{ padding: 12, borderRadius: 14, background: '#20c997', color: '#fff', fontWeight: 700, border: 'none' }}>
+              {t.roleTutor}
+            </button>
+            <button onClick={() => chooseRole('student')} style={{ padding: 12, borderRadius: 14, background: '#0F172A', color: '#fff', fontWeight: 700, border: 'none' }}>
+              {t.roleStudent}
+            </button>
           </div>
-          <h2 className="text-3xl font-bold mb-4">{t.heroTitle}</h2>
-          <p className="max-w-md text-slate-400">{t.heroSubtitle}</p>
-        </div>
+        )}
       </div>
     </div>
   );

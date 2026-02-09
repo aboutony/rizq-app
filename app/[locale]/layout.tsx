@@ -1,18 +1,16 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
-import { notFound } from 'next/navigation';
 
 export default async function LocaleLayout({
   children,
-  params: { locale }
+  params
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: { locale?: string };
 }) {
-  const locales = ['en', 'ar', 'fr'];
-  if (!locales.includes(locale)) {
-    notFound();
-  }
+  const locale = ['en', 'ar', 'fr'].includes(params?.locale || '')
+    ? (params.locale as string)
+    : 'en';
 
   setRequestLocale(locale);
   const messages = await getMessages();

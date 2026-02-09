@@ -24,7 +24,7 @@
     "settings": "Settings",
     "logout": "Logout"
   },
-"LoginPage": {
+  "LoginPage": {
     "title": "Login",
     "subtitle": "Log back in to manage your students and lessons with ease.",
     "emailLabel": "Email Address",
@@ -39,7 +39,11 @@
     "sending": "Sending...",
     "verifying": "Verifying...",
     "heroTitle": "Empowering Lebanese Education",
-    "heroSubtitle": "Manage your tutoring schedule and payments in one secure place."
+    "heroSubtitle": "Manage your tutoring schedule and payments in one secure place.",
+    "roleTitle": "Choose your role",
+    "roleSubtitle": "Select how you want to use RIZQ",
+    "roleTutor": "Tutor",
+    "roleStudent": "Student / Parent"
   },
   "StudentDashboard": {
     "title": "Dashboard",

@@ -3,11 +3,13 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
+type Step = 'phone' | 'otp' | 'role';
+
 export default function LoginPage() {
   const t = useTranslations('LoginPage');
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
-  const [step, setStep] = useState<'phone' | 'otp'>('phone');
+  const [step, setStep] = useState<Step>('phone');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -47,18 +49,38 @@ export default function LoginPage() {
       if (!res.ok) {
         throw new Error(data.message || 'Invalid OTP');
       }
-
-      const role = data.role || 'tutor';
-      const vertical = data.vertical || 'education';
-      const locale = window.location.pathname.split('/')[1] || 'en';
-      window.location.href = `/${locale}/${vertical}/${role}/dashboard`;
+      // ✅ After OTP, show role selection
+      setStep('role');
     } catch (err: any) {
       setError(err.message || 'Invalid OTP');
     } finally {
       setLoading(false);
     }
   };
-return (
+
+  const chooseRole = async (role: 'tutor' | 'student') => {
+    setError('');
+    setLoading(true);
+    try {
+      const res = await fetch('/api/auth/profile/role', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, role, vertical: 'education' })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || 'Failed to set role');
+      }
+      const locale = window.location.pathname.split('/')[1] || 'en';
+      window.location.href = `/${locale}/education/${role}/dashboard`;
+    } catch (err: any) {
+      setError(err.message || 'Failed to set role');
+    } finally {
+      setLoading(false);
+    }
+  };
+return
+(
     <div className="flex min-h-screen bg-white">
       <div className="flex flex-col justify-center flex-1 px-8 py-12 sm:px-12 lg:flex-none lg:w-[500px]">
         <div className="w-full max-w-sm mx-auto">
@@ -111,8 +133,32 @@ return (
               </button>
             </form>
           )}
+
+          {step === 'role' && (
+            <div className="mt-10 space-y-4">
+              <h2 className="text-lg font-semibold text-slate-900">{t('roleTitle')}</h2>
+              <p className="text-sm text-slate-600">{t('roleSubtitle')}</p>
+
+              <button
+                onClick={() => chooseRole('tutor')}
+                disabled={loading}
+                className="w-full py-4 font-semibold text-white transition-all bg-emerald-600 rounded-2xl hover:bg-emerald-500 disabled:opacity-60"
+              >
+                {t('roleTutor')}
+              </button>
+
+              <button
+                onClick={() => chooseRole('student')}
+                disabled={loading}
+                className="w-full py-4 font-semibold text-slate-900 transition-all bg-slate-100 rounded-2xl hover:bg-slate-200 disabled:opacity-60"
+              >
+                {t('roleStudent')}
+              </button>
+            </div>
+          )}
         </div>
       </div>
+
       <div className="relative hidden w-0 flex-1 lg:block bg-slate-900">
         <div className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center text-white">
           <div className="w-24 h-24 mb-8 bg-white/10 rounded-3xl backdrop-blur-xl flex items-center justify-center border border-white/20">
@@ -122,6 +168,6 @@ return (
           <p className="max-w-md text-slate-400">{t('heroSubtitle')}</p>
         </div>
       </div>
-    </div>
+</div>
   );
 }

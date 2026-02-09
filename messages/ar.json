@@ -39,26 +39,12 @@
     "sending": "جارٍ الإرسال...",
     "verifying": "جارٍ التحقق...",
     "heroTitle": "تمكين التعليم اللبناني",
-    "heroSubtitle": "أدر جدول الدروس والمدفوعات في مكان واحد آمن."
+    "heroSubtitle": "أدر جدول الدروس والمدفوعات في مكان واحد آمن.",
+    "roleTitle": "اختر دورك",
+    "roleSubtitle": "حدد كيف تريد استخدام رِزق",
+    "roleTutor": "مدرّس",
+    "roleStudent": "طالب / ولي أمر"
   },
   "StudentDashboard": {
     "title": "لوحة التحكم",
     "upcomingLessons": "الدروس القادمة",
-    "noLessonsTitle": "لا توجد دروس قادمة",
-    "noLessonsSubtitle": "احجز مدرسًا للبدء",
-    "findTutor": "ابحث عن مدرس",
-    "nextLesson": "الدرس القادم",
-    "tbd": "قريبًا",
-    "noLessonScheduled": "لا يوجد درس مجدول",
-    "pickTutor": "اختر مدرسًا ووقتًا",
-    "activeTutors": "المدرسون النشطون",
-    "payments": "المدفوعات",
-    "requests": "الطلبات",
-    "logout": "تسجيل الخروج"
-  },
-  "Logout": {
-    "title": "تسجيل الخروج",
-    "subtitle": "سيتم تسجيل خروجك من الحساب.",
-    "confirm": "تأكيد الخروج"
-  }
-}

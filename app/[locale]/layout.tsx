@@ -1,7 +1,6 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import '../../theme.css';
 
 export default async function LocaleLayout({
   children,
@@ -15,20 +14,14 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  // ✅ Required by next-intl (fixes blank screen)
   setRequestLocale(locale);
-
   const messages = await getMessages();
 
   return (
-    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-      <body className="antialiased bg-slate-50 text-slate-900">
-        <NextIntlClientProvider messages={messages}>
-          <main className="min-h-screen">
-            {children}
-          </main>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages}>
+      <div lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className="min-h-screen">
+        {children}
+      </div>
+    </NextIntlClientProvider>
   );
 }

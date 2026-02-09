@@ -45,17 +45,18 @@ export default function StudentDashboard({ params }: Params) {
     .pill{background:#e7f0ff;color:#1956e3;padding:4px 10px;border-radius:20px;font-size:12px}
     .btn{background:var(--primary);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
     .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block}
-    .btn.outline{background:transparent;border:1px solid var(--border);color:var(--text)}
     .actions{display:grid;gap:10px}
+    .qa{background:#eaf9f3;color:#0f7a5f;border:none}
+    .qa:hover{background:#dff6ee}
     .list{list-style:none}
     .list li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)}
     .list li:last-child{border:none}
     .message{padding:10px 0;border-bottom:1px dashed var(--border)}
     .message:last-child{border:none}
     .booking__meta{display:flex;justify-content:space-between;margin-bottom:10px}
-.booking__cta{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+    .booking__cta{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
     @media (min-width: 900px){
-      .dashboard{grid-template-columns:2fr 1fr;max-width:1200px;margin:24px auto;padding:20px 24px}
+.dashboard{grid-template-columns:2fr 1fr;max-width:1200px;margin:24px auto;padding:20px 24px}
       .panel{max-width:100%;margin:0}
     }
   </style>
@@ -83,9 +84,9 @@ export default function StudentDashboard({ params }: Params) {
       <div class="card">
         <h3>${t.quick}</h3>
         <div class="actions">
-          <button class="btn outline">${t.book}</button>
-          <button class="btn outline">${t.message}</button>
-          <button class="btn outline">${t.calendar}</button>
+          <button class="btn qa">${t.book}</button>
+          <button class="btn qa">${t.message}</button>
+          <button class="btn qa">${t.calendar}</button>
         </div>
       </div>
     </section>

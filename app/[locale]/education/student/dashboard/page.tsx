@@ -2,14 +2,12 @@ export default function StudentDashboard() {
 return
 (
     <div style={{ minHeight: '100vh', background: '#F5F7F7', paddingBottom: 110 }}>
-      {/* Top bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px' }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: '#6B7280' }}>Logout</span>
         <span style={{ fontSize: 18, fontWeight: 700, color: '#0F172A' }}>Book a Lesson</span>
         <span style={{ fontSize: 22, color: '#9CA3AF' }}>⋮</span>
       </div>
 
-      {/* Tutor card */}
       <div style={{ padding: '0 20px' }}>
         <div style={{ background: '#fff', borderRadius: 24, padding: 16, display: 'flex', gap: 12, boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
           <div style={{ width: 56, height: 56, borderRadius: '50%', background: '#E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>👩‍🏫</div>
@@ -21,7 +19,6 @@ return
         </div>
       </div>
 
-      {/* Student name */}
       <div style={{ padding: '24px 20px 0' }}>
         <div style={{ fontSize: 13, fontWeight: 700, color: '#334155', marginBottom: 8 }}>Student Name</div>
         <div style={{ background: '#fff', borderRadius: 16, padding: 12, display: 'flex', gap: 8, alignItems: 'center', border: '1px solid #F1F5F9' }}>
@@ -30,7 +27,6 @@ return
         </div>
       </div>
 
-      {/* Subjects */}
       <div style={{ padding: '24px 20px 0' }}>
         <div style={{ fontSize: 13, fontWeight: 700, color: '#334155', marginBottom: 10 }}>Select Subject</div>
         <div style={{ display: 'flex', gap: 10, overflowX: 'auto', paddingBottom: 6 }}>
@@ -40,7 +36,6 @@ return
         </div>
       </div>
 
-      {/* Calendar */}
       <div style={{ padding: '24px 20px 0' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: '#334155' }}>October 2023</div>
@@ -59,9 +54,10 @@ return
           </div>
         </div>
       </div>
-{/* Times */}
+
       <div style={{ padding: '24px 20px 0' }}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: '#334155', marginBottom: 10 }}>Available Time</div>
+        <div style={{ fontSize: 13, fontWeight: 700, color: '#334155', m
+arginBottom: 10 }}>Available Time</div>
         <div style={{ display: 'flex', gap: 10, overflowX: 'auto', paddingBottom: 6 }}>
           <button style={{ padding: '10px 18px', borderRadius: 16, background: '#fff', border: '1px solid #E2E8F0', color: '#334155', fontWeight: 600 }}>04:00 PM</button>
           <button style={{ padding: '10px 18px', borderRadius: 16, background: '#34D399', color: '#fff', fontWeight: 700 }}>05:00 PM</button>
@@ -69,7 +65,6 @@ return
         </div>
       </div>
 
-      {/* Bottom bar */}
       <div style={{ position: 'fixed', left: 0, right: 0, bottom: 0, background: '#fff', borderTop: '1px solid #E2E8F0' }}>
         <div style={{ maxWidth: 480, margin: '0 auto', padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>

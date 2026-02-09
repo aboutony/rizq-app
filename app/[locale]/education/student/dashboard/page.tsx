@@ -2,79 +2,93 @@ import React from 'react';
 
 export default function StudentDashboard() {
   const html = `
-  <div style="min-height:100vh;background:#F5F7F7;padding-bottom:110px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;">
-      <span style="font-size:12px;font-weight:600;color:#6B7280;">Logout</span>
-      <span style="font-size:18px;font-weight:700;color:#0F172A;">Book a Lesson</span>
-      <span style="font-size:22px;color:#9CA3AF;">⋮</span>
-    </div>
+  <style>
+    :root {
+      --bg:#f6f7fb; --card:#fff; --text:#1b1b1f; --muted:#666a73;
+      --primary:#20c997; --border:#e6e8ef; --radius:16px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#fff;border-bottom:1px solid var(--border)}
+    .brand{font-weight:700}
+    .dashboard{padding:20px;display:grid;gap:20px}
+    .panel{display:grid;gap:20px;max-width:420px;margin:0 auto;width:100%}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+    .muted{color:var(--muted)}
+    .pill{background:#e7f0ff;color:#1956e3;padding:4px 10px;border-radius:20px;font-size:12px}
+    .btn{background:var(--primary);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border)}
+    .btn.outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+    .actions{display:grid;gap:10px}
+    .list{list-style:none}
+    .list li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)}
+    .list li:last-child{border:none}
+    .message{padding:10px 0;border-bottom:1px dashed var(--border)}
+    .message:last-child{border:none}
+    .booking__meta{display:flex;justify-content:space-between;margin-bottom:10px}
+    .booking__cta{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
 
-    <div style="padding:0 20px;">
-      <div style="background:#fff;border-radius:24px;padding:16px;display:flex;gap:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);">
-        <div style="width:56px;height:56px;border-radius:50%;background:#E5E7EB;display:flex;align-items:center;justify-content:center;">👩‍🏫</div>
-        <div>
-          <div style="font-size:11px;font-weight:700;color:#10B981;text-transform:uppercase;">Tutor</div>
-          <div style="font-size:18px;font-weight:700;color:#0F172A;">Sarah Al‑Fayed</div>
-          <div style="font-size:13px;color:#6B7280;">Math & Physics Expert</div>
+    @media (min-width: 900px){
+      .dashboard{grid-template-columns:2fr 1fr;max-width:1200px;margin:24px auto;padding:20px 24px}
+      .panel{max-width:100%;margin:0}
+    }
+  </style>
+
+  <header class="topbar">
+    <div class="brand">RIZQ</div>
+    <div>
+      <button class="btn ghost">Logout</button>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <section class="panel panel--hero">
+      <div class="card booking">
+        <div class="booking__meta">
+          <span class="pill">Confirmed</span>
+          <span class="muted">Tue, 12 Apr · 3:30 PM</span>
+        </div>
+        <h2>Math Tutoring · Grade 6</h2>
+        <p class="muted">Tutor: Sarah Al‑Fayed · Online</p>
+        <div class="booking__cta">
+          <button class="btn">Join Session</button>
+          <button class="btn ghost">Reschedule</button>
         </div>
       </div>
-    </div>
 
-    <div style="padding:24px 20px 0;">
-      <div style="font-size:13px;font-weight:700;color:#334155;margin-bottom:8px;">Student Name</div>
-      <div style="background:#fff;border-radius:16px;padding:12px;display:flex;gap:8px;align-items:center;border:1px solid #F1F5F9;">
-        <span style="color:#94A3B8;">👤</span>
-        <input placeholder="Enter full name" style="border:none;outline:none;width:100%;font-size:14px;color:#334155;background:transparent;" />
-      </div>
-    </div>
-
-    <div style="padding:24px 20px 0;">
-      <div style="font-size:13px;font-weight:700;color:#334155;margin-bottom:10px;">Select Subject</div>
-      <div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;">
-        <button style="padding:8px 18px;border-radius:9999px;background:#0F172A;color:#fff;font-weight:600;">∑ Mathematics</button>
-        <button style="padding:8px 18px;border-radius:9999px;background:#fff;border:1px solid #E2E8F0;color:#334155;font-weight:600;">🧪 Physics</button>
-        <button style="padding:8px 18px;border-radius:9999px;background:#fff;border:1px solid #E2E8F0;color:#334155;font-weight:600;">🔬 Chemistry</button>
-      </div>
-    </div>
-
-    <div style="padding:24px 20px 0;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-        <div style="font-size:13px;font-weight:700;color:#334155;">October 2023</div>
-        <div style="font-size:20px;color:#9CA3AF;">‹ ›</div>
-      </div>
-      <div style="background:#fff;border-radius:24px;padding:14px;border:1px solid #F1F5F9;">
-        <div style="display:grid;grid-template-columns:repeat(7,1fr);font-size:12px;color:#94A3B8;text-align:center;margin-bottom:8px;">
-          <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:14px;color:#334155;">
-          <div>28</div><div>29</div><div>30</div><div></div><div></div><div>1</div><div>2</div>
-          <div>3</div><div>4</div><div>5</div><div>6</div><div>7</div>
-          <div style="height:36px;display:flex;align-items:center;justify-content:center;border-radius:9999px;background:#34D399;color:#fff;font-weight:700;">8</div>
-          <div>9</div><div>10</div><div>11</div><div>12</div><div>13</div><div>14</div>
+      <div class="card">
+        <h3>Quick Actions</h3>
+        <div class="actions">
+          <button class="btn outline">Book New Session</button>
+          <button class="btn outline">Message Tutor</button>
+          <button class="btn outline">View Calendar</button>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div style="padding:24px 20px 0;">
-<div style="font-size:13px;font-weight:700;color:#334155;margin-bottom:10px;">Available Time</div>
-      <div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;">
-        <button style="padding:10px 18px;border-radius:16px;background:#fff;border:1px solid #E2E8F0;color:#334155;font-weight:600;">04:00 PM</button>
-        <button style="padding:10px 18px;border-radius:16px;background:#34D399;color:#fff;font-weight:700;">05:00 PM</button>
-        <button style="padding:10px 18px;border-radius:16px;background:#fff;border:1px solid #E2E8F0;color:#334155;font-weight:600;">06:30 PM</button>
+    <aside class="panel">
+      <div class="card">
+        <h3>Student Progress</h3>
+        <ul class="list">
+          <li><span>Attendance</span><strong>96%</strong></li>
+          <li><span>Assignments</span><strong>8/10</strong></li>
+          <li><span>Focus Score</span><strong>4.7</strong></li>
+        </ul>
       </div>
-    </div>
 
-    <div style="position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #E2E8F0;">
-      <div style="max-width:480px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;">
-        <div>
-          <div style="font-size:11px;color:#94A3B8;">Total</div>
-          <div style="font-size:20px;font-weight:700;color:#0F172A;">$45.00</div>
+      <div class="card">
+        <h3>Recent Messages</h3>
+        <div class="message">
+          <strong>Sarah Al‑Fayed</strong>
+          <p class="muted">Please review Chapter 3 before next session.</p>
         </div>
-        <button style="padding:12px 22px;border-radius:16px;background:#34D399;color:#fff;font-weight:700;">Confirm Booking</button>
+        <div class="message">
+          <strong>Admin</strong>
+          <p class="muted">Your invoice is available.</p>
+        </div>
       </div>
-    </div>
-  </div>
+    </aside>
+  </main>
   `;
-
-  return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
+return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }

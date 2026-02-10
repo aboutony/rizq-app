@@ -15,12 +15,12 @@ export default function RootLayout({
 
       const btn = document.getElementById('theme-toggle');
       if (btn) {
-        btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+                btn.textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
         btn.onclick = function () {
           const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
           root.dataset.theme = next;
           localStorage.setItem('theme', next);
-          btn.textContent = next === 'dark' ? '☀️' : '🌙';
+          btn.textContent = next === 'dark' ? '☀️ Light' : '🌙 Dark';
         };
       }
     })();

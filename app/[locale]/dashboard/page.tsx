@@ -37,7 +37,14 @@ export default function TutorDashboard({ params }: Params) {
       save: 'Save Details',
       activity: 'Recent Activity',
       calendar: 'Scheduling Calendar',
-      month: 'October 2023'
+      month: 'October 2023',
+      mode: 'Mode',
+      online: 'Online',
+      inperson: 'In-person',
+      location: 'Location',
+      tutorPlace: "Tutor's place",
+      school: 'School',
+      studentHome: "Student's home"
     },
     ar: {
       logout: 'تسجيل الخروج',
@@ -70,7 +77,14 @@ export default function TutorDashboard({ params }: Params) {
       save: 'حفظ التفاصيل',
       activity: 'النشاط الأخير',
       calendar: 'تقويم الجدولة',
-      month: 'أكتوبر 2023'
+      month: 'أكتوبر 2023',
+      mode: 'النمط',
+      online: 'أونلاين',
+      inperson: 'حضوري',
+      location: 'الموقع',
+      tutorPlace: 'مكان المعلّم',
+      school: 'المدرسة',
+      studentHome: 'منزل الطالب'
     },
     fr: {
       logout: 'Déconnexion',
@@ -103,7 +117,14 @@ export default function TutorDashboard({ params }: Params) {
       save: 'Enregistrer',
       activity: 'Activité récente',
       calendar: 'Calendrier',
-      month: 'Octobre 2023'
+      month: 'Octobre 2023',
+mode: 'Mode',
+      online: 'En ligne',
+      inperson: 'En présentiel',
+      location: 'Lieu',
+      tutorPlace: 'Chez le tuteur',
+      school: 'École',
+      studentHome: "Chez l'élève"
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -113,7 +134,7 @@ export default function TutorDashboard({ params }: Params) {
   <style>
     :root { --bg:#f6f7fb; --card:#fff; --text:#1b1b1f; --muted:#666a73; --primary:#20c997; --border:#e6e8ef; --radius:16px; }
     *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
     .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#fff;border-bottom:1px solid var(--border)}
     .status{padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700}
     .active{background:#eaf9f3;color:#0f7a5f}
@@ -162,7 +183,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
           <div style="font-size:22px;font-weight:800">4.8</div>
           <div class="muted">128 ${t.reviews}</div>
         </div>
-      </div>
+</div>
 
       <div class="card" style="margin-top:16px">
         <div class="row"><h3>${t.requests}</h3><span class="tag">3 New</span></div>
@@ -171,9 +192,10 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
             <div>
               <div style="font-weight:700">Rana K.</div>
               <div class="muted">Math · 60 min · Tue 5:00 PM</div>
+              <div class="muted">${t.mode}: ${t.online} • ${t.location}: ${t.studentHome}</div>
             </div>
             <div class="actions">
-<button class="btn">${t.approve}</button>
+              <button class="btn">${t.approve}</button>
               <a class="btn ghost" href="#calendar">${t.reschedule}</a>
               <button class="btn ghost">${t.decline}</button>
             </div>
@@ -184,18 +206,14 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
         </div>
       </div>
 
-      <div class="card" style="margin-top:16px">
-        <h3>${t.rescheduleRequests}</h3>
-        <div class="row" style="margin-top:10px">
-          <div><strong>Hadi M.</strong> <span class="muted">wants Thu 6:00 PM</span></div>
-          <div class="actions"><button class="btn">${t.approve}</button><a class="btn ghost" href="#calendar">${t.reschedule}</a></div>
-        </div>
-      </div>
-
       <details class="card" style="margin-top:16px">
         <summary>${t.details}</summary>
         <div class="muted" style="margin-bottom:10px">${t.detailsHint}</div>
         <div class="grid">
+          <label>${t.mode}</label>
+          <select class="input"><option>${t.online}</option><option>${t.inperson}</option></select>
+          <label>${t.location}</label>
+          <select class="input"><option>${t.tutorPlace}</option><option>${t.school}</option><option>${t.studentHome}</option></select>
           <label>${t.paymentStatus}</label>
           <select class="input"><option>${t.paid}</option><option>${t.unpaid}</option></select>
           <label>${t.amount}</label>

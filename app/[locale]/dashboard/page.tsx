@@ -111,7 +111,14 @@ export default function TutorDashboard({ params }: Params) {
     :root { --bg:#f6f7fb; --card:#fff; --text:#1b1b1f; --muted:#666a73; --primary:#20c997; --border:#e6e8ef; --radius:16px; }
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#fff;border-bottom:1px solid var(--border)}
+<header class="topbar">
+  <div style="font-weight:800">RIZQ</div>
+  <div class="row">
+    <span class="status ${subscriptionActive ? 'active' : 'expired'}">${subscriptionActive ? t.active : t.expired}</span>
+    <a class="btn ghost" href="/${locale}/logout">${t.logout || 'Logout'}</a>
+    ${subscriptionActive ? '' : `<a class="btn ghost" href="/${locale}/logout">${t.renew}</a>`}
+  </div>
+</header>
     .status{padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700}
     .active{background:#eaf9f3;color:#0f7a5f}
     .expired{background:#ffe5e5;color:#b42318}

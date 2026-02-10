@@ -118,10 +118,10 @@ export default function TutorDashboard({ params }: Params) {
       activity: 'Activité récente',
       calendar: 'Calendrier',
       month: 'Octobre 2023',
-mode: 'Mode',
+      mode: 'Mode',
       online: 'En ligne',
       inperson: 'En présentiel',
-      location: 'Lieu',
+location: 'Lieu',
       tutorPlace: 'Chez le tuteur',
       school: 'École',
       studentHome: "Chez l'élève"
@@ -132,10 +132,8 @@ mode: 'Mode',
 
   const html = `
   <style>
-    :root { --bg:#f6f7fb; --card:#fff; --text:#1b1b1f; --muted:#666a73; --primary:#20c997; --border:#e6e8ef; --radius:16px; }
-    *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
-    .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#fff;border-bottom:1px solid var(--border)}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--card);border-bottom:1px solid var(--border)}
     .status{padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700}
     .active{background:#eaf9f3;color:#0f7a5f}
     .expired{background:#ffe5e5;color:#b42318}
@@ -144,19 +142,19 @@ mode: 'Mode',
     .dashboard{padding:20px;display:grid;gap:20px;max-width:1200px;margin:0 auto}
     .grid{display:grid;gap:12px}
     .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
     .muted{color:var(--muted)}
     .locked{opacity:0.15;filter:blur(2px);pointer-events:none}
     details summary{cursor:pointer;font-weight:700;margin-bottom:8px}
     .row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
     .tag{padding:4px 10px;border-radius:999px;font-size:12px;background:#eef2f7}
     .actions{display:flex;gap:8px;flex-wrap:wrap}
-    .input, select, textarea {width:100%;padding:10px;border:1px solid var(--border);border-radius:10px}
+    .input, select, textarea {width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text)}
     @media (min-width: 900px){ .dashboard{grid-template-columns:2fr 1fr} }
-    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:13px;color:#334155}
+    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:13px;color:var(--text)}
     .day{height:36px;display:flex;align-items:center;justify-content:center;border-radius:9999px}
-    .day.active{background:#20c997;color:#fff;font-weight:700}
-    .weekday{font-size:12px;color:#94A3B8;text-align:center}
+    .day.active{background:var(--primary);color:#fff;font-weight:700}
+    .weekday{font-size:12px;color:var(--muted);text-align:center}
   </style>
 
   <header class="topbar">
@@ -183,12 +181,12 @@ mode: 'Mode',
           <div style="font-size:22px;font-weight:800">4.8</div>
           <div class="muted">128 ${t.reviews}</div>
         </div>
-</div>
+      </div>
 
       <div class="card" style="margin-top:16px">
         <div class="row"><h3>${t.requests}</h3><span class="tag">3 New</span></div>
         <div style="margin-top:12px" class="grid">
-          <div class="row">
+<div class="row">
             <div>
               <div style="font-weight:700">Rana K.</div>
               <div class="muted">Math · 60 min · Tue 5:00 PM</div>

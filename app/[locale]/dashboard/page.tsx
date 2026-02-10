@@ -7,6 +7,7 @@ export default function TutorDashboard({ params }: Params) {
 
   const t = {
     en: {
+      logout: 'Logout',
       title: 'Tutor Portal',
       active: 'Subscription Active',
       expired: 'Subscription Expired',
@@ -39,6 +40,7 @@ export default function TutorDashboard({ params }: Params) {
       month: 'October 2023'
     },
     ar: {
+      logout: 'تسجيل الخروج',
       title: 'بوابة المعلّم',
       active: 'الاشتراك نشط',
       expired: 'الاشتراك منتهي',
@@ -71,6 +73,7 @@ export default function TutorDashboard({ params }: Params) {
       month: 'أكتوبر 2023'
     },
     fr: {
+      logout: 'Déconnexion',
       title: 'Portail Tuteur',
       active: 'Abonnement Actif',
       expired: 'Abonnement Expiré',
@@ -110,15 +113,8 @@ export default function TutorDashboard({ params }: Params) {
   <style>
     :root { --bg:#f6f7fb; --card:#fff; --text:#1b1b1f; --muted:#666a73; --primary:#20c997; --border:#e6e8ef; --radius:16px; }
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
-<header class="topbar">
-  <div style="font-weight:800">RIZQ</div>
-  <div class="row">
-    <span class="status ${subscriptionActive ? 'active' : 'expired'}">${subscriptionActive ? t.active : t.expired}</span>
-    <a class="btn ghost" href="/${locale}/logout">${t.logout || 'Logout'}</a>
-    ${subscriptionActive ? '' : `<a class="btn ghost" href="/${locale}/logout">${t.renew}</a>`}
-  </div>
-</header>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#fff;border-bottom:1px solid var(--border)}
     .status{padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700}
     .active{background:#eaf9f3;color:#0f7a5f}
     .expired{background:#ffe5e5;color:#b42318}
@@ -135,9 +131,7 @@ export default function TutorDashboard({ params }: Params) {
     .tag{padding:4px 10px;border-radius:999px;font-size:12px;background:#eef2f7}
     .actions{display:flex;gap:8px;flex-wrap:wrap}
     .input, select, textarea {width:100%;padding:10px;border:1px solid var(--border);border-radius:10px}
-    @media (min-width: 900px){
-      .dashboard{grid-template-columns:2fr 1fr}
-    }
+    @media (min-width: 900px){ .dashboard{grid-template-columns:2fr 1fr} }
     .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:13px;color:#334155}
     .day{height:36px;display:flex;align-items:center;justify-content:center;border-radius:9999px}
     .day.active{background:#20c997;color:#fff;font-weight:700}
@@ -148,6 +142,7 @@ export default function TutorDashboard({ params }: Params) {
     <div style="font-weight:800">RIZQ</div>
     <div class="row">
       <span class="status ${subscriptionActive ? 'active' : 'expired'}">${subscriptionActive ? t.active : t.expired}</span>
+      <a class="btn ghost" href="/${locale}/logout">${t.logout}</a>
       ${subscriptionActive ? '' : `<a class="btn ghost" href="/${locale}/logout">${t.renew}</a>`}
     </div>
   </header>
@@ -163,10 +158,10 @@ export default function TutorDashboard({ params }: Params) {
         <div class="card"><div class="muted">${t.activeStudents}</div><div style="font-size:22px;font-weight:800">12</div></div>
         <div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
         <div class="card">
-  <div class="muted">⭐️ ${t.rating}</div>
-  <div style="font-size:22px;font-weight:800">4.8</div>
-  <div class="muted">128 ${t.reviews}</div>
-</div>
+          <div class="muted">⭐️ ${t.rating}</div>
+          <div style="font-size:22px;font-weight:800">4.8</div>
+          <div class="muted">128 ${t.reviews}</div>
+        </div>
       </div>
 
       <div class="card" style="margin-top:16px">
@@ -178,13 +173,13 @@ export default function TutorDashboard({ params }: Params) {
               <div class="muted">Math · 60 min · Tue 5:00 PM</div>
             </div>
             <div class="actions">
-              <button class="btn">${t.approve}</button>
+<button class="btn">${t.approve}</button>
               <a class="btn ghost" href="#calendar">${t.reschedule}</a>
               <button class="btn ghost">${t.decline}</button>
             </div>
           </div>
           <div class="row">
-<select class="input"><option>${t.reason}</option><option>Schedule conflict</option><option>Not available</option></select>
+            <select class="input"><option>${t.reason}</option><option>Schedule conflict</option><option>Not available</option></select>
           </div>
         </div>
       </div>

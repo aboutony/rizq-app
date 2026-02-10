@@ -10,7 +10,18 @@ export default function StudentDashboard({ params }: Params) {
       logout:'Logout', confirmed:'Confirmed', date:'Tue, 12 Apr · 3:30 PM',
       title:'Math Tutoring · Grade 6', tutor:'Tutor: Sarah Al‑Fayed · Online',
       join:'Join Session', reschedule:'Reschedule',
-      quick:'Quick Actions', book:'Book New Session', message:'Message Tutor', calendar:'View Calendar',
+      <div class="card">
+  <h3>${t.quick}</h3>
+  <div class="actions" style="display:flex;justify-content:center">
+    <a class="btn ghost" href="#book">${t.book}</a>
+  </div>
+  <div id="book" style="margin-top:12px;text-align:center">
+    <a class="btn" href="#back">Book Session</a>
+  </div>
+  <div id="back" style="margin-top:10px;text-align:center">
+    <a class="btn ghost" href="#">Go Back</a>
+  </div>
+</div>
       progress:'Student Progress', attendance:'Attendance', assignments:'Assignments', focus:'Focus Score',
       recent:'Recent Messages', msg1:'Please review Chapter 3 before next session.', msg2:'Your invoice is available.'
     },
@@ -114,4 +125,5 @@ export default function StudentDashboard({ params }: Params) {
 
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }
+
 

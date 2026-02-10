@@ -8,7 +8,6 @@ export default function TutorDashboard({ params }: Params) {
   const t = {
     en: {
       logout: 'Logout',
-      title: 'Tutor Portal',
       active: 'Subscription Active',
       expired: 'Subscription Expired',
       renew: 'Renew',
@@ -26,29 +25,20 @@ export default function TutorDashboard({ params }: Params) {
       decline: 'Decline',
       reason: 'Decline reason',
       rescheduleRequests: 'Reschedule Requests',
-      details: 'Add Lesson Details',
-      detailsHint: 'Quick modal for notes, payment, homework',
-      paymentStatus: 'Payment Status',
-      paid: 'Paid',
-      unpaid: 'Unpaid',
-      amount: 'Amount',
-      notes: 'Notes',
-      homework: 'Homework',
-      save: 'Save Details',
       activity: 'Recent Activity',
       calendar: 'Scheduling Calendar',
       month: 'October 2023',
       mode: 'Mode',
       online: 'Online',
-      inperson: 'In-person',
       location: 'Location',
-      tutorPlace: "Tutor's place",
-      school: 'School',
-      studentHome: "Student's home"
+      studentHome: "Student's home",
+      createLesson: 'Create Lesson',
+      homework: 'Homework',
+      notes: 'Notes',
+      save: 'Save'
     },
     ar: {
       logout: 'تسجيل الخروج',
-      title: 'بوابة المعلّم',
       active: 'الاشتراك نشط',
       expired: 'الاشتراك منتهي',
       renew: 'تجديد',
@@ -66,29 +56,20 @@ export default function TutorDashboard({ params }: Params) {
       decline: 'رفض',
       reason: 'سبب الرفض',
       rescheduleRequests: 'طلبات إعادة الجدولة',
-      details: 'إضافة تفاصيل الدرس',
-      detailsHint: 'نافذة سريعة للملاحظات والدفع والواجب',
-      paymentStatus: 'حالة الدفع',
-      paid: 'مدفوع',
-      unpaid: 'غير مدفوع',
-      amount: 'المبلغ',
-      notes: 'ملاحظات',
-      homework: 'واجب',
-      save: 'حفظ التفاصيل',
       activity: 'النشاط الأخير',
       calendar: 'تقويم الجدولة',
       month: 'أكتوبر 2023',
       mode: 'النمط',
       online: 'أونلاين',
-      inperson: 'حضوري',
       location: 'الموقع',
-      tutorPlace: 'مكان المعلّم',
-      school: 'المدرسة',
-      studentHome: 'منزل الطالب'
+      studentHome: 'منزل الطالب',
+      createLesson: 'إنشاء درس',
+      homework: 'واجب',
+      notes: 'ملاحظات',
+      save: 'حفظ'
     },
     fr: {
       logout: 'Déconnexion',
-      title: 'Portail Tuteur',
       active: 'Abonnement Actif',
       expired: 'Abonnement Expiré',
       renew: 'Renouveler',
@@ -106,25 +87,17 @@ export default function TutorDashboard({ params }: Params) {
       decline: 'Refuser',
       reason: 'Raison du refus',
       rescheduleRequests: 'Demandes de replanification',
-      details: 'Ajouter les détails du cours',
-      detailsHint: 'Fenêtre rapide: notes, paiement, devoir',
-      paymentStatus: 'Statut de paiement',
-      paid: 'Payé',
-      unpaid: 'Impayé',
-      amount: 'Montant',
-      notes: 'Notes',
-      homework: 'Devoir',
-      save: 'Enregistrer',
       activity: 'Activité récente',
       calendar: 'Calendrier',
       month: 'Octobre 2023',
       mode: 'Mode',
       online: 'En ligne',
-      inperson: 'En présentiel',
-location: 'Lieu',
-      tutorPlace: 'Chez le tuteur',
-      school: 'École',
-      studentHome: "Chez l'élève"
+      location: 'Lieu',
+      studentHome: "Chez l'élève",
+      createLesson: 'Créer une leçon',
+      homework: 'Devoir',
+      notes: 'Notes',
+      save: 'Enregistrer'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -137,7 +110,7 @@ location: 'Lieu',
     .status{padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700}
     .active{background:#eaf9f3;color:#0f7a5f}
     .expired{background:#ffe5e5;color:#b42318}
-    .btn{background:var(--primary);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
+.btn{background:var(--primary);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
     .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block}
     .dashboard{padding:20px;display:grid;gap:20px;max-width:1200px;margin:0 auto}
     .grid{display:grid;gap:12px}
@@ -145,7 +118,6 @@ location: 'Lieu',
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
     .muted{color:var(--muted)}
     .locked{opacity:0.15;filter:blur(2px);pointer-events:none}
-    details summary{cursor:pointer;font-weight:700;margin-bottom:8px}
     .row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
     .tag{padding:4px 10px;border-radius:999px;font-size:12px;background:#eef2f7}
     .actions{display:flex;gap:8px;flex-wrap:wrap}
@@ -185,12 +157,12 @@ location: 'Lieu',
 
       <div class="card" style="margin-top:16px">
         <div class="row">
-  <h3>${t.requests}</h3>
-  <span class="tag">3 New</span>
-  <a class="btn ghost" href="/${locale}/education/tutor/lesson">Create Lesson</a>
-</div>
+          <h3>${t.requests}</h3>
+          <span class="tag">3 New</span>
+          <a class="btn ghost" href="/${locale}/education/tutor/lesson">${t.createLesson}</a>
+        </div>
         <div style="margin-top:12px" class="grid">
-<div class="row">
+          <div class="row">
             <div>
               <div style="font-weight:700">Rana K.</div>
               <div class="muted">Math · 60 min · Tue 5:00 PM</div>
@@ -203,30 +175,29 @@ location: 'Lieu',
             </div>
           </div>
           <div class="row">
-            <select class="input"><option>${t.reason}</option><option>Schedule conflict</option><option>Not available</option></select>
+<select class="input"><option>${t.reason}</option><option>Schedule conflict</option><option>Not available</option></select>
           </div>
         </div>
       </div>
 
-      <details class="card" style="margin-top:16px">
-        <summary>${t.details}</summary>
-        <div class="muted" style="margin-bottom:10px">${t.detailsHint}</div>
+      <div class="card" style="margin-top:16px">
+        <h3>${t.rescheduleRequests}</h3>
+        <div class="row" style="margin-top:10px">
+          <div><strong>Hadi M.</strong> <span class="muted">wants Thu 6:00 PM</span></div>
+          <div class="actions"><button class="btn">${t.approve}</button><a class="btn ghost" href="#calendar">${t.reschedule}</a></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>${t.homework}</h3>
         <div class="grid">
-          <label>${t.mode}</label>
-          <select class="input"><option>${t.online}</option><option>${t.inperson}</option></select>
-          <label>${t.location}</label>
-          <select class="input"><option>${t.tutorPlace}</option><option>${t.school}</option><option>${t.studentHome}</option></select>
-          <label>${t.paymentStatus}</label>
-          <select class="input"><option>${t.paid}</option><option>${t.unpaid}</option></select>
-          <label>${t.amount}</label>
-          <input class="input" placeholder="$45" />
           <label>${t.notes}</label>
           <textarea class="input" rows="3"></textarea>
           <label>${t.homework}</label>
           <textarea class="input" rows="2"></textarea>
           <button class="btn">${t.save}</button>
         </div>
-      </details>
+      </div>
     </section>
 
     <aside class="${subscriptionActive ? '' : 'locked'}">

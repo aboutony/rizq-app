@@ -184,7 +184,11 @@ location: 'Lieu',
       </div>
 
       <div class="card" style="margin-top:16px">
-        <div class="row"><h3>${t.requests}</h3><span class="tag">3 New</span></div>
+        <div class="row">
+  <h3>${t.requests}</h3>
+  <span class="tag">3 New</span>
+  <a class="btn ghost" href="/${locale}/education/tutor/lesson">Create Lesson</a>
+</div>
         <div style="margin-top:12px" class="grid">
 <div class="row">
             <div>

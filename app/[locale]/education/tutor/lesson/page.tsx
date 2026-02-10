@@ -99,11 +99,11 @@ export default function TutorLessonPage({ params }: Params) {
           <option>Other Vocational Certificates/Diplomas</option>
           <option>Other</option>
         </select>
-        <input class="input" placeholder="Other (if any)"/>
+<input class="input" placeholder="Other (if any)"/>
       </div>
 
       <div class="section">
-<h3>3. Arts & Creative Disciplines</h3>
+        <h3>3. Arts & Creative Disciplines</h3>
         <select class="input">
           <option>Visual Arts</option>
           <option>Performing Arts</option>
@@ -151,6 +151,37 @@ export default function TutorLessonPage({ params }: Params) {
       </div>
 
       <div class="section">
+        <h3>8. Language Learning</h3>
+        <select class="input">
+          <option>Arabic</option>
+          <option>Armenian</option>
+          <option>Chinese</option>
+          <option>English</option>
+          <option>French</option>
+          <option>German</option>
+          <option>Greek</option>
+          <option>Italian</option>
+          <option>Russian</option>
+          <option>Spanish</option>
+          <option>Other</option>
+        </select>
+        <input class="input" placeholder="Other (if any)"/>
+      </div>
+
+      <div class="section">
+        <h3>9. Coding & Technology</h3>
+        <select class="input">
+          <option>Programming Languages</option>
+          <option>Web Development</option>
+          <option>Mobile Development</option>
+          <option>Data & AI</option>
+          <option>DevOps & Cloud</option>
+          <option>Beginner Pathways</option>
+          <option>Certification Prep</option>
+        </select>
+      </div>
+
+      <div class="section">
         <button class="btn">Save Lesson Listing</button>
       </div>
     </div>
@@ -159,4 +190,3 @@ export default function TutorLessonPage({ params }: Params) {
 
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }
-

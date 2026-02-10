@@ -3,14 +3,28 @@ import pool from '@/lib/db';
 
 export async function POST(request: Request) {
   try {
-    const { phone, role, vertical } = await request.json();
+    const contentType = request.headers.get('content-type') || '';
+    let phone = '';
+    let role = '';
+    let vertical = 'education';
+    let locale = 'en';
 
-    if (!phone || !role || !vertical) {
-      return NextResponse.json({ message: 'phone, role, and vertical are required' }, { status: 400 });
+    if (contentType.includes('application/json')) {
+      const body = await request.json();
+      phone = body.phone || '';
+      role = body.role || '';
+      vertical = body.vertical || 'education';
+      locale = body.locale || 'en';
+    } else {
+      const form = await request.formData();
+      phone = (form.get('phone') || '').toString();
+      role = (form.get('role') || '').toString();
+      vertical = (form.get('vertical') || 'education').toString();
+      locale = (form.get('locale') || 'en').toString();
     }
 
-    if (!['tutor', 'student'].includes(role)) {
-      return NextResponse.json({ message: 'Invalid role' }, { status: 400 });
+    if (!phone || !role) {
+      return NextResponse.json({ message: 'Phone and role are required' }, { status: 400 });
     }
 
     const client = await pool.connect();
@@ -18,16 +32,17 @@ export async function POST(request: Request) {
       await client.query(
         `INSERT INTO user_profiles (phone, role, vertical)
          VALUES ($1, $2, $3)
-         ON CONFLICT (phone) DO UPDATE SET role = $2, vertical = $3`,
+         ON CONFLICT (phone) DO UPDATE SET role = EXCLUDED.role, vertical = EXCLUDED.vertical`,
         [phone, role, vertical]
       );
-
-      return NextResponse.json({ role, vertical }, { status: 200 });
     } finally {
       client.release();
     }
+
+    // Redirect to dashboard (form flow)
+    return NextResponse.redirect(new URL(`/${locale}/${vertical}/${role}/dashboard`, request.url));
   } catch (error) {
-    console.error('Profile Role Error:', error);
+    console.error('Role set error:', error);
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }

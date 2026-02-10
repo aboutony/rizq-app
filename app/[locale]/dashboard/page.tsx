@@ -17,6 +17,8 @@ export default function TutorDashboard({ params }: Params) {
       pending: 'Pending Payments',
       activeStudents: 'Active Students',
       totalStudents: 'Total Students',
+      rating: 'Rating',
+      reviews: 'reviews',
       requests: 'Lesson Requests',
       approve: 'Approve',
       reschedule: 'Reschedule',
@@ -32,7 +34,9 @@ export default function TutorDashboard({ params }: Params) {
       notes: 'Notes',
       homework: 'Homework',
       save: 'Save Details',
-      activity: 'Recent Activity'
+      activity: 'Recent Activity',
+      calendar: 'Scheduling Calendar',
+      month: 'October 2023'
     },
     ar: {
       title: 'بوابة المعلّم',
@@ -45,6 +49,8 @@ export default function TutorDashboard({ params }: Params) {
       pending: 'مدفوعات معلّقة',
       activeStudents: 'الطلاب النشطون',
       totalStudents: 'إجمالي الطلاب',
+      rating: 'التقييم',
+      reviews: 'تقييمًا',
       requests: 'طلبات الدروس',
       approve: 'موافقة',
       reschedule: 'إعادة جدولة',
@@ -60,7 +66,9 @@ export default function TutorDashboard({ params }: Params) {
       notes: 'ملاحظات',
       homework: 'واجب',
       save: 'حفظ التفاصيل',
-      activity: 'النشاط الأخير'
+      activity: 'النشاط الأخير',
+      calendar: 'تقويم الجدولة',
+      month: 'أكتوبر 2023'
     },
     fr: {
       title: 'Portail Tuteur',
@@ -73,6 +81,8 @@ export default function TutorDashboard({ params }: Params) {
       pending: 'Paiements en attente',
       activeStudents: 'Élèves actifs',
       totalStudents: 'Total élèves',
+      rating: 'Note',
+      reviews: 'avis',
       requests: 'Demandes de cours',
       approve: 'Approuver',
       reschedule: 'Replanifier',
@@ -88,11 +98,12 @@ export default function TutorDashboard({ params }: Params) {
       notes: 'Notes',
       homework: 'Devoir',
       save: 'Enregistrer',
-      activity: 'Activité récente'
+      activity: 'Activité récente',
+      calendar: 'Calendrier',
+      month: 'Octobre 2023'
     }
   }[locale as 'en'|'ar'|'fr'];
 
-  // Toggle to test lock behavior
   const subscriptionActive = true;
 
   const html = `
@@ -120,6 +131,10 @@ export default function TutorDashboard({ params }: Params) {
     @media (min-width: 900px){
       .dashboard{grid-template-columns:2fr 1fr}
     }
+    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:13px;color:#334155}
+    .day{height:36px;display:flex;align-items:center;justify-content:center;border-radius:9999px}
+    .day.active{background:#20c997;color:#fff;font-weight:700}
+    .weekday{font-size:12px;color:#94A3B8;text-align:center}
   </style>
 
   <header class="topbar">
@@ -140,6 +155,7 @@ export default function TutorDashboard({ params }: Params) {
         <div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
         <div class="card"><div class="muted">${t.activeStudents}</div><div style="font-size:22px;font-weight:800">12</div></div>
         <div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
+        <div class="card"><div class="muted">${t.rating}</div><div style="font-size:22px;font-weight:800">4.8</div><div class="muted">128 ${t.reviews}</div></div>
       </div>
 
       <div class="card" style="margin-top:16px">
@@ -152,12 +168,12 @@ export default function TutorDashboard({ params }: Params) {
             </div>
             <div class="actions">
               <button class="btn">${t.approve}</button>
-              <button class="btn ghost">${t.reschedule}</button>
+              <a class="btn ghost" href="#calendar">${t.reschedule}</a>
               <button class="btn ghost">${t.decline}</button>
             </div>
           </div>
           <div class="row">
-            <select class="input"><option>${t.reason}</option><option>Schedule conflict</option><option>Not available</option></select>
+<select class="input"><option>${t.reason}</option><option>Schedule conflict</option><option>Not available</option></select>
           </div>
         </div>
       </div>
@@ -166,8 +182,8 @@ export default function TutorDashboard({ params }: Params) {
         <h3>${t.rescheduleRequests}</h3>
         <div class="row" style="margin-top:10px">
           <div><strong>Hadi M.</strong> <span class="muted">wants Thu 6:00 PM</span></div>
-          <div class="actions"><button class="btn">${t.approve}</button><button class="btn ghost">${t.reschedule}</button></div>
-</div>
+          <div class="actions"><button class="btn">${t.approve}</button><a class="btn ghost" href="#calendar">${t.reschedule}</a></div>
+        </div>
       </div>
 
       <details class="card" style="margin-top:16px">
@@ -188,7 +204,19 @@ export default function TutorDashboard({ params }: Params) {
     </section>
 
     <aside class="${subscriptionActive ? '' : 'locked'}">
-      <div class="card">
+      <div class="card" id="calendar">
+        <h3>${t.calendar}</h3>
+        <div class="muted" style="margin:8px 0">${t.month}</div>
+        <div class="calendar" style="margin-bottom:8px">
+          <div class="weekday">Mon</div><div class="weekday">Tue</div><div class="weekday">Wed</div><div class="weekday">Thu</div><div class="weekday">Fri</div><div class="weekday">Sat</div><div class="weekday">Sun</div>
+        </div>
+        <div class="calendar">
+          <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day active">6</div><div class="day">7</div>
+          <div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
         <h3>${t.activity}</h3>
         <div class="muted" style="margin-top:8px">Rana K. approved · 2h ago</div>
         <div class="muted">Payment marked paid · 4h ago</div>

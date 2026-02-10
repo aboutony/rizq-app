@@ -80,10 +80,10 @@ export default function StudentDashboard({ params }: Params) {
       <div class="card">
         <h3>${t.quick}</h3>
         <div class="actions">
-          <button class="btn ghost">${t.book}</button>
-          <button class="btn ghost">${t.message}</button>
-          <button class="btn ghost">${t.calendar}</button>
-        </div>
+  <a class="btn ghost" href="/${locale}/education/student/lesson">${t.book}</a>
+  <button class="btn ghost">${t.message}</button>
+  <button class="btn ghost">${t.calendar}</button>
+</div>
       </div>
     </section>
 
@@ -114,3 +114,4 @@ export default function StudentDashboard({ params }: Params) {
 
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }
+

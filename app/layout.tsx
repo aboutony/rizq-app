@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         {children}
-        <button id="theme-toggle">🌙</button>
+        <button id="theme-toggle">🌙 Dark</button>
         <script dangerouslySetInnerHTML={{ __html: script }} />
       </body>
     </html>

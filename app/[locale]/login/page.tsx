@@ -114,8 +114,8 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
     try {
-const phone = `${code}${number}`.replace(/\s+/g, '');
-      const res = await fetch('/api/auth/otp/verify', {
+      const phone = `${code}${number}`.replace(/\s+/g, '');
+const res = await fetch('/api/auth/otp/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone, code: otp })
@@ -148,6 +148,7 @@ const phone = `${code}${number}`.replace(/\s+/g, '');
       setLoading(false);
     }
   };
+
 return
 (
     <div style={{ minHeight: '100vh', background: '#f6f7fb', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
@@ -220,7 +221,6 @@ return
             </button>
           </form>
         )}
-
         {step === 'role' && (
           <div style={{ marginTop: 16, display: 'grid', gap: 10 }}>
             <div style={{ fontWeight: 700 }}>{t.roleTitle}</div>
@@ -228,9 +228,10 @@ return
             <button onClick={() => chooseRole('tutor')} style={{ padding: 12, borderRadius: 14, background: '#20c997', color: '#fff', fontWeight: 700, border: 'none' }}>
               {t.roleTutor}
             </button>
-            <button onClick={() => chooseRole('student')} style={{ padding: 12, borderRadius: 14, background: '#0F172A', color: '#fff', fontWeight: 700, border: 'none' }}>
+            <button onClick={() => chooseRole('student')} style={{ padding: 12, borderRadius: 14, background: '#0F172A', color: '#fff', fontWeight: 700, border: 'none' }
+}>
               {t.roleStudent}
-</button>
+            </button>
           </div>
         )}
       </div>

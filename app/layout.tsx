@@ -20,10 +20,13 @@ export default function RootLayout({
       const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
       applyTheme(stored || (prefers ? 'dark' : 'light'));
 
-      window.toggleTheme = function () {
-        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
-      };
+      document.addEventListener('click', function (e) {
+        const t = e.target;
+        if (t && t.id === 'theme-toggle') {
+          const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+          applyTheme(next);
+        }
+      });
     })();
   `;
 
@@ -31,12 +34,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         {children}
-        <button
-          id="theme-toggle"
-          onClick={() => (window as any).toggleTheme?.()}
-        >
-          🌙 Dark
-        </button>
+        <button id="theme-toggle">🌙 Dark</button>
         <script dangerouslySetInnerHTML={{ __html: script }} />
       </body>
     </html>

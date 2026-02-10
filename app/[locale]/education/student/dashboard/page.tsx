@@ -34,20 +34,16 @@ export default function StudentDashboard({ params }: Params) {
 
   const html = `
   <style>
-    :root { --bg:#f6f7fb; --card:#fff; --text:#1b1b1f; --muted:#666a73; --primary:#20c997; --border:#e6e8ef; --radius:16px; }
-    *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
-    .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#fff;border-bottom:1px solid var(--border)}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--card);border-bottom:1px solid var(--border)}
     .dashboard{padding:20px;display:grid;gap:20px}
     .panel{display:grid;gap:20px;max-width:420px;margin:0 auto;width:100%}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
     .muted{color:var(--muted)}
     .pill{background:#e7f0ff;color:#1956e3;padding:4px 10px;border-radius:20px;font-size:12px}
     .btn{background:var(--primary);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
-    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border)}
     .actions{display:grid;gap:10px}
-    .qa{background:#eaf9f3;color:#0f7a5f;border:none}
-    .qa:hover{background:#dff6ee}
     .list{list-style:none}
     .list li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)}
     .list li:last-child{border:none}
@@ -56,7 +52,7 @@ export default function StudentDashboard({ params }: Params) {
     .booking__meta{display:flex;justify-content:space-between;margin-bottom:10px}
     .booking__cta{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
     @media (min-width: 900px){
-.dashboard{grid-template-columns:2fr 1fr;max-width:1200px;margin:24px auto;padding:20px 24px}
+      .dashboard{grid-template-columns:2fr 1fr;max-width:1200px;margin:24px auto;padding:20px 24px}
       .panel{max-width:100%;margin:0}
     }
   </style>
@@ -66,11 +62,11 @@ export default function StudentDashboard({ params }: Params) {
     <div><a class="btn ghost" href="/${locale}/logout">${t.logout}</a></div>
   </header>
 
-  <main class="dashboard" dir="${locale === 'ar' ? 'rtl' : 'ltr'}">
+  <main class="dashboard">
     <section class="panel panel--hero">
       <div class="card booking">
         <div class="booking__meta">
-          <span class="pill">${t.confirmed}</span>
+<span class="pill">${t.confirmed}</span>
           <span class="muted">${t.date}</span>
         </div>
         <h2>${t.title}</h2>
@@ -84,9 +80,9 @@ export default function StudentDashboard({ params }: Params) {
       <div class="card">
         <h3>${t.quick}</h3>
         <div class="actions">
-          <button class="btn qa">${t.book}</button>
-          <button class="btn qa">${t.message}</button>
-          <button class="btn qa">${t.calendar}</button>
+          <button class="btn ghost">${t.book}</button>
+          <button class="btn ghost">${t.message}</button>
+          <button class="btn ghost">${t.calendar}</button>
         </div>
       </div>
     </section>

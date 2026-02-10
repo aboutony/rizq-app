@@ -10,18 +10,7 @@ export default function StudentDashboard({ params }: Params) {
       logout:'Logout', confirmed:'Confirmed', date:'Tue, 12 Apr · 3:30 PM',
       title:'Math Tutoring · Grade 6', tutor:'Tutor: Sarah Al‑Fayed · Online',
       join:'Join Session', reschedule:'Reschedule',
-      <div class="card">
-  <h3>${t.quick}</h3>
-  <div class="actions" style="display:flex;justify-content:center">
-    <a class="btn ghost" href="#book">${t.book}</a>
-  </div>
-  <div id="book" style="margin-top:12px;text-align:center">
-    <a class="btn" href="#back">Book Session</a>
-  </div>
-  <div id="back" style="margin-top:10px;text-align:center">
-    <a class="btn ghost" href="#">Go Back</a>
-  </div>
-</div>
+      quick:'Quick Actions', book:'Book Session', message:'Message Tutor', calendar:'View Calendar',
       progress:'Student Progress', attendance:'Attendance', assignments:'Assignments', focus:'Focus Score',
       recent:'Recent Messages', msg1:'Please review Chapter 3 before next session.', msg2:'Your invoice is available.'
     },
@@ -29,7 +18,7 @@ export default function StudentDashboard({ params }: Params) {
       logout:'تسجيل الخروج', confirmed:'مؤكد', date:'الثلاثاء، 12 أبريل · 3:30 م',
       title:'درس رياضيات · الصف السادس', tutor:'المدرّسة: سارة الفايد · أونلاين',
       join:'انضم للجلسة', reschedule:'إعادة الجدولة',
-      quick:'إجراءات سريعة', book:'احجز جلسة جديدة', message:'مراسلة المدرّس', calendar:'عرض التقويم',
+      quick:'إجراءات سريعة', book:'احجز جلسة', message:'مراسلة المدرّس', calendar:'عرض التقويم',
       progress:'تقدم الطالب', attendance:'الحضور', assignments:'الواجبات', focus:'معدل التركيز',
       recent:'الرسائل الأخيرة', msg1:'يرجى مراجعة الفصل الثالث قبل الجلسة القادمة.', msg2:'الفاتورة متاحة الآن.'
     },
@@ -53,7 +42,7 @@ export default function StudentDashboard({ params }: Params) {
     .muted{color:var(--muted)}
     .pill{background:#e7f0ff;color:#1956e3;padding:4px 10px;border-radius:20px;font-size:12px}
     .btn{background:var(--primary);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
-    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border)}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block}
     .actions{display:grid;gap:10px}
     .list{list-style:none}
     .list li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)}
@@ -90,11 +79,15 @@ export default function StudentDashboard({ params }: Params) {
 
       <div class="card">
         <h3>${t.quick}</h3>
-        <div class="actions">
-  <a class="btn ghost" href="/${locale}/education/student/lesson">${t.book}</a>
-  <button class="btn ghost">${t.message}</button>
-  <button class="btn ghost">${t.calendar}</button>
-</div>
+        <div class="actions" style="display:flex;justify-content:center">
+          <a class="btn ghost" href="#book">${t.book}</a>
+        </div>
+        <div id="book" style="margin-top:12px;text-align:center">
+          <a class="btn" href="#back">${t.book}</a>
+        </div>
+        <div id="back" style="margin-top:10px;text-align:center">
+          <a class="btn ghost" href="#">Go Back</a>
+        </div>
       </div>
     </section>
 
@@ -125,5 +118,3 @@ export default function StudentDashboard({ params }: Params) {
 
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }
-
-

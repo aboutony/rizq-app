@@ -155,7 +155,11 @@ export default function TutorDashboard({ params }: Params) {
         <div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
         <div class="card"><div class="muted">${t.activeStudents}</div><div style="font-size:22px;font-weight:800">12</div></div>
         <div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
-        <div class="card"><div class="muted">${t.rating}</div><div style="font-size:22px;font-weight:800">4.8</div><div class="muted">128 ${t.reviews}</div></div>
+        <div class="card">
+  <div class="muted">⭐️ ${t.rating}</div>
+  <div style="font-size:22px;font-weight:800">4.8</div>
+  <div class="muted">128 ${t.reviews}</div>
+</div>
       </div>
 
       <div class="card" style="margin-top:16px">

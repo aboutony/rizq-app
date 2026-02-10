@@ -51,16 +51,15 @@ export default function LoginPage({ params, searchParams }: Params) {
 
   const html = `
   <style>
-    :root{--bg:#f6f7fb;--card:#fff;--text:#1b1b1f;--muted:#666a73;--primary:#20c997;--border:#e6e8ef;--radius:16px}
-    *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
     .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-    .card{width:100%;max-width:420px;background:#fff;border-radius:24px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,0.06)}
-    .title{font-size:20px;font-weight:700;color:#0F172A}
-    .subtitle{font-size:13px;color:#6B7280;margin-top:6px}
-    .label{font-size:12px;color:#6B7280;margin-bottom:6px}
-    .input, select{width:100%;padding:12px;border-radius:14px;border:1px solid #e6e8ef}
-    .btn{width:100%;padding:12px;border-radius:14px;background:#20c997;color:#fff;font-weight:700;border:none}
+    .card{width:100%;max-width:420px;background:var(--card);border-radius:24px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,0.06);border:1px solid var(--border)}
+    .title{font-size:20px;font-weight:700;color:var(--text)}
+    .subtitle{font-size:13px;color:var(--muted);margin-top:6px}
+    .label{font-size:12px;color:var(--muted);margin-bottom:6px}
+    .input, select{width:100%;padding:12px;border-radius:14px;border:1px solid var(--border);background:var(--card);color:var(--text)}
+    .btn{width:100%;padding:12px;border-radius:14px;background:var(--primary);color:#fff;font-weight:700;border:none}
+    .btn-dark{background:var(--text);color:var(--card)}
     .row{display:grid;grid-template-columns:1fr 2fr;gap:8px}
     .stack{display:grid;gap:12px;margin-top:16px}
   </style>
@@ -68,7 +67,7 @@ export default function LoginPage({ params, searchParams }: Params) {
   <div class="wrap">
     <div class="card">
       <div style="text-align:center;margin-bottom:16px">
-        <div style="font-size:24px;font-weight:800;color:#0F172A">RIZQ</div>
+        <div style="font-size:24px;font-weight:800;color:var(--text)">RIZQ</div>
         <div class="subtitle">${t.subtitle}</div>
       </div>
 
@@ -86,11 +85,11 @@ export default function LoginPage({ params, searchParams }: Params) {
           <option value="+965">🇰🇼 Kuwait (+965)</option>
           <option value="+973">🇧🇭 Bahrain (+973)</option>
           <option value="+968">🇴🇲 Oman (+968)</option>
-<option value="+962">🇯🇴 Jordan (+962)</option>
+          <option value="+962">🇯🇴 Jordan (+962)</option>
           <option value="+20">🇪🇬 Egypt (+20)</option>
           <option value="+964">🇮🇶 Iraq (+964)</option>
           <option value="+212">🇲🇦 Morocco (+212)</option>
-          <option value="+213">🇩🇿 Algeria (+213)</option>
+<option value="+213">🇩🇿 Algeria (+213)</option>
           <option value="+216">🇹🇳 Tunisia (+216)</option>
         </select>
 
@@ -132,7 +131,7 @@ export default function LoginPage({ params, searchParams }: Params) {
           <input type="hidden" name="phone" value="${phone}">
           <input type="hidden" name="role" value="student">
           <input type="hidden" name="vertical" value="education">
-          <button class="btn" type="submit" style="background:#0F172A">${t.roleStudent}</button>
+          <button class="btn btn-dark" type="submit">${t.roleStudent}</button>
         </form>
       </div>` : ''}
     </div>

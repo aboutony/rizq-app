@@ -114,8 +114,8 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
     try {
-      const phone = `${code}${number}`.replace(/\s+/g, '');
-const res = await fetch('/api/auth/otp/verify', {
+const phone = `${code}${number}`.replace(/\s+/g, '');
+      const res = await fetch('/api/auth/otp/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone, code: otp })
@@ -230,3 +230,10 @@ return
             </button>
             <button onClick={() => chooseRole('student')} style={{ padding: 12, borderRadius: 14, background: '#0F172A', color: '#fff', fontWeight: 700, border: 'none' }}>
               {t.roleStudent}
+</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

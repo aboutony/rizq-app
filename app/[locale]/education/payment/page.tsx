@@ -43,8 +43,8 @@ export default function PaymentPage({ params }: Params) {
     .title{font-size:20px;font-weight:800;margin-bottom:12px}
     .section{margin-top:12px}
     .muted{color:var(--muted)}
-    .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%}
-    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block;width:100%;text-align:center;margin-top:10px}
+    .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%;text-decoration:none;display:inline-block;text-align:center}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);margin-top:10px}
   </style>
 
   <div class="wrap">

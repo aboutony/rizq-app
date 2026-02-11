@@ -6,9 +6,27 @@ export default function FiltersPage({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
 
   const t = {
-    en: { title:'Advanced Filters', category:'Category', budget:'Budget Range', rating:'Minimum Rating', availability:'Availability', apply:'Apply Filters', back:'Go Back' },
-    ar: { title:'فلاتر متقدمة', category:'التصنيف', budget:'الميزانية', rating:'أقل تقييم', availability:'التوفر', apply:'تطبيق الفلاتر', back:'رجوع' },
-    fr: { title:'Filtres avancés', category:'Catégorie', budget:'Budget', rating:'Note minimale', availability:'Disponibilité', apply:'Appliquer', back:'Retour' }
+    en: {
+      title:'Advanced Filters', category:'Category', budget:'Budget Range',
+      rating:'Minimum Rating', availability:'Availability',
+      apply:'Apply Filters', back:'Go Back',
+      c1:'General Education', c2:'TVET', c3:'Arts & Creative', c4:'Sports & Fitness',
+      c5:'Culinary Arts', c6:'Language Learning', c7:'Coding & Technology'
+    },
+    ar: {
+      title:'فلاتر متقدمة', category:'التصنيف', budget:'الميزانية',
+      rating:'أقل تقييم', availability:'التوفر',
+      apply:'تطبيق الفلاتر', back:'رجوع',
+      c1:'التعليم العام', c2:'التعليم المهني والتقني', c3:'الفنون والإبداع', c4:'الرياضة واللياقة',
+      c5:'فنون الطهي', c6:'تعلم اللغات', c7:'البرمجة والتقنية'
+    },
+    fr: {
+      title:'Filtres avancés', category:'Catégorie', budget:'Budget',
+      rating:'Note minimale', availability:'Disponibilité',
+      apply:'Appliquer', back:'Retour',
+      c1:'Enseignement général', c2:'EFTP', c3:'Arts & créatif', c4:'Sports & fitness',
+      c5:'Arts culinaires', c6:'Apprentissage des langues', c7:'Programmation & technologie'
+    }
   }[locale as 'en'|'ar'|'fr'];
 
   const html = `
@@ -29,13 +47,13 @@ export default function FiltersPage({ params }: Params) {
       <div class="grid">
         <label>${t.category}</label>
         <select class="input">
-          <option>General Education</option>
-          <option>TVET</option>
-          <option>Arts & Creative</option>
-          <option>Sports & Fitness</option>
-          <option>Culinary Arts</option>
-          <option>Language Learning</option>
-          <option>Coding & Technology</option>
+          <option>${t.c1}</option>
+          <option>${t.c2}</option>
+          <option>${t.c3}</option>
+          <option>${t.c4}</option>
+          <option>${t.c5}</option>
+          <option>${t.c6}</option>
+          <option>${t.c7}</option>
         </select>
 
         <label>${t.budget}</label>

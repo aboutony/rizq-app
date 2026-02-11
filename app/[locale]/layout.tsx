@@ -1,25 +1,61 @@
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, setRequestLocale } from 'next-intl/server';
+import { getMessages } from 'next-intl/server';
+import { notFound } from 'next/navigation';
+import "../../theme.css";
 
 export default async function LocaleLayout({
   children,
-  params
+  params: { locale }
 }: {
   children: React.ReactNode;
-  params: { locale?: string };
+  params: { locale: string };
 }) {
-  const locale = ['en', 'ar', 'fr'].includes(params?.locale || '')
-    ? (params.locale as string)
-    : 'en';
+  const locales = ['en', 'ar', 'fr'];
+  if (!locales.includes(locale)) {
+    notFound();
+  }
 
-  setRequestLocale(locale);
   const messages = await getMessages();
 
   return (
-    <NextIntlClientProvider messages={messages}>
-      <div lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className="min-h-screen">
-        {children}
-      </div>
-    </NextIntlClientProvider>
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+      <body className="antialiased">
+        <button id="theme-toggle" className="theme-toggle" aria-label="Toggle theme">🌙</button>
+        <NextIntlClientProvider messages={messages}>
+          <main className="min-h-screen">
+            {children}
+          </main>
+        </NextIntlClientProvider>
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+(() => {
+  const root = document.documentElement;
+  const key = 'rizq-theme';
+  const stored = localStorage.getItem(key);
+  if (stored) root.setAttribute('data-theme', stored);
+  const btn = document.getElementById('theme-toggle');
+
+  const setIcon = () => {
+    const cur = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    if (btn) btn.textContent = cur === 'dark' ? '☀️' : '🌙';
+  };
+
+  setIcon();
+
+  btn && btn.addEventListener('click', () => {
+    const cur = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem(key, next);
+    setIcon();
+  });
+})();
+            `
+          }}
+        />
+      </body>
+    </html>
   );
 }

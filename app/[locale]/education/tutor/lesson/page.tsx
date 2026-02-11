@@ -32,6 +32,7 @@ export default function TutorLessonPage({ params }: Params) {
       availabilityPh:'Weekdays after 4 PM',
       other:'Other (if any)',
       save:'Save Lesson Listing',
+      back:'Go Back',
 
       ge:'1. General Education',
       ge1:'Primary School',
@@ -123,6 +124,7 @@ export default function TutorLessonPage({ params }: Params) {
       availabilityPh:'أيام الأسبوع بعد 4 مساءً',
       other:'أخرى (إن وجدت)',
       save:'حفظ إعلان الدرس',
+      back:'رجوع',
 
       ge:'1. التعليم العام',
       ge1:'المرحلة الابتدائية',
@@ -133,8 +135,8 @@ export default function TutorLessonPage({ params }: Params) {
 
       tvet:'2. التعليم والتدريب التقني والمهني',
       tv1:'CAP',
-      tv2:'BP',
-tv3:'BT',
+tv2:'BP',
+      tv3:'BT',
       tv4:'TS',
       tv5:'شهادات/دبلومات مهنية أخرى',
       tv6:'أخرى',
@@ -214,6 +216,7 @@ tv3:'BT',
       availabilityPh:'En semaine après 16 h',
       other:'Autre (si applicable)',
       save:'Enregistrer l’annonce',
+      back:'Retour',
 
       ge:'1. Enseignement général',
       ge1:'École primaire',
@@ -294,6 +297,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
     .section h3{font-size:15px;margin-bottom:8px}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block;width:100%;text-align:center;margin-top:8px}
   </style>
 
   <div class="wrap">
@@ -392,12 +396,12 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
 
       <div class="section">
         <h3>${t.sports}</h3>
-        <select class="input">
+<select class="input">
           <option>${t.sp1}</option>
           <option>${t.sp2}</option>
           <option>${t.sp3}</option>
           <option>${t.sp4}</option>
-<option>${t.sp5}</option>
+          <option>${t.sp5}</option>
         </select>
         <input class="input" placeholder="${t.other}"/>
       </div>
@@ -459,6 +463,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
 
       <div class="section">
         <button class="btn">${t.save}</button>
+        <a class="btn ghost" href="/${locale}/education/tutor/dashboard">${t.back}</a>
       </div>
     </div>
   </div>

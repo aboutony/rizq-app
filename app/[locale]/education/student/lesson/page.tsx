@@ -13,33 +13,77 @@ export default function StudentLessonPage({ params }: Params) {
     .title{font-size:20px;font-weight:800;margin-bottom:6px}
     .muted{color:var(--muted);font-size:13px}
     .grid{display:grid;gap:12px;margin-top:16px}
-    .input, select, textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:#f1f5f9;color:#64748b}
+    .input, select, textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text)}
     .section{margin-top:18px}
     .section h3{font-size:15px;margin-bottom:8px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block;text-align:center}
   </style>
 
   <div class="wrap">
     <div class="card">
-      <div class="title">Lesson Listing</div>
-      <div class="muted">Student view — read‑only.</div>
+      <div class="title">Book a Session</div>
+      <div class="muted">Fill the details, then confirm booking.</div>
 
       <div class="grid">
         <label>Lesson Title</label>
-        <input class="input" value="Grade 9 Algebra Crash Course" disabled/>
+        <input class="input" placeholder="e.g., Grade 9 Algebra Crash Course"/>
 
         <label>Description</label>
-        <textarea class="input" rows="4" disabled>Short overview of the lesson...</textarea>
+        <textarea class="input" rows="4" placeholder="Short overview of the lesson..."></textarea>
 
-        <label>Mode</label>
-        <input class="input" value="Online" disabled/>
+        <div class="row">
+          <div>
+            <label>Mode</label>
+            <select class="input">
+              <option>Online</option>
+              <option>In-person</option>
+            </select>
+          </div>
+          <div>
+            <label>Location</label>
+            <select class="input">
+              <option>Tutor's place</option>
+              <option>School</option>
+              <option>Student's home</option>
+            </select>
+          </div>
+        </div>
 
-        <label>Location</label>
-        <input class="input" value="Tutor's place" disabled/>
+        <div class="row">
+          <div>
+            <label>Duration</label>
+            <input class="input" placeholder="60 min"/>
+          </div>
+          <div>
+            <label>Price</label>
+            <input class="input" placeholder="$45"/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Language</label>
+            <select class="input">
+              <option>Arabic</option>
+              <option>English</option>
+              <option>French</option>
+            </select>
+          </div>
+          <div>
+            <label>Availability Note</label>
+            <input class="input" placeholder="Weekdays after 4 PM"/>
+          </div>
+        </div>
       </div>
 
       <div class="section">
-        <h3>Categories</h3>
-        <input class="input" value="General Education → Middle School" disabled/>
+        <button class="btn">Confirm Booking</button>
+      </div>
+
+      <div class="section">
+        <a class="btn ghost" href="/${locale}/education/student/dashboard">Go Back</a>
       </div>
     </div>
   </div>

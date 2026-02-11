@@ -2,21 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light theme (default) */
 :root {
-  --bg: #f6f7fb;
-  --card: #ffffff;
+  --bg: #f8fafc;
   --text: #0f172a;
-  --muted: #6b7280;
-  --border: #e6e8ef;
-  --primary: #20c997;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --muted: #64748b;
+  --primary: #10b981;
 }
 
-:root[data-theme='dark'] {
-  --bg: #0b1220;
-  --card: #0f172a;
-  --text: #e5e7eb;
-  --muted: #9ca3af;
+/* Dark theme */
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --text: #e2e8f0;
+  --card: #111827;
   --border: #1f2937;
+  --muted: #94a3b8;
   --primary: #22c55e;
 }
 
@@ -25,18 +27,17 @@ body {
   color: var(--text);
 }
 
-/* Floating toggle button */
-#theme-toggle {
+/* Floating toggle */
+.theme-toggle {
   position: fixed;
   right: 16px;
   bottom: 16px;
-  z-index: 9999;
-  border: 1px solid var(--border);
+  z-index: 50;
   background: var(--card);
   color: var(--text);
+  border: 1px solid var(--border);
   padding: 10px 12px;
   border-radius: 999px;
-  font-weight: 700;
-  cursor: pointer;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  cursor: pointer;
 }

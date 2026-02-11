@@ -6,9 +6,9 @@ export default function SearchPage({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
 
   const t = {
-    en: { title:'Tutor Search Results', filter:'Filters', view:'View Profile' },
-    ar: { title:'نتائج البحث عن المدرّسين', filter:'الفلاتر', view:'عرض الملف' },
-    fr: { title:'Résultats de recherche', filter:'Filtres', view:'Voir profil' }
+    en: { title:'Tutor Search Results', view:'View Profile' },
+    ar: { title:'نتائج البحث عن المدرّسين', view:'عرض الملف' },
+    fr: { title:'Résultats de recherche', view:'Voir profil' }
   }[locale as 'en'|'ar'|'fr'];
 
   const html = `
@@ -33,7 +33,7 @@ export default function SearchPage({ params }: Params) {
             <div style="font-weight:800">Sarah Al‑Fayed</div>
             <div class="muted">Math & Physics · 4.8 ★ · $45</div>
           </div>
-          <a class="btn" href="/${locale}/education/tutor/profile"> ${t.view} </a>
+          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
         </div>
       </div>
 
@@ -43,7 +43,7 @@ export default function SearchPage({ params }: Params) {
             <div style="font-weight:800">Nadine K.</div>
             <div class="muted">French Language · 4.7 ★ · $35</div>
           </div>
-          <a class="btn" href="/${locale}/education/tutor/profile"> ${t.view} </a>
+          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
         </div>
       </div>
 
@@ -53,7 +53,7 @@ export default function SearchPage({ params }: Params) {
             <div style="font-weight:800">Omar H.</div>
             <div class="muted">Computer Science · 4.9 ★ · $50</div>
           </div>
-          <a class="btn" href="/${locale}/education/tutor/profile"> ${t.view} </a>
+          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
         </div>
       </div>
     </div>

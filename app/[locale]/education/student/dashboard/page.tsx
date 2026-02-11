@@ -75,7 +75,7 @@ export default function StudentDashboard({ params }: Params) {
         <h3>${t.discover}</h3>
         <div style="margin-top:10px;display:grid;gap:10px">
           <input class="input" placeholder="${t.search}" />
-          <input class="input" placeholder="${t.location}" />
+          <a class="btn ghost" href="/${locale}/education/location">${t.location}</a>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             <span class="chip">${t.category}</span>
             <span class="chip">${t.budget}</span>
@@ -133,3 +133,4 @@ export default function StudentDashboard({ params }: Params) {
 
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }
+

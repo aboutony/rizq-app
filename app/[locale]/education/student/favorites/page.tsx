@@ -6,9 +6,9 @@ export default function FavoritesPage({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
 
   const t = {
-    en: { title:'My Favorites', subtitle:'Saved tutors for quick booking.', view:'View Profile' },
-    ar: { title:'المفضلة', subtitle:'المدرّسون المحفوظون للحجز السريع.', view:'عرض الملف' },
-    fr: { title:'Mes favoris', subtitle:'Tuteurs enregistrés pour réservation rapide.', view:'Voir profil' }
+    en: { title:'My Favorites', subtitle:'Saved tutors for quick booking.', view:'View Profile', back:'Go Back' },
+    ar: { title:'المفضلة', subtitle:'المدرّسون المحفوظون للحجز السريع.', view:'عرض الملف', back:'رجوع' },
+    fr: { title:'Mes favoris', subtitle:'Tuteurs enregistrés pour réservation rapide.', view:'Voir profil', back:'Retour' }
   }[locale as 'en'|'ar'|'fr'];
 
   const html = `
@@ -21,6 +21,7 @@ export default function FavoritesPage({ params }: Params) {
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
     .row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
     .btn{background:var(--primary);color:#fff;border:none;padding:8px 10px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block}
   </style>
 
   <div class="wrap">
@@ -47,6 +48,10 @@ export default function FavoritesPage({ params }: Params) {
           <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
         </div>
       </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <a class="btn ghost" href="/${locale}/education/student/dashboard">${t.back}</a>
     </div>
   </div>
   `;

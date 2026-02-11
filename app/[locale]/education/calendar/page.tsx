@@ -6,9 +6,9 @@ export default function CalendarPage({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
 
   const t = {
-    en: { title:'Select Date & Time', confirm:'Confirm Slot', back:'Go Back' },
-    ar: { title:'اختر التاريخ والوقت', confirm:'تأكيد الموعد', back:'رجوع' },
-    fr: { title:'Choisir la date et l’heure', confirm:'Confirmer le créneau', back:'Retour' }
+    en: { title:'Select Date & Time', confirm:'Confirm Slot', back:'Go Back', mon:'Mon', tue:'Tue', wed:'Wed', thu:'Thu', fri:'Fri', sat:'Sat', sun:'Sun' },
+    ar: { title:'اختر التاريخ والوقت', confirm:'تأكيد الموعد', back:'رجوع', mon:'الإث', tue:'الث', wed:'الأر', thu:'الخ', fri:'الج', sat:'السب', sun:'الأحد' },
+    fr: { title:'Choisir la date et l’heure', confirm:'Confirmer le créneau', back:'Retour', mon:'Lun', tue:'Mar', wed:'Mer', thu:'Jeu', fri:'Ven', sat:'Sam', sun:'Dim' }
   }[locale as 'en'|'ar'|'fr'];
 
   const html = `
@@ -32,7 +32,7 @@ export default function CalendarPage({ params }: Params) {
       <div class="title">${t.title}</div>
 
       <div class="calendar" style="margin-bottom:8px">
-        <div class="weekday">Mon</div><div class="weekday">Tue</div><div class="weekday">Wed</div><div class="weekday">Thu</div><div class="weekday">Fri</div><div class="weekday">Sat</div><div class="weekday">Sun</div>
+        <div class="weekday">${t.mon}</div><div class="weekday">${t.tue}</div><div class="weekday">${t.wed}</div><div class="weekday">${t.thu}</div><div class="weekday">${t.fri}</div><div class="weekday">${t.sat}</div><div class="weekday">${t.sun}</div>
       </div>
       <div class="calendar">
         <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day active">6</div><div class="day">7</div>

@@ -1,4 +1,5 @@
 import '../theme.css';
+import Script from 'next/script';
 
 export default function RootLayout({
   children,
@@ -8,9 +9,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+        >{`
 (() => {
   try {
     const key = 'rizq-theme';
@@ -18,16 +20,12 @@ export default function RootLayout({
     if (stored) document.documentElement.setAttribute('data-theme', stored);
   } catch (e) {}
 })();
-            `
-          }}
-        />
+        `}</Script>
       </head>
       <body className="antialiased">
         <button id="theme-toggle" className="theme-toggle" aria-label="Toggle theme">🌙</button>
         {children}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+        <Script id="theme-toggle-script">{`
 (() => {
   const root = document.documentElement;
   const key = 'rizq-theme';
@@ -50,9 +48,7 @@ export default function RootLayout({
     setIcon();
   });
 })();
-            `
-          }}
-        />
+        `}</Script>
       </body>
     </html>
   );

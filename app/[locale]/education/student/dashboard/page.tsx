@@ -14,7 +14,8 @@ export default function StudentDashboard({ params }: Params) {
       progress:'Student Progress', attendance:'Attendance', assignments:'Assignments', focus:'Focus Score',
       recent:'Recent Messages', msg1:'Please review Chapter 3 before next session.', msg2:'Your invoice is available.',
       discover:'Discover Tutors', location:'Location', search:'Search tutors or subjects',
-      category:'Category', budget:'Budget', rating:'Rating', availability:'Availability'
+      category:'Category', budget:'Budget', rating:'Rating', availability:'Availability',
+      upcoming:'Upcoming Sessions'
     },
     ar: {
       logout:'تسجيل الخروج', confirmed:'مؤكد', date:'الثلاثاء، 12 أبريل · 3:30 م',
@@ -24,7 +25,8 @@ export default function StudentDashboard({ params }: Params) {
       progress:'تقدم الطالب', attendance:'الحضور', assignments:'الواجبات', focus:'معدل التركيز',
       recent:'الرسائل الأخيرة', msg1:'يرجى مراجعة الفصل الثالث قبل الجلسة القادمة.', msg2:'الفاتورة متاحة الآن.',
       discover:'اكتشف المدرّسين', location:'الموقع', search:'ابحث عن مدرس أو مادة',
-      category:'التصنيف', budget:'الميزانية', rating:'التقييم', availability:'التوفر'
+      category:'التصنيف', budget:'الميزانية', rating:'التقييم', availability:'التوفر',
+      upcoming:'الجلسات القادمة'
     },
     fr: {
       logout:'Déconnexion', confirmed:'Confirmé', date:'Mar, 12 Avr · 3:30 PM',
@@ -34,7 +36,8 @@ export default function StudentDashboard({ params }: Params) {
       progress:'Progrès de l’élève', attendance:'Présence', assignments:'Devoirs', focus:'Score de concentration',
       recent:'Messages récents', msg1:'Veuillez revoir le chapitre 3 avant la prochaine séance.', msg2:'Votre facture est disponible.',
       discover:'Découvrir des tuteurs', location:'Localisation', search:'Rechercher tuteur ou matière',
-      category:'Catégorie', budget:'Budget', rating:'Note', availability:'Disponibilité'
+      category:'Catégorie', budget:'Budget', rating:'Note', availability:'Disponibilité',
+      upcoming:'Séances à venir'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -54,10 +57,11 @@ export default function StudentDashboard({ params }: Params) {
     .list li:last-child{border:none}
     .message{padding:10px 0;border-bottom:1px dashed var(--border)}
     .message:last-child{border:none}
-    .booking__meta{display:flex;justify-content:space-between;margin-bottom:10px}
+.booking__meta{display:flex;justify-content:space-between;margin-bottom:10px}
     .booking__cta{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-.input{width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text)}
+    .input{width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text)}
     .chip{padding:8px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px}
+    .session{padding:10px;border-radius:12px;border:1px solid var(--border);margin-top:8px}
     @media (min-width: 900px){
       .dashboard{grid-template-columns:2fr 1fr;max-width:1200px;margin:24px auto;padding:20px 24px}
       .panel{max-width:100%;margin:0}
@@ -108,6 +112,18 @@ export default function StudentDashboard({ params }: Params) {
     </section>
 
     <aside class="panel">
+      <div class="card">
+        <h3>${t.upcoming}</h3>
+        <div class="session">
+          <strong>Math Tutoring</strong>
+          <div class="muted">Fri, 15 Apr · 5:00 PM</div>
+        </div>
+        <div class="session">
+          <strong>Physics Review</strong>
+          <div class="muted">Mon, 18 Apr · 4:00 PM</div>
+        </div>
+      </div>
+
       <div class="card">
         <h3>${t.progress}</h3>
         <ul class="list">

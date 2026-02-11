@@ -10,7 +10,7 @@ export default function StudentDashboard({ params }: Params) {
       logout:'Logout', confirmed:'Confirmed', date:'Tue, 12 Apr · 3:30 PM',
       title:'Math Tutoring · Grade 6', tutor:'Tutor: Sarah Al‑Fayed · Online',
       join:'Join Session', reschedule:'Reschedule',
-      quick:'Quick Actions', book:'Book Session',
+      quick:'Quick Actions', book:'Book Session', openCal:'Open Calendar',
       progress:'Student Progress', attendance:'Attendance', assignments:'Assignments', focus:'Focus Score',
       recent:'Recent Messages', msg1:'Please review Chapter 3 before next session.', msg2:'Your invoice is available.',
       discover:'Discover Tutors', location:'Location', search:'Search tutors or subjects',
@@ -20,7 +20,7 @@ export default function StudentDashboard({ params }: Params) {
       logout:'تسجيل الخروج', confirmed:'مؤكد', date:'الثلاثاء، 12 أبريل · 3:30 م',
       title:'درس رياضيات · الصف السادس', tutor:'المدرّسة: سارة الفايد · أونلاين',
       join:'انضم للجلسة', reschedule:'إعادة الجدولة',
-      quick:'إجراءات سريعة', book:'احجز جلسة',
+      quick:'إجراءات سريعة', book:'احجز جلسة', openCal:'افتح التقويم',
       progress:'تقدم الطالب', attendance:'الحضور', assignments:'الواجبات', focus:'معدل التركيز',
       recent:'الرسائل الأخيرة', msg1:'يرجى مراجعة الفصل الثالث قبل الجلسة القادمة.', msg2:'الفاتورة متاحة الآن.',
       discover:'اكتشف المدرّسين', location:'الموقع', search:'ابحث عن مدرس أو مادة',
@@ -30,7 +30,7 @@ export default function StudentDashboard({ params }: Params) {
       logout:'Déconnexion', confirmed:'Confirmé', date:'Mar, 12 Avr · 3:30 PM',
       title:'Cours de maths · 6e', tutor:'Tuteur : Sarah Al‑Fayed · En ligne',
       join:'Rejoindre', reschedule:'Replanifier',
-      quick:'Actions rapides', book:'Réserver une séance',
+      quick:'Actions rapides', book:'Réserver une séance', openCal:'Ouvrir calendrier',
       progress:'Progrès de l’élève', attendance:'Présence', assignments:'Devoirs', focus:'Score de concentration',
       recent:'Messages récents', msg1:'Veuillez revoir le chapitre 3 avant la prochaine séance.', msg2:'Votre facture est disponible.',
       discover:'Découvrir des tuteurs', location:'Localisation', search:'Rechercher tuteur ou matière',
@@ -75,7 +75,7 @@ export default function StudentDashboard({ params }: Params) {
         <h3>${t.discover}</h3>
         <div style="margin-top:10px;display:grid;gap:10px">
           <input class="input" placeholder="${t.search}" />
-          <a class="btn ghost" href="/${locale}/education/location">${t.location}</a>
+          <input class="input" placeholder="${t.location}" />
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             <span class="chip">${t.category}</span>
             <span class="chip">${t.budget}</span>
@@ -100,8 +100,9 @@ export default function StudentDashboard({ params }: Params) {
 
       <div class="card">
         <h3>${t.quick}</h3>
-        <div style="margin-top:10px">
+        <div style="margin-top:10px;display:grid;gap:10px">
           <a class="btn" href="/${locale}/education/student/lesson">${t.book}</a>
+          <a class="btn ghost" href="/${locale}/education/calendar">${t.openCal}</a>
         </div>
       </div>
     </section>
@@ -133,4 +134,3 @@ export default function StudentDashboard({ params }: Params) {
 
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }
-

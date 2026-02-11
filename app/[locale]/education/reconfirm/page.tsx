@@ -16,8 +16,8 @@ export default function ReconfirmBooking({ params }: Params) {
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
     .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
     .card{width:100%;max-width:420px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,0.05);text-align:center}
-    .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%}
-    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block;width:100%;text-align:center;margin-top:10px}
+    .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%;text-decoration:none;display:inline-block;text-align:center}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);margin-top:10px}
   </style>
 
   <div class="wrap">

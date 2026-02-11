@@ -19,6 +19,21 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+(() => {
+  try {
+    const key = 'rizq-theme';
+    const stored = localStorage.getItem(key);
+    if (stored) document.documentElement.setAttribute('data-theme', stored);
+  } catch (e) {}
+})();
+            `
+          }}
+        />
+      </head>
       <body className="antialiased">
         <button id="theme-toggle" className="theme-toggle" aria-label="Toggle theme">🌙</button>
         <NextIntlClientProvider messages={messages}>

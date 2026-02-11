@@ -17,14 +17,14 @@ export default function StudentLessonPage({ params }: Params) {
     .section{margin-top:18px}
     .section h3{font-size:15px;margin-bottom:8px}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%}
-    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block;text-align:center}
+    .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%;text-decoration:none;display:inline-block;text-align:center}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border)}
   </style>
 
   <div class="wrap">
     <div class="card">
       <div class="title">Book a Session</div>
-      <div class="muted">Fill the details, then confirm booking.</div>
+      <div class="muted">Fill the details, then choose time.</div>
 
       <div class="grid">
         <label>Lesson Title</label>
@@ -79,7 +79,7 @@ export default function StudentLessonPage({ params }: Params) {
       </div>
 
       <div class="section">
-        <button class="btn">Confirm Booking</button>
+        <a class="btn" href="/${locale}/education/calendar">Choose Date & Time</a>
       </div>
 
       <div class="section">

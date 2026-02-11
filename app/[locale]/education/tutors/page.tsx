@@ -14,7 +14,8 @@ export default function TutorDirectory({ params }: Params) {
       list:'List View',
       view:'View Profile',
       fav:'Favorite',
-      back:'Go Back'
+      backStudent:'Back to Student Dashboard',
+      backTutor:'Back to Tutor Dashboard'
     },
     ar: {
       title:'دليل المدرّسين',
@@ -24,7 +25,8 @@ export default function TutorDirectory({ params }: Params) {
       list:'عرض قائمة',
       view:'عرض الملف',
       fav:'المفضلة',
-      back:'رجوع'
+      backStudent:'العودة إلى لوحة الطالب',
+      backTutor:'العودة إلى لوحة المدرّس'
     },
     fr: {
       title:'Annuaire des tuteurs',
@@ -34,7 +36,8 @@ export default function TutorDirectory({ params }: Params) {
       list:'Vue Liste',
       view:'Voir profil',
       fav:'Favori',
-      back:'Retour'
+      backStudent:'Retour au tableau Élève',
+      backTutor:'Retour au tableau Tuteur'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -94,11 +97,11 @@ export default function TutorDirectory({ params }: Params) {
 
       <div class="card">
         <div class="row">
-          <div style="font-weight:800">Nadine K.</div>
+<div style="font-weight:800">Nadine K.</div>
           <button class="heart">♡</button>
         </div>
         <div class="muted">French · Saida · 4.7 ★</div>
-<div class="row" style="margin-top:10px">
+        <div class="row" style="margin-top:10px">
           <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
         </div>
       </div>
@@ -146,8 +149,9 @@ export default function TutorDirectory({ params }: Params) {
       </div>
     </div>
 
-    <div style="margin-top:16px">
-      <a class="btn ghost" href="/${locale}/education/student/dashboard">${t.back}</a>
+    <div style="margin-top:16px;display:grid;gap:8px">
+      <a class="btn ghost" href="/${locale}/education/student/dashboard">${t.backStudent}</a>
+      <a class="btn ghost" href="/${locale}/education/tutor/dashboard">${t.backTutor}</a>
     </div>
   </div>
   `;

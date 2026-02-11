@@ -10,22 +10,31 @@ export default function TutorDirectory({ params }: Params) {
       title:'Tutor Directory',
       subtitle:'Browse all tutors registered in the app.',
       search:'Search by name, subject, or location',
-      all:'All Tutors',
-      view:'View Profile'
+      grid:'Grid View',
+      list:'List View',
+      view:'View Profile',
+      fav:'Favorite',
+      back:'Go Back'
     },
     ar: {
       title:'دليل المدرّسين',
       subtitle:'تصفح جميع المدرّسين المسجلين في التطبيق.',
       search:'ابحث بالاسم أو المادة أو الموقع',
-      all:'جميع المدرّسين',
-      view:'عرض الملف'
+      grid:'عرض شبكي',
+      list:'عرض قائمة',
+      view:'عرض الملف',
+      fav:'المفضلة',
+      back:'رجوع'
     },
     fr: {
       title:'Annuaire des tuteurs',
       subtitle:'Parcourez tous les tuteurs inscrits.',
       search:'Rechercher par nom, matière ou lieu',
-      all:'Tous les tuteurs',
-      view:'Voir profil'
+      grid:'Vue Grille',
+      list:'Vue Liste',
+      view:'Voir profil',
+      fav:'Favori',
+      back:'Retour'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -36,10 +45,16 @@ export default function TutorDirectory({ params }: Params) {
     .title{font-size:20px;font-weight:800;margin-bottom:6px}
     .muted{color:var(--muted)}
     .input{width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text);margin:12px 0}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .tab{padding:8px 12px;border-radius:999px;border:1px solid var(--border);text-decoration:none;color:inherit;font-size:12px}
     .grid{display:grid;gap:12px}
+    .grid.cards{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
     .row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-    .btn{background:var(--primary);color:#fff;border:none;padding:10px 12px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block}
+    .btn{background:var(--primary);color:#fff;border:none;padding:8px 10px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border)}
+    .heart{border:1px solid var(--border);background:transparent;border-radius:10px;padding:6px 8px}
+    .heart.on{background:#ffe5e5;color:#c81e1e;border-color:#ffc9c9}
   </style>
 
   <div class="wrap">
@@ -48,14 +63,59 @@ export default function TutorDirectory({ params }: Params) {
 
     <input class="input" placeholder="${t.search}" />
 
-    <div class="grid">
+    <div class="tabs">
+      <a class="tab" href="#grid">${t.grid}</a>
+      <a class="tab" href="#list">${t.list}</a>
+    </div>
+
+    <!-- GRID VIEW -->
+    <div id="grid" class="grid cards">
+      <div class="card">
+        <div class="row">
+          <div style="font-weight:800">Sarah Al‑Fayed</div>
+          <button class="heart">♡</button>
+        </div>
+        <div class="muted">Math & Physics · Beirut · 4.8 ★</div>
+        <div class="row" style="margin-top:10px">
+          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <div style="font-weight:800">Tony P.</div>
+          <button class="heart on">♥️</button>
+        </div>
+        <div class="muted">Music · Tripoli · 4.6 ★</div>
+        <div class="row" style="margin-top:10px">
+          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <div style="font-weight:800">Nadine K.</div>
+          <button class="heart">♡</button>
+        </div>
+        <div class="muted">French · Saida · 4.7 ★</div>
+<div class="row" style="margin-top:10px">
+          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIST VIEW -->
+    <div id="list" class="grid" style="margin-top:20px">
       <div class="card">
         <div class="row">
           <div>
             <div style="font-weight:800">Sarah Al‑Fayed</div>
-            <div class="muted">Math & Physics · Beirut · 4.8 ★</div>
+            <div class="muted">Math & Physics · Secondary · Beirut · 4.8 ★</div>
           </div>
-          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
+          <div class="row">
+            <button class="heart">♡</button>
+            <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
+          </div>
         </div>
       </div>
 
@@ -63,9 +123,12 @@ export default function TutorDirectory({ params }: Params) {
         <div class="row">
           <div>
             <div style="font-weight:800">Tony P.</div>
-            <div class="muted">Music · Tripoli · 4.6 ★</div>
+            <div class="muted">Music · Undergraduate · Tripoli · 4.6 ★</div>
           </div>
-          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
+          <div class="row">
+            <button class="heart on">♥️</button>
+            <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
+          </div>
         </div>
       </div>
 
@@ -73,11 +136,18 @@ export default function TutorDirectory({ params }: Params) {
         <div class="row">
           <div>
             <div style="font-weight:800">Nadine K.</div>
-            <div class="muted">French · Saida · 4.7 ★</div>
+            <div class="muted">French · Secondary · Saida · 4.7 ★</div>
           </div>
-          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
+          <div class="row">
+            <button class="heart">♡</button>
+            <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
+          </div>
         </div>
       </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <a class="btn ghost" href="/${locale}/education/student/dashboard">${t.back}</a>
     </div>
   </div>
   `;

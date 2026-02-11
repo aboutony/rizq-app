@@ -8,72 +8,72 @@ export default function TutorOffice({ params }: Params) {
   const t = {
     en: {
       title:'Tutor Personal Office',
-      subtitle:'Manage your professional profile',
+      subtitle:'Edit your profile anytime',
+      profile:'Profile Information',
       photo:'Profile Photo',
-      firstName:'First Name',
-      lastName:'Family Name',
-      nameEn:'Name (English)',
-      nameAr:'Name (Arabic)',
-      nameFr:'Name (French)',
-      phone:'Mobile Number (locked)',
-      email:'Email (optional)',
-      languages:'Languages You Teach',
-      locations:'Locations / Cities',
+      displayName:'Display Name',
+      bio:'Bio / About',
+      languages:'Teaching Languages',
+      locations:'Teaching Locations',
       levels:'Education Levels',
       subjects:'Subjects',
+      logistics:'Logistics',
       availability:'Availability',
       travel:'Travel Preference',
       travelHome:'I visit students at home',
       travelStudio:'Student comes to my location',
-      save:'Save Profile',
-      add:'Add',
-      slot:'Add Time Slot'
+      subscription:'Subscription',
+      status:'Status',
+      active:'Active',
+      renew:'Renew Subscription',
+      update:'Update Profile',
+      back:'Go Back'
     },
     ar: {
       title:'مكتب المدرّس الشخصي',
-      subtitle:'إدارة ملفك المهني',
+      subtitle:'عدّل ملفك في أي وقت',
+      profile:'معلومات الملف',
       photo:'الصورة الشخصية',
-      firstName:'الاسم الأول',
-      lastName:'اسم العائلة',
-      nameEn:'الاسم (بالإنجليزية)',
-      nameAr:'الاسم (بالعربية)',
-      nameFr:'الاسم (بالفرنسية)',
-      phone:'رقم الجوال (مقفل)',
-      email:'البريد الإلكتروني (اختياري)',
-      languages:'اللغات التي تدرّسها',
-      locations:'المناطق / المدن',
+      displayName:'الاسم المعروض',
+      bio:'نبذة / تعريف',
+      languages:'لغات التدريس',
+      locations:'مناطق التدريس',
       levels:'المستويات التعليمية',
       subjects:'المواد',
+      logistics:'اللوجستيات',
       availability:'التوفر',
       travel:'تفضيل التنقل',
       travelHome:'أزور الطلاب في منازلهم',
       travelStudio:'يأتي الطالب إلى موقعي',
-      save:'حفظ الملف',
-      add:'إضافة',
-      slot:'إضافة وقت'
+      subscription:'الاشتراك',
+      status:'الحالة',
+      active:'نشط',
+      renew:'تجديد الاشتراك',
+      update:'تحديث الملف',
+      back:'رجوع'
     },
     fr: {
       title:'Bureau Personnel du Tuteur',
-      subtitle:'Gérez votre profil professionnel',
+      subtitle:'Modifiez votre profil à tout moment',
+      profile:'Informations du profil',
       photo:'Photo de profil',
-      firstName:'Prénom',
-      lastName:'Nom de famille',
-      nameEn:'Nom (Anglais)',
-      nameAr:'Nom (Arabe)',
-      nameFr:'Nom (Français)',
-      phone:'Numéro موبيل (verrouillé)',
-      email:'Email (optionnel)',
+      displayName:'Nom affiché',
+      bio:'Bio / À propos',
       languages:'Langues enseignées',
-      locations:'Lieux / Villes',
+      locations:'Lieux d’enseignement',
       levels:'Niveaux d’études',
       subjects:'Matières',
+      logistics:'Logistique',
       availability:'Disponibilité',
       travel:'Préférence de déplacement',
       travelHome:'Je me déplace chez l’élève',
       travelStudio:'L’élève vient à mon lieu',
-      save:'Enregistrer le profil',
-      add:'Ajouter',
-      slot:'Ajouter un créneau'
+      subscription:'Abonnement',
+      status:'Statut',
+      active:'Actif',
+      renew:'Renouveler l’abonnement',
+      update:'Mettre à jour le profil',
+      back:'Retour'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -100,34 +100,23 @@ export default function TutorOffice({ params }: Params) {
       <div class="title">${t.title}</div>
       <div class="muted">${t.subtitle}</div>
 
-      <div class="grid">
-<label>${t.photo}</label>
-        <input class="input" placeholder="Upload photo URL"/>
-
-        <div class="row">
-          <div><label>${t.firstName}</label><input class="input" /></div>
-          <div><label>${t.lastName}</label><input class="input" /></div>
+      <div class="section">
+        <h3>${t.profile}</h3>
+        <div class="grid">
+          <label>${t.photo}</label>
+<input class="input" placeholder="Photo URL" />
+          <label>${t.displayName}</label>
+          <input class="input" placeholder="Sarah Al‑Fayed" />
+          <label>${t.bio}</label>
+          <textarea class="input" rows="3" placeholder="Short professional bio"></textarea>
         </div>
-
-        <div class="row">
-          <div><label>${t.nameEn}</label><input class="input" /></div>
-          <div><label>${t.nameAr}</label><input class="input" /></div>
-        </div>
-
-        <div class="row">
-          <div><label>${t.nameFr}</label><input class="input" /></div>
-          <div><label>${t.phone}</label><input class="input" value="+961 71 123 456" /></div>
-        </div>
-
-        <label>${t.email}</label>
-        <input class="input" placeholder="email@example.com" />
       </div>
 
       <div class="section">
         <h3>${t.languages}</h3>
         <div class="chips">
           <span class="chip">Arabic</span><span class="chip">English</span><span class="chip">French</span>
-          <span class="chip">German</span><span class="chip">${t.add}</span>
+          <span class="chip">+ Add</span>
         </div>
       </div>
 
@@ -135,7 +124,7 @@ export default function TutorOffice({ params }: Params) {
         <h3>${t.locations}</h3>
         <div class="chips">
           <span class="chip">Beirut</span><span class="chip">Tripoli</span><span class="chip">Saida</span>
-          <span class="chip">${t.add}</span>
+          <span class="chip">+ Add</span>
         </div>
       </div>
 
@@ -143,7 +132,7 @@ export default function TutorOffice({ params }: Params) {
         <h3>${t.levels}</h3>
         <div class="chips">
           <span class="chip">Secondary</span><span class="chip">University</span><span class="chip">Vocational</span>
-          <span class="chip">${t.add}</span>
+          <span class="chip">+ Add</span>
         </div>
       </div>
 
@@ -151,28 +140,34 @@ export default function TutorOffice({ params }: Params) {
         <h3>${t.subjects}</h3>
         <div class="chips">
           <span class="chip">Math</span><span class="chip">Physics</span><span class="chip">French</span>
-          <span class="chip">${t.add}</span>
+          <span class="chip">+ Add</span>
         </div>
       </div>
 
       <div class="section">
-        <h3>${t.availability}</h3>
-        <div class="chips">
-          <span class="chip">Mon 4–6 PM</span><span class="chip">Wed 3–5 PM</span>
-          <span class="chip">${t.slot}</span>
+        <h3>${t.logistics}</h3>
+        <div class="grid">
+          <label>${t.availability}</label>
+          <input class="input" placeholder="Mon 4–6 PM, Wed 3–5 PM" />
+          <label>${t.travel}</label>
+          <div class="row">
+            <label><input type="checkbox"/> ${t.travelHome}</label>
+            <label><input type="checkbox"/> ${t.travelStudio}</label>
+          </div>
         </div>
       </div>
 
       <div class="section">
-        <h3>${t.travel}</h3>
+        <h3>${t.subscription}</h3>
         <div class="row">
-          <label><input type="checkbox"/> ${t.travelHome}</label>
-          <label><input type="checkbox"/> ${t.travelStudio}</label>
+          <div><strong>${t.status}:</strong> ${t.active}</div>
+          <button class="btn ghost">${t.renew}</button>
         </div>
       </div>
 
       <div class="section">
-        <button class="btn">${t.save}</button>
+        <button class="btn">${t.update}</button>
+        <a class="btn ghost" href="/${locale}/education/tutor/dashboard">${t.back}</a>
       </div>
     </div>
   </div>

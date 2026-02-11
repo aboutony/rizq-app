@@ -209,9 +209,9 @@ studentHome:"Chez l'élève",
               <div class="muted">${t.mode}: ${t.online} • ${t.location}: ${t.studentHome}</div>
             </div>
             <div class="actions">
-              <button class="btn">${t.approve}</button>
-              <a class="btn ghost" href="#calendar">${t.reschedule}</a>
-              <button class="btn ghost">${t.decline}</button>
+              <a class="btn" href="/${locale}/education/tutor/action?action=approve&kind=request">${t.approve}</a>
+              <a class="btn ghost" href="/${locale}/education/tutor/action?action=reschedule&kind=request">${t.reschedule}</a>
+              <a class="btn ghost" href="/${locale}/education/tutor/action?action=decline&kind=request">${t.decline}</a>
             </div>
           </div>
           <div class="row">
@@ -228,7 +228,10 @@ studentHome:"Chez l'élève",
         <h3>${t.rescheduleRequests}</h3>
         <div class="row" style="margin-top:10px">
           <div><strong>Hadi M.</strong> <span class="muted">${t.wants}</span></div>
-          <div class="actions"><button class="btn">${t.approve}</button><a class="btn ghost" href="#calendar">${t.reschedule}</a></div>
+          <div class="actions">
+            <a class="btn" href="/${locale}/education/tutor/action?action=approve&kind=reschedule">${t.approve}</a>
+            <a class="btn ghost" href="/${locale}/education/tutor/action?action=reschedule&kind=reschedule">${t.reschedule}</a>
+          </div>
         </div>
       </div>
 
@@ -262,7 +265,7 @@ studentHome:"Chez l'élève",
         <h3>${t.activity}</h3>
         <div class="muted" style="margin-top:8px">${t.act1}</div>
         <div class="muted">${t.act2}</div>
-        <div class="muted">${t.act3}</div>
+<div class="muted">${t.act3}</div>
       </div>
     </aside>
   </main>

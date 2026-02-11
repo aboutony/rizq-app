@@ -23,8 +23,8 @@ export default function CalendarPage({ params }: Params) {
     .weekday{font-size:12px;color:var(--muted);text-align:center}
     .times{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
     .chip{padding:8px 12px;border-radius:999px;border:1px solid var(--border)}
-    .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%}
-    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block;width:100%;text-align:center;margin-top:8px}
+    .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%;text-decoration:none;display:inline-block;text-align:center}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);margin-top:8px}
   </style>
 
   <div class="wrap">
@@ -45,7 +45,7 @@ export default function CalendarPage({ params }: Params) {
         <span class="chip">06:30 PM</span>
       </div>
 
-      <button class="btn" style="margin-top:14px">${t.confirm}</button>
+      <a class="btn" href="/${locale}/education/confirm" style="margin-top:14px">${t.confirm}</a>
       <a class="btn ghost" href="/${locale}/education/student/lesson">${t.back}</a>
     </div>
   </div>

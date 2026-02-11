@@ -18,8 +18,7 @@ export default function BookingStatus({ params }: Params) {
     .card{width:100%;max-width:520px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,0.05)}
     .title{font-size:20px;font-weight:800;margin-bottom:12px}
     .status{padding:10px;border-radius:12px;border:1px solid var(--border);margin-top:10px}
-    .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%}
-    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block;width:100%;text-align:center;margin-top:10px}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block;width:100%;text-align:center;margin-top:12px;padding:10px;border-radius:12px}
   </style>
 
   <div class="wrap">

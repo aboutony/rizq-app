@@ -1,41 +1,29 @@
-import '../theme.css';
+import './theme.css';
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const script = `
-    (function () {
-      const root = document.documentElement;
-
-      function applyTheme(theme) {
-        root.dataset.theme = theme;
-        localStorage.setItem('theme', theme);
-        const btn = document.getElementById('theme-toggle');
-        if (btn) btn.textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
-      }
-
-      const stored = localStorage.getItem('theme');
-      const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      applyTheme(stored || (prefers ? 'dark' : 'light'));
-
-      document.addEventListener('click', function (e) {
-        const t = e.target;
-        if (t && t.id === 'theme-toggle') {
-          const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-          applyTheme(next);
-        }
-      });
-    })();
-  `;
-
   return (
     <html lang="en">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+(() => {
+  try {
+    const key = 'rizq-theme';
+    const stored = localStorage.getItem(key);
+    if (stored) document.documentElement.setAttribute('data-theme', stored);
+  } catch (e) {}
+})();
+            `
+          }}
+        />
+      </head>
       <body className="antialiased">
         {children}
-        <button id="theme-toggle">🌙 Dark</button>
-        <script dangerouslySetInnerHTML={{ __html: script }} />
       </body>
     </html>
   );

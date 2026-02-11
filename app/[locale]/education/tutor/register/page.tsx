@@ -30,7 +30,8 @@ export default function TutorRegister({ params }: Params) {
       travelHome:'I visit students at home',
       travelStudio:'Student comes to my location',
       save:'Save & Continue',
-      add:'Add'
+      add:'Add',
+      back:'Go Back'
     },
     ar: {
       title:'تسجيل المدرّس والاشتراك',
@@ -56,7 +57,8 @@ export default function TutorRegister({ params }: Params) {
       travelHome:'أزور الطلاب في منازلهم',
       travelStudio:'يأتي الطالب إلى موقعي',
       save:'حفظ والمتابعة',
-      add:'إضافة'
+      add:'إضافة',
+      back:'رجوع'
     },
     fr: {
       title:'Inscription du tuteur & abonnement',
@@ -82,7 +84,8 @@ export default function TutorRegister({ params }: Params) {
       travelHome:'Je me déplace chez l’élève',
       travelStudio:'L’élève vient à mon lieu',
       save:'Enregistrer & continuer',
-      add:'Ajouter'
+      add:'Ajouter',
+      back:'Retour'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -97,8 +100,9 @@ export default function TutorRegister({ params }: Params) {
     .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .input, select, textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text)}
     .section{margin-top:18px}
-.section h3{font-size:15px;margin-bottom:8px}
+    .section h3{font-size:15px;margin-bottom:8px}
     .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700}
+.btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block;text-align:center}
     .chip{padding:8px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px}
     .chips{display:flex;gap:8px;flex-wrap:wrap}
   </style>
@@ -182,6 +186,7 @@ export default function TutorRegister({ params }: Params) {
 
       <div class="section">
         <button class="btn">${t.save}</button>
+        <a class="btn ghost" href="/${locale}/education/tutor/dashboard">${t.back}</a>
       </div>
     </div>
   </div>

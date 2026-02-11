@@ -6,9 +6,17 @@ export default function TutorProfile({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
 
   const t = {
-    en: { title:'Tutor Profile', book:'Book Session', bio:'Bio', reviews:'Reviews', calendar:'Availability Preview' },
-    ar: { title:'ملف المدرّس', book:'احجز جلسة', bio:'نبذة', reviews:'التقييمات', calendar:'معاينة التوفر' },
-    fr: { title:'Profil du tuteur', book:'Réserver une séance', bio:'Bio', reviews:'Avis', calendar:'Disponibilité' }
+    en: { title:'Tutor Profile', book:'Book Session', bio:'Bio', reviews:'Reviews', calendar:'Availability Preview',
+          bioText:'Experienced tutor with 8+ years teaching Math and Physics. Focused on clarity, confidence, and results.',
+          r1:'“Great explanation and very patient.”', r2:'“Helped me improve quickly.”' },
+    ar: { title:'ملف المدرّس', book:'احجز جلسة', bio:'نبذة', reviews:'التقييمات', calendar:'معاينة التوفر',
+          bioText:'مدرّس خبير بخبرة تزيد عن 8 سنوات في تدريس الرياضيات والفيزياء. يركز على الوضوح والثقة والنتائج.',
+          r1:'"شرح ممتاز وصبر كبير."',
+          r2:'"ساعدني على التحسن بسرعة."' },
+    fr: { title:'Profil du tuteur', book:'Réserver une séance', bio:'Bio', reviews:'Avis', calendar:'Disponibilité',
+          bioText:'Tuteur expérimenté avec plus de 8 ans d’enseignement en mathématiques et physique. Axé sur la clarté, la confiance et les résultats.',
+          r1:'« Explications claires et très patient. »',
+          r2:'« M’a aidé à progresser بسرعة. »' }
   }[locale as 'en'|'ar'|'fr'];
 
   const html = `
@@ -36,7 +44,7 @@ export default function TutorProfile({ params }: Params) {
 
       <div class="section">
         <h3>${t.bio}</h3>
-        <p class="muted">Experienced tutor with 8+ years teaching Math and Physics. Focused on clarity, confidence, and results.</p>
+        <p class="muted">${t.bioText}</p>
       </div>
 
       <div class="section">
@@ -48,8 +56,8 @@ export default function TutorProfile({ params }: Params) {
 
       <div class="section">
         <h3>${t.reviews}</h3>
-        <p class="muted">“Great explanation and very patient.”</p>
-        <p class="muted">“Helped me improve quickly.”</p>
+        <p class="muted">${t.r1}</p>
+        <p class="muted">${t.r2}</p>
       </div>
     </div>
   </div>

@@ -1,9 +1,57 @@
 import React from 'react';
+import { unstable_noStore as noStore } from 'next/cache';
+import pool from '@/lib/db';
 
 type Params = { params: { locale?: string } };
 
-export default function TutorDirectory({ params }: Params) {
+function getDisplayName(row: any, locale: string) {
+  if (locale === 'ar' && row.display_name_ar) return row.display_name_ar;
+  if (locale === 'fr' && row.display_name_fr) return row.display_name_fr;
+  return row.display_name_en || row.name || 'Tutor';
+}
+
+function nameWithInitial(fullName: string) {
+  const parts = fullName.trim().split(' ');
+  if (parts.length <= 1) return fullName;
+  const last = parts[parts.length - 1];
+  return parts.slice(0, -1).join(' ') + ' ' + last.charAt(0) + '.';
+}
+
+export default async function TutorDirectory({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
+  noStore();
+
+  const client = await pool.connect();
+  let tutors: any[] = [];
+  try {
+    const res = await client.query(`
+      SELECT
+        t.id,
+        t.name,
+        t.slug,
+        t.display_name_en,
+        t.display_name_ar,
+        t.display_name_fr,
+        tp.photo_url,
+        COALESCE(trs.avg_stars, 0) as avg_stars,
+        COALESCE(trs.rating_count, 0) as rating_count,
+        STRING_AGG(DISTINCT tl.location, ', ') AS locations,
+        STRING_AGG(DISTINCT ts.subject, ', ') AS subjects,
+        STRING_AGG(DISTINCT lv.level, ', ') AS levels
+      FROM tutors t
+      LEFT JOIN tutor_profiles tp ON t.id = tp.tutor_id
+      LEFT JOIN tutor_locations tl ON tl.tutor_profile_id = t.id
+      LEFT JOIN tutor_subjects ts ON ts.tutor_profile_id = t.id
+      LEFT JOIN tutor_levels lv ON lv.tutor_profile_id = t.id
+      LEFT JOIN tutor_rating_summary trs ON t.id = trs.tutor_id
+      WHERE t.is_active = true
+      GROUP BY t.id, t.name, t.slug, t.display_name_en, t.display_name_ar, t.display_name_fr, tp.photo_url, trs.avg_stars, trs.rating_count
+      ORDER BY t.display_name_en;
+    `);
+    tutors = res.rows;
+  } finally {
+    client.release();
+  }
 
   const t = {
     en: {
@@ -13,7 +61,6 @@ export default function TutorDirectory({ params }: Params) {
       grid:'Grid View',
       list:'List View',
       view:'View Profile',
-      fav:'Favorite',
       backStudent:'Back to Student Dashboard',
       backTutor:'Back to Tutor Dashboard'
     },
@@ -24,7 +71,6 @@ export default function TutorDirectory({ params }: Params) {
       grid:'عرض شبكي',
       list:'عرض قائمة',
       view:'عرض الملف',
-      fav:'المفضلة',
       backStudent:'العودة إلى لوحة الطالب',
       backTutor:'العودة إلى لوحة المدرّس'
     },
@@ -35,11 +81,52 @@ export default function TutorDirectory({ params }: Params) {
       grid:'Vue Grille',
       list:'Vue Liste',
       view:'Voir profil',
-      fav:'Favori',
       backStudent:'Retour au tableau Élève',
       backTutor:'Retour au tableau Tuteur'
     }
   }[locale as 'en'|'ar'|'fr'];
+
+  const cardsGrid = tutors.map((row) => {
+    const fullName = getDisplayName(row, locale);
+    const name = nameWithInitial(fullName);
+    const subjects = row.subjects || '';
+    const locations = row.locations || '';
+    const rating = row.avg_stars ? Number(row.avg_stars).toFixed(1) : '0.0';
+    return `
+      <div class="card">
+        <div class="row">
+          <div style="font-weight:800">${name}</div>
+          <button class="heart">♡</button>
+        </div>
+        <div class="muted">${subjects} · ${locations} · ${rating} ★</div>
+        <div class="row" style="margin-top:10px">
+          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
+        </div>
+      </div>
+    `;
+  }).join('');
+const cardsList = tutors.map((row) => {
+    const fullName = getDisplayName(row, locale);
+    const name = nameWithInitial(fullName);
+    const subjects = row.subjects || '';
+    const levels = row.levels || '';
+    const locations = row.locations || '';
+    const rating = row.avg_stars ? Number(row.avg_stars).toFixed(1) : '0.0';
+    return `
+      <div class="card">
+        <div class="row">
+          <div>
+            <div style="font-weight:800">${name}</div>
+            <div class="muted">${subjects} · ${levels} · ${locations} · ${rating} ★</div>
+          </div>
+          <div class="row">
+            <button class="heart">♡</button>
+            <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
 
   const html = `
   <style>
@@ -57,7 +144,6 @@ export default function TutorDirectory({ params }: Params) {
     .btn{background:var(--primary);color:#fff;border:none;padding:8px 10px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block}
     .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border)}
     .heart{border:1px solid var(--border);background:transparent;border-radius:10px;padding:6px 8px}
-    .heart.on{background:#ffe5e5;color:#c81e1e;border-color:#ffc9c9}
   </style>
 
   <div class="wrap">
@@ -71,82 +157,12 @@ export default function TutorDirectory({ params }: Params) {
       <a class="tab" href="#list">${t.list}</a>
     </div>
 
-    <!-- GRID VIEW -->
     <div id="grid" class="grid cards">
-      <div class="card">
-        <div class="row">
-          <div style="font-weight:800">Sarah Al‑Fayed</div>
-          <button class="heart">♡</button>
-        </div>
-        <div class="muted">Math & Physics · Beirut · 4.8 ★</div>
-        <div class="row" style="margin-top:10px">
-          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <div style="font-weight:800">Tony P.</div>
-          <button class="heart on">♥️</button>
-        </div>
-        <div class="muted">Music · Tripoli · 4.6 ★</div>
-        <div class="row" style="margin-top:10px">
-          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-<div style="font-weight:800">Nadine K.</div>
-          <button class="heart">♡</button>
-        </div>
-        <div class="muted">French · Saida · 4.7 ★</div>
-        <div class="row" style="margin-top:10px">
-          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
-        </div>
-      </div>
+      ${cardsGrid || '<div class="muted">No tutors found.</div>'}
     </div>
 
-    <!-- LIST VIEW -->
     <div id="list" class="grid" style="margin-top:20px">
-      <div class="card">
-        <div class="row">
-          <div>
-            <div style="font-weight:800">Sarah Al‑Fayed</div>
-            <div class="muted">Math & Physics · Secondary · Beirut · 4.8 ★</div>
-          </div>
-          <div class="row">
-            <button class="heart">♡</button>
-            <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <div>
-            <div style="font-weight:800">Tony P.</div>
-            <div class="muted">Music · Undergraduate · Tripoli · 4.6 ★</div>
-          </div>
-          <div class="row">
-            <button class="heart on">♥️</button>
-            <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <div>
-            <div style="font-weight:800">Nadine K.</div>
-            <div class="muted">French · Secondary · Saida · 4.7 ★</div>
-          </div>
-          <div class="row">
-            <button class="heart">♡</button>
-            <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
-          </div>
-        </div>
-      </div>
+      ${cardsList || '<div class="muted">No tutors found.</div>'}
     </div>
 
     <div style="margin-top:16px;display:grid;gap:8px">

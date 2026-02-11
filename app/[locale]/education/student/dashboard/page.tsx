@@ -110,14 +110,15 @@ export default function StudentDashboard({ params }: Params) {
       </div>
 
       <div class="card">
-        <h3>${t.quick}</h3>
-        <div style="margin-top:10px;display:grid;gap:10px">
-          <a class="btn" href="/${locale}/education/student/lesson">${t.book}</a>
-          <a class="btn ghost" href="/${locale}/education/calendar">${t.openCal}</a>
-          <a class="btn ghost" href="/${locale}/education/notifications">${t.notif}</a>
-          <a class="btn ghost" href="/${locale}/education/chat">${t.chat}</a>
-        </div>
-      </div>
+  <h3>${t.quick}</h3>
+  <div style="margin-top:10px;display:grid;gap:10px">
+    <a class="btn" href="/${locale}/education/student/lesson">${t.book}</a>
+    <a class="btn ghost" href="/${locale}/education/calendar">${t.openCal}</a>
+    <a class="btn ghost" href="/${locale}/education/booking/logistics">Logistics Check</a>
+    <a class="btn ghost" href="/${locale}/education/notifications">${t.notif}</a>
+    <a class="btn ghost" href="/${locale}/education/chat">${t.chat}</a>
+  </div>
+</div>
     </section>
 
     <aside class="panel">
@@ -159,3 +160,4 @@ export default function StudentDashboard({ params }: Params) {
 
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }
+

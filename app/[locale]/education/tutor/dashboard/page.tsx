@@ -43,7 +43,10 @@ export default function TutorDashboard({ params }: Params) {
       mon:'Mon', tue:'Tue', wed:'Wed', thu:'Thu', fri:'Fri', sat:'Sat', sun:'Sun',
       act1:'Rana K. approved · 2h ago',
       act2:'Payment marked paid · 4h ago',
-      act3:'Reschedule accepted · yesterday'
+      act3:'Reschedule accepted · yesterday',
+      office:'My Office',
+      register:'Registration',
+      directory:'Tutor Directory'
     },
     ar: {
       logout:'تسجيل الخروج',
@@ -82,7 +85,10 @@ export default function TutorDashboard({ params }: Params) {
       mon:'الإث', tue:'الث', wed:'الأر', thu:'الخ', fri:'الج', sat:'السب', sun:'الأحد',
       act1:'رنا ك. تمت الموافقة · قبل ساعتين',
       act2:'تم تأكيد الدفع · قبل 4 ساعات',
-      act3:'تم قبول إعادة الجدولة · أمس'
+      act3:'تم قبول إعادة الجدولة · أمس',
+      office:'مكتبي',
+      register:'التسجيل',
+      directory:'دليل المدرّسين'
     },
     fr: {
       logout:'Déconnexion',
@@ -115,13 +121,16 @@ export default function TutorDashboard({ params }: Params) {
       createLesson:'Créer une leçon',
       homework:'Devoir',
       notes:'Notes',
-      save:'Enregistrer',
-newCount:'3 nouveaux',
+save:'Enregistrer',
+      newCount:'3 nouveaux',
       wants:'souhaite jeu 18:00',
       mon:'Lun', tue:'Mar', wed:'Mer', thu:'Jeu', fri:'Ven', sat:'Sam', sun:'Dim',
       act1:'Rana K. approuvé · il y a 2 h',
       act2:'Paiement marqué · il y a 4 h',
-      act3:'Replanification acceptée · hier'
+      act3:'Replanification acceptée · hier',
+      office:'Mon bureau',
+      register:'Inscription',
+      directory:'Annuaire'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -157,6 +166,9 @@ newCount:'3 nouveaux',
     <div style="font-weight:800">RIZQ</div>
     <div class="row">
       <span class="status ${subscriptionActive ? 'active' : 'expired'}">${subscriptionActive ? t.active : t.expired}</span>
+      <a class="btn ghost" href="/${locale}/education/tutor/office">${t.office}</a>
+      <a class="btn ghost" href="/${locale}/education/tutor/register">${t.register}</a>
+      <a class="btn ghost" href="/${locale}/education/tutors">${t.directory}</a>
       <a class="btn ghost" href="/${locale}/logout">${t.logout}</a>
       ${subscriptionActive ? '' : `<a class="btn ghost" href="/${locale}/logout">${t.renew}</a>`}
     </div>
@@ -171,7 +183,7 @@ newCount:'3 nouveaux',
         <div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
         <div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
         <div class="card"><div class="muted">${t.activeStudents}</div><div style="font-size:22px;font-weight:800">12</div></div>
-        <div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
+<div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
         <div class="card">
           <div class="muted">⭐️ ${t.rating}</div>
           <div style="font-size:22px;font-weight:800">4.8</div>
@@ -181,7 +193,7 @@ newCount:'3 nouveaux',
 
       <div class="card" style="margin-top:16px">
         <div class="row">
-<h3>${t.requests}</h3>
+          <h3>${t.requests}</h3>
           <span class="tag">${t.newCount}</span>
           <a class="btn ghost" href="/${locale}/education/tutor/lesson">${t.createLesson}</a>
         </div>

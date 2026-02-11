@@ -10,25 +10,31 @@ export default function StudentDashboard({ params }: Params) {
       logout:'Logout', confirmed:'Confirmed', date:'Tue, 12 Apr · 3:30 PM',
       title:'Math Tutoring · Grade 6', tutor:'Tutor: Sarah Al‑Fayed · Online',
       join:'Join Session', reschedule:'Reschedule',
-      quick:'Quick Actions', book:'Book Session', confirm:'Confirm Booking', back:'Go Back',
+      quick:'Quick Actions', book:'Book Session',
       progress:'Student Progress', attendance:'Attendance', assignments:'Assignments', focus:'Focus Score',
-      recent:'Recent Messages', msg1:'Please review Chapter 3 before next session.', msg2:'Your invoice is available.'
+      recent:'Recent Messages', msg1:'Please review Chapter 3 before next session.', msg2:'Your invoice is available.',
+      discover:'Discover Tutors', location:'Location', search:'Search tutors or subjects',
+      category:'Category', budget:'Budget', rating:'Rating', availability:'Availability'
     },
     ar: {
       logout:'تسجيل الخروج', confirmed:'مؤكد', date:'الثلاثاء، 12 أبريل · 3:30 م',
       title:'درس رياضيات · الصف السادس', tutor:'المدرّسة: سارة الفايد · أونلاين',
       join:'انضم للجلسة', reschedule:'إعادة الجدولة',
-      quick:'إجراءات سريعة', book:'احجز جلسة', confirm:'تأكيد الحجز', back:'رجوع',
+      quick:'إجراءات سريعة', book:'احجز جلسة',
       progress:'تقدم الطالب', attendance:'الحضور', assignments:'الواجبات', focus:'معدل التركيز',
-      recent:'الرسائل الأخيرة', msg1:'يرجى مراجعة الفصل الثالث قبل الجلسة القادمة.', msg2:'الفاتورة متاحة الآن.'
+      recent:'الرسائل الأخيرة', msg1:'يرجى مراجعة الفصل الثالث قبل الجلسة القادمة.', msg2:'الفاتورة متاحة الآن.',
+      discover:'اكتشف المدرّسين', location:'الموقع', search:'ابحث عن مدرس أو مادة',
+      category:'التصنيف', budget:'الميزانية', rating:'التقييم', availability:'التوفر'
     },
     fr: {
       logout:'Déconnexion', confirmed:'Confirmé', date:'Mar, 12 Avr · 3:30 PM',
       title:'Cours de maths · 6e', tutor:'Tuteur : Sarah Al‑Fayed · En ligne',
       join:'Rejoindre', reschedule:'Replanifier',
-      quick:'Actions rapides', book:'Réserver une séance', confirm:'Confirmer la réservation', back:'Retour',
+      quick:'Actions rapides', book:'Réserver une séance',
       progress:'Progrès de l’élève', attendance:'Présence', assignments:'Devoirs', focus:'Score de concentration',
-      recent:'Messages récents', msg1:'Veuillez revoir le chapitre 3 avant la prochaine séance.', msg2:'Votre facture est disponible.'
+      recent:'Messages récents', msg1:'Veuillez revoir le chapitre 3 avant la prochaine séance.', msg2:'Votre facture est disponible.',
+      discover:'Découvrir des tuteurs', location:'Localisation', search:'Rechercher tuteur ou matière',
+      category:'Catégorie', budget:'Budget', rating:'Note', availability:'Disponibilité'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -50,8 +56,8 @@ export default function StudentDashboard({ params }: Params) {
     .message:last-child{border:none}
     .booking__meta{display:flex;justify-content:space-between;margin-bottom:10px}
     .booking__cta{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-    details summary{list-style:none;cursor:pointer}
-    details summary::-webkit-details-marker{display:none}
+.input{width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text)}
+    .chip{padding:8px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px}
     @media (min-width: 900px){
       .dashboard{grid-template-columns:2fr 1fr;max-width:1200px;margin:24px auto;padding:20px 24px}
       .panel{max-width:100%;margin:0}
@@ -60,11 +66,25 @@ export default function StudentDashboard({ params }: Params) {
 
   <header class="topbar">
     <div class="brand">RIZQ</div>
-<div><a class="btn ghost" href="/${locale}/logout">${t.logout}</a></div>
+    <div><a class="btn ghost" href="/${locale}/logout">${t.logout}</a></div>
   </header>
 
   <main class="dashboard">
     <section class="panel panel--hero">
+      <div class="card">
+        <h3>${t.discover}</h3>
+        <div style="margin-top:10px;display:grid;gap:10px">
+          <input class="input" placeholder="${t.search}" />
+          <input class="input" placeholder="${t.location}" />
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span class="chip">${t.category}</span>
+            <span class="chip">${t.budget}</span>
+            <span class="chip">${t.rating}</span>
+            <span class="chip">${t.availability}</span>
+          </div>
+        </div>
+      </div>
+
       <div class="card booking">
         <div class="booking__meta">
           <span class="pill">${t.confirmed}</span>
@@ -80,13 +100,9 @@ export default function StudentDashboard({ params }: Params) {
 
       <div class="card">
         <h3>${t.quick}</h3>
-        <details style="margin-top:10px">
-          <summary class="btn" style="display:inline-block">${t.book}</summary>
-          <div style="margin-top:12px;display:grid;gap:10px">
-            <button class="btn">${t.confirm}</button>
-            <a class="btn ghost" href="#">${t.back}</a>
-          </div>
-        </details>
+        <div style="margin-top:10px">
+          <a class="btn" href="/${locale}/education/student/lesson">${t.book}</a>
+        </div>
       </div>
     </section>
 

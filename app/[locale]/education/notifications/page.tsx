@@ -6,9 +6,36 @@ export default function NotificationsPage({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
 
   const t = {
-    en: { title:'Notifications', back:'Go Back' },
-    ar: { title:'الإشعارات', back:'رجوع' },
-    fr: { title:'Notifications', back:'Retour' }
+    en: {
+      title:'Notifications',
+      n1:'Booking created',
+      n1s:'Pending payment',
+      n2:'Payment marked',
+      n2s:'Awaiting tutor confirmation',
+      n3:'Booking confirmed',
+      n3s:'Session added to calendar',
+      back:'Go Back'
+    },
+    ar: {
+      title:'الإشعارات',
+      n1:'تم إنشاء الحجز',
+      n1s:'بانتظار الدفع',
+      n2:'تم تأكيد الدفع',
+      n2s:'بانتظار تأكيد المدرّس',
+      n3:'تم تأكيد الحجز',
+      n3s:'تمت إضافة الجلسة إلى التقويم',
+      back:'رجوع'
+    },
+    fr: {
+      title:'Notifications',
+      n1:'Réservation créée',
+      n1s:'En attente de paiement',
+      n2:'Paiement marqué',
+      n2s:'En attente de confirmation du tuteur',
+      n3:'Réservation confirmée',
+      n3s:'Séance ajoutée au calendrier',
+      back:'Retour'
+    }
   }[locale as 'en'|'ar'|'fr'];
 
   const html = `
@@ -25,9 +52,9 @@ export default function NotificationsPage({ params }: Params) {
   <div class="wrap">
     <div class="card">
       <div class="title">${t.title}</div>
-      <div class="item"><strong>Booking created</strong><div class="muted">Pending payment</div></div>
-      <div class="item"><strong>Payment marked</strong><div class="muted">Awaiting tutor confirmation</div></div>
-      <div class="item"><strong>Booking confirmed</strong><div class="muted">Session added to calendar</div></div>
+      <div class="item"><strong>${t.n1}</strong><div class="muted">${t.n1s}</div></div>
+      <div class="item"><strong>${t.n2}</strong><div class="muted">${t.n2s}</div></div>
+      <div class="item"><strong>${t.n3}</strong><div class="muted">${t.n3s}</div></div>
 
       <a class="btn ghost" href="/${locale}/education/student/dashboard">${t.back}</a>
     </div>

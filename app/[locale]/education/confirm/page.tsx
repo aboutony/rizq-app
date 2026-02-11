@@ -24,7 +24,7 @@ export default function ConfirmBooking({ params }: Params) {
     <div class="card">
       <h2>${t.title}</h2>
       <div style="margin-top:14px">
-        <a class="btn" href="/${locale}/education/reconfirm">${t.confirm}</a>
+        <a class="btn" href="/${locale}/education/booking/logistics">${t.confirm}</a>
         <a class="btn ghost" href="/${locale}/education/calendar">${t.cancel}</a>
       </div>
     </div>

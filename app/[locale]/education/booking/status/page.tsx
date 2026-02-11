@@ -29,7 +29,7 @@ export default function BookingStatus({ params }: Params) {
       <div class="status">${t.confirmed}</div>
       <a class="btn" href="/${locale}/education/booking/logistics">${t.logistics}</a>
       <a class="btn ghost" href="/${locale}/education/student/dashboard">${t.back}</a>
-</div>
+    </div>
   </div>
   `;
 

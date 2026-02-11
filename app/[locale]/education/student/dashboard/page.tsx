@@ -15,7 +15,7 @@ export default function StudentDashboard({ params }: Params) {
       recent:'Recent Messages', msg1:'Please review Chapter 3 before next session.', msg2:'Your invoice is available.',
       discover:'Discover Tutors', location:'Location', search:'Search tutors or subjects',
       category:'Category', budget:'Budget', rating:'Rating', availability:'Availability',
-      upcoming:'Upcoming Sessions'
+      upcoming:'Upcoming Sessions', notif:'Notifications', chat:'Payment Chat', viewAll:'View All'
     },
     ar: {
       logout:'تسجيل الخروج', confirmed:'مؤكد', date:'الثلاثاء، 12 أبريل · 3:30 م',
@@ -26,7 +26,7 @@ export default function StudentDashboard({ params }: Params) {
       recent:'الرسائل الأخيرة', msg1:'يرجى مراجعة الفصل الثالث قبل الجلسة القادمة.', msg2:'الفاتورة متاحة الآن.',
       discover:'اكتشف المدرّسين', location:'الموقع', search:'ابحث عن مدرس أو مادة',
       category:'التصنيف', budget:'الميزانية', rating:'التقييم', availability:'التوفر',
-      upcoming:'الجلسات القادمة'
+      upcoming:'الجلسات القادمة', notif:'الإشعارات', chat:'محادثة الدفع', viewAll:'عرض الكل'
     },
     fr: {
       logout:'Déconnexion', confirmed:'Confirmé', date:'Mar, 12 Avr · 3:30 PM',
@@ -37,7 +37,7 @@ export default function StudentDashboard({ params }: Params) {
       recent:'Messages récents', msg1:'Veuillez revoir le chapitre 3 avant la prochaine séance.', msg2:'Votre facture est disponible.',
       discover:'Découvrir des tuteurs', location:'Localisation', search:'Rechercher tuteur ou matière',
       category:'Catégorie', budget:'Budget', rating:'Note', availability:'Disponibilité',
-      upcoming:'Séances à venir'
+      upcoming:'Séances à venir', notif:'Notifications', chat:'Chat paiement', viewAll:'Voir tout'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -55,12 +55,12 @@ export default function StudentDashboard({ params }: Params) {
     .list{list-style:none}
     .list li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)}
     .list li:last-child{border:none}
-    .message{padding:10px 0;border-bottom:1px dashed var(--border)}
+.message{padding:10px 0;border-bottom:1px dashed var(--border)}
     .message:last-child{border:none}
-.booking__meta{display:flex;justify-content:space-between;margin-bottom:10px}
+    .booking__meta{display:flex;justify-content:space-between;margin-bottom:10px}
     .booking__cta{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
     .input{width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text)}
-    .chip{padding:8px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px}
+    .chip{padding:8px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px;text-decoration:none;color:inherit}
     .session{padding:10px;border-radius:12px;border:1px solid var(--border);margin-top:8px}
     @media (min-width: 900px){
       .dashboard{grid-template-columns:2fr 1fr;max-width:1200px;margin:24px auto;padding:20px 24px}
@@ -79,13 +79,14 @@ export default function StudentDashboard({ params }: Params) {
         <h3>${t.discover}</h3>
         <div style="margin-top:10px;display:grid;gap:10px">
           <input class="input" placeholder="${t.search}" />
-          <input class="input" placeholder="${t.location}" />
+          <a class="btn ghost" href="/${locale}/education/location">${t.location}</a>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <span class="chip">${t.category}</span>
-            <span class="chip">${t.budget}</span>
-            <span class="chip">${t.rating}</span>
-            <span class="chip">${t.availability}</span>
+            <a class="chip" href="/${locale}/education/filters">${t.category}</a>
+            <a class="chip" href="/${locale}/education/filters">${t.budget}</a>
+            <a class="chip" href="/${locale}/education/filters">${t.rating}</a>
+            <a class="chip" href="/${locale}/education/filters">${t.availability}</a>
           </div>
+          <a class="btn ghost" href="/${locale}/education/search">${t.viewAll}</a>
         </div>
       </div>
 
@@ -107,6 +108,8 @@ export default function StudentDashboard({ params }: Params) {
         <div style="margin-top:10px;display:grid;gap:10px">
           <a class="btn" href="/${locale}/education/student/lesson">${t.book}</a>
           <a class="btn ghost" href="/${locale}/education/calendar">${t.openCal}</a>
+          <a class="btn ghost" href="/${locale}/education/notifications">${t.notif}</a>
+          <a class="btn ghost" href="/${locale}/education/chat">${t.chat}</a>
         </div>
       </div>
     </section>

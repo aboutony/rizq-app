@@ -6,9 +6,9 @@ export default function LocationPicker({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
 
   const t = {
-    en: { title:'Choose Location', search:'Search city or area', use:'Use my location', recent:'Recent Locations', save:'Save Location', back:'Go Back' },
-    ar: { title:'اختر الموقع', search:'ابحث عن مدينة أو منطقة', use:'استخدم موقعي', recent:'المواقع الأخيرة', save:'حفظ الموقع', back:'رجوع' },
-    fr: { title:'Choisir la localisation', search:'Rechercher une ville ou une zone', use:'Utiliser ma position', recent:'Localisations récentes', save:'Enregistrer', back:'Retour' }
+    en: { title:'Choose Location', search:'Search city or area', gps:'Use GPS Location', use:'Use my location', recent:'Recent Locations', save:'Save Location', back:'Go Back' },
+    ar: { title:'اختر الموقع', search:'ابحث عن مدينة أو منطقة', gps:'استخدام GPS', use:'استخدم موقعي', recent:'المواقع الأخيرة', save:'حفظ الموقع', back:'رجوع' },
+    fr: { title:'Choisir la localisation', search:'Rechercher une ville ou une zone', gps:'Utiliser le GPS', use:'Utiliser ma position', recent:'Localisations récentes', save:'Enregistrer', back:'Retour' }
   }[locale as 'en'|'ar'|'fr'];
 
   const html = `
@@ -30,6 +30,7 @@ export default function LocationPicker({ params }: Params) {
       <div class="title">${t.title}</div>
       <div class="row">
         <input class="input" placeholder="${t.search}" />
+        <button class="btn">${t.gps}</button>
         <button class="btn ghost">${t.use}</button>
       </div>
 

@@ -46,7 +46,8 @@ export default function TutorDashboard({ params }: Params) {
       act3:'Reschedule accepted · yesterday',
       office:'My Office',
       register:'Registration',
-      directory:'Tutor Directory'
+      directory:'Tutor Directory',
+      createTutor:'Create Tutor Profile'
     },
     ar: {
       logout:'تسجيل الخروج',
@@ -88,7 +89,8 @@ export default function TutorDashboard({ params }: Params) {
       act3:'تم قبول إعادة الجدولة · أمس',
       office:'مكتبي',
       register:'التسجيل',
-      directory:'دليل المدرّسين'
+      directory:'دليل المدرّسين',
+      createTutor:'إنشاء ملف مدرس'
     },
     fr: {
       logout:'Déconnexion',
@@ -117,11 +119,11 @@ export default function TutorDashboard({ params }: Params) {
       mode:'Mode',
       online:'En ligne',
       location:'Lieu',
-      studentHome:"Chez l'élève",
+studentHome:"Chez l'élève",
       createLesson:'Créer une leçon',
       homework:'Devoir',
       notes:'Notes',
-save:'Enregistrer',
+      save:'Enregistrer',
       newCount:'3 nouveaux',
       wants:'souhaite jeu 18:00',
       mon:'Lun', tue:'Mar', wed:'Mer', thu:'Jeu', fri:'Ven', sat:'Sam', sun:'Dim',
@@ -130,7 +132,8 @@ save:'Enregistrer',
       act3:'Replanification acceptée · hier',
       office:'Mon bureau',
       register:'Inscription',
-      directory:'Annuaire'
+      directory:'Annuaire',
+      createTutor:'Créer un profil de tuteur'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -166,6 +169,7 @@ save:'Enregistrer',
     <div style="font-weight:800">RIZQ</div>
     <div class="row">
       <span class="status ${subscriptionActive ? 'active' : 'expired'}">${subscriptionActive ? t.active : t.expired}</span>
+      <a class="btn ghost" href="/${locale}/education/tutor/create">${t.createTutor}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/office">${t.office}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/register">${t.register}</a>
       <a class="btn ghost" href="/${locale}/education/tutors">${t.directory}</a>
@@ -181,9 +185,9 @@ save:'Enregistrer',
       <div class="kpis">
         <div class="card"><div class="muted">${t.earned}</div><div style="font-size:22px;font-weight:800">$1,240</div></div>
         <div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
-        <div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
+<div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
         <div class="card"><div class="muted">${t.activeStudents}</div><div style="font-size:22px;font-weight:800">12</div></div>
-<div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
+        <div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
         <div class="card">
           <div class="muted">⭐️ ${t.rating}</div>
           <div style="font-size:22px;font-weight:800">4.8</div>

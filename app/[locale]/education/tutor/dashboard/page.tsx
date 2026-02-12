@@ -112,10 +112,10 @@ export default function TutorDashboard({ params }: Params) {
       reason:'Raison du refus',
       reason1:'Conflit d’horaire',
       reason2:'Non disponible',
-rescheduleRequests:'Demandes de replanification',
+      rescheduleRequests:'Demandes de replanification',
       activity:'Activité récente',
       calendar:'Calendrier',
-      month:'Octobre 2023',
+month:'Octobre 2023',
       mode:'Mode',
       online:'En ligne',
       location:'Lieu',
@@ -141,28 +141,28 @@ rescheduleRequests:'Demandes de replanification',
 
   const html = `
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
-    .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--card);border-bottom:1px solid var(--border)}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0d1324;color:#e5e7eb}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#111827;border-bottom:1px solid #1f2937}
     .status{padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700}
-    .active{background:#eaf9f3;color:#0f7a5f}
-    .expired{background:#ffe5e5;color:#b42318}
-    .btn{background:var(--primary);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
-    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block}
+    .active{background:#0f3d2e;color:#4ade80}
+    .expired{background:#3b1f1f;color:#f87171}
+    .btn{background:#22c55e;color:#0b1b13;border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+    .btn.ghost{background:transparent;color:#8ab4ff;border:1px solid #1f2937;text-decoration:none;display:inline-block}
     .dashboard{padding:20px;display:grid;gap:20px;max-width:1200px;margin:0 auto}
     .grid{display:grid;gap:12px}
     .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
-    .muted{color:var(--muted)}
-    .locked{opacity:0.15;filter:blur(2px);pointer-events:none}
+    .card{background:#111827;border:1px solid #1f2937;border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.25)}
+    .muted{color:#9ca3af}
+    .locked{opacity:0.25;filter:blur(2px);pointer-events:none}
     .row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-    .tag{padding:4px 10px;border-radius:999px;font-size:12px;background:#eef2f7}
+    .tag{padding:4px 10px;border-radius:999px;font-size:12px;background:#1f2937;color:#9ca3af}
     .actions{display:flex;gap:8px;flex-wrap:wrap}
-    .input, select, textarea {width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text)}
+    .input, select, textarea {width:100%;padding:10px;border:1px solid #1f2937;border-radius:10px;background:#0f172a;color:#e5e7eb}
     @media (min-width: 900px){ .dashboard{grid-template-columns:2fr 1fr} }
-    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:13px;color:var(--text)}
+    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:13px;color:#e5e7eb}
     .day{height:36px;display:flex;align-items:center;justify-content:center;border-radius:9999px}
-    .day.active{background:var(--primary);color:#fff;font-weight:700}
-    .weekday{font-size:12px;color:var(--muted);text-align:center}
+    .day.active{background:#22c55e;color:#0b1b13;font-weight:800}
+    .weekday{font-size:12px;color:#9ca3af;text-align:center}
   </style>
 
   <header class="topbar">
@@ -178,14 +178,14 @@ rescheduleRequests:'Demandes de replanification',
     </div>
   </header>
 
-  ${subscriptionActive ? '' : `<div style="padding:12px 20px;background:#fff3cd;border-bottom:1px solid #ffeeba;font-weight:600;">${t.locked}</div>`}
+  ${subscriptionActive ? '' : `<div style="padding:12px 20px;background:#3b1f1f;border-bottom:1px solid #4b2323;font-weight:600;">${t.locked}</div>`}
 
   <main class="dashboard" dir="${locale === 'ar' ? 'rtl' : 'ltr'}">
     <section class="${subscriptionActive ? '' : 'locked'}">
       <div class="kpis">
-<div class="card"><div class="muted">${t.earned}</div><div style="font-size:22px;font-weight:800">$1,240</div></div>
+        <div class="card"><div class="muted">${t.earned}</div><div style="font-size:22px;font-weight:800">$1,240</div></div>
         <div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
-        <div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
+<div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
         <div class="card"><div class="muted">${t.activeStudents}</div><div style="font-size:22px;font-weight:800">12</div></div>
         <div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
         <div class="card">
@@ -242,7 +242,7 @@ rescheduleRequests:'Demandes de replanification',
           <textarea class="input" rows="3"></textarea>
           <label>${t.homework}</label>
           <textarea class="input" rows="2"></textarea>
-          <button class="btn">${t.save}</button>
+          <button class="btn" style="width:100%">${t.save}</button>
         </div>
       </div>
     </section>
@@ -257,13 +257,13 @@ rescheduleRequests:'Demandes de replanification',
         </div>
         <div class="calendar">
           <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day active">6</div><div class="day">7</div>
-<div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
+          <div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
         </div>
       </a>
 
       <div class="card" style="margin-top:16px">
         <h3>${t.activity}</h3>
-        <div class="muted" style="margin-top:8px">${t.act1}</div>
+<div class="muted" style="margin-top:8px">${t.act1}</div>
         <div class="muted">${t.act2}</div>
         <div class="muted">${t.act3}</div>
       </div>

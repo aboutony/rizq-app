@@ -118,7 +118,7 @@ export default async function TutorProfilePage({
 
       <div class="card" style="margin-top:16px">
         <div style="font-weight:700">${esc(tr.lessons)}</div>
-        ${lessonTypes.length === 0 ? `<div style="opacity:.7;margin-top:8px">—</div>` : `
+        No lesson types yet
           ${lessonTypes.map((lt) => `
             <div class="lesson">
               <div>${esc(lt.label)}</div>

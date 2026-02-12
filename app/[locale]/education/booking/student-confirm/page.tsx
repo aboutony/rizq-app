@@ -21,7 +21,7 @@ export default function StudentConfirm({ params }: Params) {
   <div class="wrap">
     <div class="card">
       <div class="title">${t.title}</div>
-      <p>${t.note}</p>
+      <p style="margin-bottom:16px">${t.note}</p>
       <a class="btn" href="/${locale}/education/payment">${t.pay}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/dashboard">${t.back}</a>
     </div>

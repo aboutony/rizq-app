@@ -16,12 +16,16 @@ export default async function TutorProfilePage({
   searchParams
 }: {
   params: { locale: string };
-  searchParams: { slug?: string };
+  searchParams: { slug?: string; from?: string };
 }) {
   noStore();
   const locale = params?.locale || 'en';
   const isAr = locale === 'ar';
   const slug = searchParams?.slug;
+  const from = searchParams?.from || '';
+  const backHref = from === 'tutor'
+    ? `/${locale}/education/tutors?from=tutor`
+    : `/${locale}/education/tutors`;
 
   const t = {
     en: { title: 'Tutor Profile', back: 'Back', missing: 'Tutor not found.', lessons: 'Lesson Types & Pricing' },
@@ -33,7 +37,7 @@ export default async function TutorProfilePage({
   if (!slug) {
     const htmlMissing = `
       <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:var(--bg);color:var(--text);padding:20px">
-        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+        <a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
         <div style="margin-top:12px;opacity:.8">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
@@ -56,7 +60,7 @@ export default async function TutorProfilePage({
        LIMIT 1`,
       [slug]
     );
-tutor = res.rows[0] || null;
+    tutor = res.rows[0] || null;
 
     if (tutor) {
       const lt = await client.query(
@@ -76,7 +80,7 @@ tutor = res.rows[0] || null;
   if (!tutor) {
     const htmlMissing = `
       <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:var(--bg);color:var(--text);padding:20px">
-        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+<a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
         <div style="margin-top:12px;opacity:.8">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
@@ -100,7 +104,7 @@ tutor = res.rows[0] || null;
 
   <div dir="${isAr ? 'rtl' : 'ltr'}">
     <div class="wrap">
-      <a class="back" href="/${esc(locale)}/education/tutors">${esc(tr.back)}</a>
+      <a class="back" href="${backHref}">${esc(tr.back)}</a>
 
       <div class="card" style="margin-top:16px">
         <div class="row">

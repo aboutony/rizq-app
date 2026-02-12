@@ -28,9 +28,27 @@ export default async function TutorProfilePage({
     : `/${locale}/education/tutors`;
 
   const t = {
-    en: { title: 'Tutor Profile', back: 'Back', missing: 'Tutor not found.', lessons: 'Lesson Types & Pricing' },
-    ar: { title: 'ملف المعلم', back: 'رجوع', missing: 'لم يتم العثور على المعلم.', lessons: 'أنواع الدروس والأسعار' },
-    fr: { title: 'Profil du tuteur', back: 'Retour', missing: 'Tuteur introuvable.', lessons: 'Types de cours & tarifs' }
+    en: {
+      title: 'Tutor Profile',
+      back: 'Back',
+      missing: 'Tutor not found.',
+      lessons: 'Lesson Types & Pricing',
+      none: 'No lesson types yet.'
+    },
+    ar: {
+      title: 'ملف المعلم',
+      back: 'رجوع',
+      missing: 'لم يتم العثور على المعلم.',
+      lessons: 'أنواع الدروس والأسعار',
+      none: 'لا توجد أنواع دروس بعد.'
+    },
+    fr: {
+      title: 'Profil du tuteur',
+      back: 'Retour',
+      missing: 'Tuteur introuvable.',
+      lessons: 'Types de cours & tarifs',
+      none: 'Aucun type de cours pour le moment.'
+    }
   } as const;
   const tr = t[locale as 'en'|'ar'|'fr'] || t.en;
 
@@ -80,7 +98,7 @@ export default async function TutorProfilePage({
   if (!tutor) {
     const htmlMissing = `
       <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:var(--bg);color:var(--text);padding:20px">
-<a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+        <a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
         <div style="margin-top:12px;opacity:.8">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
@@ -91,7 +109,7 @@ export default async function TutorProfilePage({
 
   const html = `
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
     .wrap{max-width:900px;margin:0 auto;padding:24px}
     .back{padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px}
     .card{background:var(--card);border:1px solid var(--border);color:var(--text);padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.15)}
@@ -118,7 +136,7 @@ export default async function TutorProfilePage({
 
       <div class="card" style="margin-top:16px">
         <div style="font-weight:700">${esc(tr.lessons)}</div>
-        No lesson types yet
+        ${lessonTypes.length === 0 ? `<div style="opacity:.7;margin-top:8px">${esc(tr.none)}</div>` : `
           ${lessonTypes.map((lt) => `
             <div class="lesson">
               <div>${esc(lt.label)}</div>

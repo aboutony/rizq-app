@@ -32,9 +32,9 @@ export default async function TutorProfilePage({
 
   if (!slug) {
     const htmlMissing = `
-      <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff;padding:20px">
-        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
-        <div style="margin-top:12px;color:rgba(255,255,255,.7)">${esc(tr.missing)}</div>
+      <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:var(--bg);color:var(--text);padding:20px">
+        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+        <div style="margin-top:12px;opacity:.8">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
   }
@@ -56,7 +56,7 @@ export default async function TutorProfilePage({
        LIMIT 1`,
       [slug]
     );
-    tutor = res.rows[0] || null;
+tutor = res.rows[0] || null;
 
     if (tutor) {
       const lt = await client.query(
@@ -75,9 +75,9 @@ export default async function TutorProfilePage({
 
   if (!tutor) {
     const htmlMissing = `
-      <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff;padding:20px">
-        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
-        <div style="margin-top:12px;color:rgba(255,255,255,.7)">${esc(tr.missing)}</div>
+      <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:var(--bg);color:var(--text);padding:20px">
+        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+        <div style="margin-top:12px;opacity:.8">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
   }
@@ -86,26 +86,39 @@ export default async function TutorProfilePage({
   const bio = locale === 'ar' ? tutor.bio_ar : (locale === 'fr' ? tutor.bio_fr : tutor.bio_en);
 
   const html = `
-  <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff">
-    <div style="max-width:900px;margin:0 auto;padding:24px">
-      <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
-<div style="margin-top:16px;background:rgba(255,255,255,.06);color:#fff;padding:18px;border-radius:22px;border:1px solid rgba(255,255,255,.08);box-shadow:0 6px 18px rgba(0,0,0,.25)">
-        <div style="display:flex;gap:14px;align-items:center">
-          <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.15)"></div>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:900px;margin:0 auto;padding:24px}
+    .back{padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px}
+    .card{background:var(--card);border:1px solid var(--border);color:var(--text);padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.15)}
+    .row{display:flex;gap:14px;align-items:center}
+    .avatar{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.15)}
+    .name{font-weight:800;font-size:22px}
+    .bio{opacity:.8;margin-top:4px}
+    .lesson{background:rgba(255,255,255,.06);border-radius:14px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between}
+  </style>
+
+  <div dir="${isAr ? 'rtl' : 'ltr'}">
+    <div class="wrap">
+      <a class="back" href="/${esc(locale)}/education/tutors">${esc(tr.back)}</a>
+
+      <div class="card" style="margin-top:16px">
+        <div class="row">
+          <div class="avatar"></div>
           <div>
-            <div style="font-weight:800;font-size:22px;color:#fff">${esc(name)}</div>
-            <div style="color:#fff;margin-top:4px;opacity:.8">${esc(bio || '')}</div>
+            <div class="name">${esc(name)}</div>
+            <div class="bio">${esc(bio || '')}</div>
           </div>
         </div>
       </div>
 
-      <div style="margin-top:16px;background:rgba(255,255,255,.06);color:#fff;padding:18px;border-radius:22px;border:1px solid rgba(255,255,255,.08);box-shadow:0 6px 18px rgba(0,0,0,.25)">
+      <div class="card" style="margin-top:16px">
         <div style="font-weight:700">${esc(tr.lessons)}</div>
-        ${lessonTypes.length === 0 ? `<div style="color:#fff;opacity:.7;margin-top:8px">—</div>` : `
+        ${lessonTypes.length === 0 ? `<div style="opacity:.7;margin-top:8px">—</div>` : `
           ${lessonTypes.map((lt) => `
-            <div style="background:rgba(255,255,255,.06);border-radius:14px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between">
+            <div class="lesson">
               <div>${esc(lt.label)}</div>
-              <div style="color:#fff;opacity:.7">${esc(lt.duration_minutes)} min • $${esc(lt.price_amount)}</div>
+              <div style="opacity:.7">${esc(lt.duration_minutes)} min • $${esc(lt.price_amount)}</div>
             </div>
           `).join('')}
         `}

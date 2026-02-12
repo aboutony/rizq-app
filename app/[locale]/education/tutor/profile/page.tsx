@@ -33,7 +33,7 @@ export default async function TutorProfilePage({
   if (!slug) {
     const htmlMissing = `
       <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff;padding:20px">
-        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid #22d3ee;color:#22d3ee;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
         <div style="margin-top:12px;color:rgba(255,255,255,.7)">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
@@ -76,7 +76,7 @@ export default async function TutorProfilePage({
   if (!tutor) {
     const htmlMissing = `
       <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff;padding:20px">
-        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid #22d3ee;color:#22d3ee;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
         <div style="margin-top:12px;color:rgba(255,255,255,.7)">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
@@ -88,7 +88,7 @@ export default async function TutorProfilePage({
   const html = `
   <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff">
     <div style="max-width:900px;margin:0 auto;padding:24px">
-      <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid #22d3ee;color:#22d3ee;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+      <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
 <div style="margin-top:16px;background:rgba(255,255,255,.06);color:#fff;padding:18px;border-radius:22px;border:1px solid rgba(255,255,255,.08);box-shadow:0 6px 18px rgba(0,0,0,.25)">
         <div style="display:flex;gap:14px;align-items:center">
           <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.15)"></div>

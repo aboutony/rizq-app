@@ -11,10 +11,20 @@ function esc(s: any) {
     .replace(/'/g, '&#39;');
 }
 
-export default async function TutorsPage({ params }: { params: { locale: string } }) {
+export default async function TutorsPage({
+  params,
+  searchParams
+}: {
+  params: { locale: string };
+  searchParams?: { from?: string };
+}) {
   noStore();
   const locale = params?.locale || 'en';
   const isAr = locale === 'ar';
+  const from = searchParams?.from || '';
+  const backHref = from === 'tutor'
+    ? `/${locale}/education/tutor/dashboard`
+    : `/${locale}/education/student/dashboard`;
 
   const t = {
     en: { title: 'Tutors Directory', view: 'View Profile', back: 'Back', empty: 'No tutors found.' },
@@ -25,9 +35,18 @@ export default async function TutorsPage({ params }: { params: { locale: string 
 
   const client = await pool.connect();
   let tutors: any[] = [];
+  let favIds: Set<string> = new Set();
   try {
+    const favRes = await client.query(`
+      SELECT tutor_profile_id
+      FROM student_favorites
+      WHERE student_id = 'demo-student'
+    `);
+    favIds = new Set(favRes.rows.map((r:any) => r.tutor_profile_id));
+
     const res = await client.query(
       `SELECT 
+         t.id,
          t.slug,
          COALESCE(t.display_name_en, t.name) as display_name_en,
          COALESCE(t.display_name_ar, t.name) as display_name_ar,
@@ -47,7 +66,7 @@ export default async function TutorsPage({ params }: { params: { locale: string 
   <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff">
     <div style="max-width:1100px;margin:0 auto;padding:24px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
-        <a href="/${esc(locale)}/education/student/dashboard"
+        <a href="${backHref}"
            style="padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px">
            ${esc(tr.back)}
         </a>
@@ -58,11 +77,19 @@ export default async function TutorsPage({ params }: { params: { locale: string 
         <div style="padding:16px;background:rgba(255,255,255,.06);border-radius:14px;color:rgba(255,255,255,.7)">${esc(tr.empty)}</div>
       ` : `
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">
-          ${tutors.map((tutor) => {
+${tutors.map((tutor) => {
             const name = locale === 'ar' ? tutor.display_name_ar : (locale === 'fr' ? tutor.display_name_fr : tutor.display_name_en);
             const bio = locale === 'ar' ? tutor.bio_ar : (locale === 'fr' ? tutor.bio_fr : tutor.bio_en);
+            const isFav = favIds.has(tutor.id);
             return `
-              <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#fff;padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.25)">
+              <div style="position:relative;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#fff;padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.25)">
+                <form method="POST" action="/api/student/favorites/toggle" style="position:absolute;top:12px;right:12px">
+                  <input type="hidden" name="tutor_id" value="${tutor.id}" />
+                  <input type="hidden" name="action" value="${isFav ? 'remove' : 'add'}" />
+                  <input type="hidden" name="redirect" value="/${locale}/education/student/favorites" />
+                  <button type="submit" style="background:transparent;border:none;font-size:18px;color:${isFav ? '#ef4444' : 'rgba(255,255,255,.6)'};cursor:pointer">♥️</button>
+                </form>
+
                 <div style="display:flex;gap:14px;align-items:center">
                   <div style="width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.15)"></div>
                   <div>
@@ -70,7 +97,8 @@ export default async function TutorsPage({ params }: { params: { locale: string 
                     <div style="color:#fff;font-size:13px;margin-top:4px;opacity:.8">${esc(bio || '')}</div>
                   </div>
                 </div>
-                <a href="/${esc(locale)}/education/tutor/profile?slug=${encodeURIComponent(tutor.slug)}"
+
+                <a href="/${locale}/education/tutor/profile?slug=${encodeURIComponent(tutor.slug)}"
                    style="display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:#22c55e;color:#0b1b13;text-decoration:none;font-size:13px;font-weight:800">
                    ${esc(tr.view)}
                 </a>

@@ -1,9 +1,10 @@
 import React from 'react';
+type Params = { params: { locale?: string }, searchParams?: { from?: string } };
 
-type Params = { params: { locale?: string } };
-
-export default function MarkPayment({ params }: Params) {
+export default function MarkPayment({ params, searchParams }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
+  const from = searchParams?.from || '';
+  const q = from === 'tutor' ? '?from=tutor' : '';
 
   const t = {
     en: { title:'Mark Payment Completed', note:'I have completed the payment.', submit:'Submit', back:'Go Back' },
@@ -20,16 +21,14 @@ export default function MarkPayment({ params }: Params) {
     .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%;text-decoration:none;display:inline-block;text-align:center}
     .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);margin-top:10px}
   </style>
-
   <div class="wrap">
     <div class="card">
       <div class="title">${t.title}</div>
       <p>${t.note}</p>
-      <a class="btn" href="/${locale}/education/booking/status" style="margin-top:10px">${t.submit}</a>
-      <a class="btn ghost" href="/${locale}/education/payment">${t.back}</a>
+      <a class="btn" href="/${locale}/education/booking/status${q}" style="margin-top:10px">${t.submit}</a>
+      <a class="btn ghost" href="/${locale}/education/payment${q}">${t.back}</a>
     </div>
   </div>
   `;
-
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }

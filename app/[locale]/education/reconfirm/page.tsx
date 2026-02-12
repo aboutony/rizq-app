@@ -1,9 +1,10 @@
 import React from 'react';
+type Params = { params: { locale?: string }, searchParams?: { from?: string } };
 
-type Params = { params: { locale?: string } };
-
-export default function ReconfirmBooking({ params }: Params) {
+export default function ReconfirmBooking({ params, searchParams }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
+  const from = searchParams?.from || '';
+  const q = from === 'tutor' ? '?from=tutor' : '';
 
   const t = {
     en: { title:'Reconfirm Booking?', confirm:'Reconfirm', cancel:'Cancel' },
@@ -19,17 +20,15 @@ export default function ReconfirmBooking({ params }: Params) {
     .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%;text-decoration:none;display:inline-block;text-align:center}
     .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);margin-top:10px}
   </style>
-
   <div class="wrap">
     <div class="card">
       <h2>${t.title}</h2>
       <div style="margin-top:14px">
-        <a class="btn" href="/${locale}/education/payment">${t.confirm}</a>
-        <a class="btn ghost" href="/${locale}/education/confirm">${t.cancel}</a>
+        <a class="btn" href="/${locale}/education/payment${q}">${t.confirm}</a>
+        <a class="btn ghost" href="/${locale}/education/confirm${q}">${t.cancel}</a>
       </div>
     </div>
   </div>
   `;
-
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }

@@ -6,7 +6,7 @@ function esc(s: any) {
   return String(s ?? '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
+.replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 }
@@ -95,7 +95,7 @@ export default async function TutorProfilePage({
           <div class="w-16 h-16 rounded-full bg-slate-200"></div>
           <div>
             <h1 class="text-2xl font-bold text-slate-800">${esc(name)}</h1>
-<p class="text-slate-500 mt-1">${esc(bio || '')}</p>
+            <p class="text-slate-500 mt-1">${esc(bio || '')}</p>
           </div>
         </div>
       </div>
@@ -105,7 +105,7 @@ export default async function TutorProfilePage({
         ${lessonTypes.length === 0 ? `
           <p class="text-slate-500">—</p>
         ` : `
-          <div class="space-y-3">
+<div class="space-y-3">
             ${lessonTypes.map((lt) => `
               <div class="flex items-center justify-between bg-slate-50 rounded-2xl p-3">
                 <div class="font-medium text-slate-700">${esc(lt.label)}</div>

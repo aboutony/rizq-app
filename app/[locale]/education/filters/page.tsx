@@ -7,25 +7,40 @@ export default function FiltersPage({ params }: Params) {
 
   const t = {
     en: {
-      title:'Advanced Filters', category:'Category', budget:'Budget Range',
-      rating:'Minimum Rating', availability:'Availability',
-      apply:'Apply Filters', back:'Go Back',
+      title:'Advanced Filters',
+      category:'Category',
+      level:'Level',
+      location:'Location',
+      apply:'Apply Filters',
+      back:'Go Back',
       c1:'General Education', c2:'TVET', c3:'Arts & Creative', c4:'Sports & Fitness',
-      c5:'Culinary Arts', c6:'Language Learning', c7:'Coding & Technology'
+      c5:'Culinary Arts', c6:'Language Learning', c7:'Coding & Technology',
+      l1:'Primary', l2:'Secondary', l3:'University', l4:'Vocational',
+      loc1:'Beirut', loc2:'Tripoli', loc3:'Saida'
     },
     ar: {
-      title:'فلاتر متقدمة', category:'التصنيف', budget:'الميزانية',
-      rating:'أقل تقييم', availability:'التوفر',
-      apply:'تطبيق الفلاتر', back:'رجوع',
+      title:'فلاتر متقدمة',
+      category:'التصنيف',
+      level:'المستوى',
+      location:'الموقع',
+      apply:'تطبيق الفلاتر',
+      back:'رجوع',
       c1:'التعليم العام', c2:'التعليم المهني والتقني', c3:'الفنون والإبداع', c4:'الرياضة واللياقة',
-      c5:'فنون الطهي', c6:'تعلم اللغات', c7:'البرمجة والتقنية'
+      c5:'فنون الطهي', c6:'تعلم اللغات', c7:'البرمجة والتقنية',
+      l1:'ابتدائي', l2:'ثانوي', l3:'جامعي', l4:'مهني',
+      loc1:'بيروت', loc2:'طرابلس', loc3:'صيدا'
     },
     fr: {
-      title:'Filtres avancés', category:'Catégorie', budget:'Budget',
-      rating:'Note minimale', availability:'Disponibilité',
-      apply:'Appliquer', back:'Retour',
+      title:'Filtres avancés',
+      category:'Catégorie',
+      level:'Niveau',
+      location:'Lieu',
+      apply:'Appliquer',
+      back:'Retour',
       c1:'Enseignement général', c2:'EFTP', c3:'Arts & créatif', c4:'Sports & fitness',
-      c5:'Arts culinaires', c6:'Apprentissage des langues', c7:'Programmation & technologie'
+      c5:'Arts culinaires', c6:'Apprentissage des langues', c7:'Programmation & technologie',
+      l1:'Primaire', l2:'Secondaire', l3:'Université', l4:'Professionnel',
+      loc1:'Beyrouth', loc2:'Tripoli', loc3:'Saïda'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -44,43 +59,38 @@ export default function FiltersPage({ params }: Params) {
   <div class="wrap">
     <div class="card">
       <div class="title">${t.title}</div>
-      <div class="grid">
+      <form class="grid" method="get" action="/${locale}/education/tutors">
         <label>${t.category}</label>
-        <select class="input">
-          <option>${t.c1}</option>
-          <option>${t.c2}</option>
-          <option>${t.c3}</option>
-          <option>${t.c4}</option>
-          <option>${t.c5}</option>
-          <option>${t.c6}</option>
-          <option>${t.c7}</option>
+        <select class="input" name="category">
+          <option value="">—</option>
+          <option value="${t.c1}">${t.c1}</option>
+          <option value="${t.c2}">${t.c2}</option>
+          <option value="${t.c3}">${t.c3}</option>
+          <option value="${t.c4}">${t.c4}</option>
+          <option value="${t.c5}">${t.c5}</option>
+          <option value="${t.c6}">${t.c6}</option>
+          <option value="${t.c7}">${t.c7}</option>
         </select>
 
-        <label>${t.budget}</label>
-        <select class="input">
-          <option>$10 – $20</option>
-          <option>$20 – $40</option>
-          <option>$40 – $60</option>
-          <option>$60+</option>
+        <label>${t.level}</label>
+        <select class="input" name="level">
+          <option value="">—</option>
+          <option value="${t.l1}">${t.l1}</option>
+          <option value="${t.l2}">${t.l2}</option>
+          <option value="${t.l3}">${t.l3}</option>
+          <option value="${t.l4}">${t.l4}</option>
         </select>
 
-        <label>${t.rating}</label>
-        <select class="input">
-          <option>4.0+</option>
-          <option>4.5+</option>
-          <option>4.8+</option>
+        <label>${t.location}</label>
+        <select class="input" name="location">
+          <option value="">—</option>
+          <option value="${t.loc1}">${t.loc1}</option>
+          <option value="${t.loc2}">${t.loc2}</option>
+          <option value="${t.loc3}">${t.loc3}</option>
         </select>
-
-        <label>${t.availability}</label>
-        <select class="input">
-          <option>Weekdays</option>
-          <option>Weekends</option>
-          <option>Evenings</option>
-        </select>
-
-        <button class="btn">${t.apply}</button>
+<button class="btn" type="submit">${t.apply}</button>
         <a class="btn ghost" href="/${locale}/education/student/dashboard">${t.back}</a>
-      </div>
+      </form>
     </div>
   </div>
   `;

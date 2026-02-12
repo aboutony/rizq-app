@@ -1,11 +1,8 @@
 import React from 'react';
-type Params = { params: { locale?: string }, searchParams?: { from?: string } };
+type Params = { params: { locale?: string } };
 
-export default function MarkPayment({ params, searchParams }: Params) {
+export default function MarkPayment({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
-  const from = searchParams?.from || '';
-  const q = from === 'tutor' ? '?from=tutor' : '';
-
   const t = {
     en: { title:'Mark Payment Completed', note:'I have completed the payment.', submit:'Submit', back:'Go Back' },
     ar: { title:'تأكيد الدفع', note:'لقد أكملت الدفع.', submit:'إرسال', back:'رجوع' },
@@ -25,8 +22,8 @@ export default function MarkPayment({ params, searchParams }: Params) {
     <div class="card">
       <div class="title">${t.title}</div>
       <p>${t.note}</p>
-      <a class="btn" href="/${locale}/education/booking/status${q}" style="margin-top:10px">${t.submit}</a>
-      <a class="btn ghost" href="/${locale}/education/payment${q}">${t.back}</a>
+      <a class="btn" href="/${locale}/education/booking/status" style="margin-top:10px">${t.submit}</a>
+      <a class="btn ghost" href="/${locale}/education/tutor/dashboard">${t.back}</a>
     </div>
   </div>
   `;

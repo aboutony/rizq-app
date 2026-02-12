@@ -47,28 +47,31 @@ export default async function TutorsPage({ params }: { params: { locale: string 
   <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff">
     <div style="max-width:1100px;margin:0 auto;padding:24px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
-        <a href="/${esc(locale)}/education/student/dashboard" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+        <a href="/${esc(locale)}/education/student/dashboard"
+           style="padding:6px 12px;border-radius:999px;border:1px solid #22d3ee;color:#22d3ee;text-decoration:none;font-size:12px">
+           ${esc(tr.back)}
+        </a>
         <div style="font-size:22px;font-weight:800">${esc(tr.title)}</div>
       </div>
 
       ${tutors.length === 0 ? `
-        <div style="padding:16px;background:rgba(255,255,255,.08);border-radius:14px;color:rgba(255,255,255,.7)">${esc(tr.empty)}</div>
+        <div style="padding:16px;background:rgba(255,255,255,.06);border-radius:14px;color:rgba(255,255,255,.7)">${esc(tr.empty)}</div>
       ` : `
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">
           ${tutors.map((tutor) => {
             const name = locale === 'ar' ? tutor.display_name_ar : (locale === 'fr' ? tutor.display_name_fr : tutor.display_name_en);
             const bio = locale === 'ar' ? tutor.bio_ar : (locale === 'fr' ? tutor.bio_fr : tutor.bio_en);
             return `
-              <div style="background:#fff;color:#0f172a;padding:18px;border-radius:22px;border:1px solid #eef2f7;box-shadow:0 6px 18px rgba(0,0,0,.08)">
+              <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#fff;padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.25)">
                 <div style="display:flex;gap:14px;align-items:center">
-                  <div style="width:54px;height:54px;border-radius:50%;background:#e2e8f0"></div>
+                  <div style="width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.15)"></div>
                   <div>
-                    <div style="font-weight:700">${esc(name)}</div>
-                    <div style="color:#64748b;font-size:13px;margin-top:4px">${esc(bio || '')}</div>
+                    <div style="font-weight:800;color:#fff">${esc(name)}</div>
+                    <div style="color:#fff;font-size:13px;margin-top:4px;opacity:.8">${esc(bio || '')}</div>
                   </div>
                 </div>
                 <a href="/${esc(locale)}/education/tutor/profile?slug=${encodeURIComponent(tutor.slug)}"
-                   style="display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:#0d1324;color:#fff;text-decoration:none;font-size:13px">
+                   style="display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:#22d3ee;color:#042028;text-decoration:none;font-size:13px;font-weight:800">
                    ${esc(tr.view)}
                 </a>
               </div>
@@ -77,7 +80,7 @@ export default async function TutorsPage({ params }: { params: { locale: string 
         </div>
       `}
     </div>
-  </div>
+</div>
   `;
 
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });

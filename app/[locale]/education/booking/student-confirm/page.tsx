@@ -1,9 +1,10 @@
 import React from 'react';
+type Params = { params: { locale?: string }, searchParams?: { from?: string } };
 
-type Params = { params: { locale?: string } };
-
-export default function StudentConfirm({ params }: Params) {
+export default function StudentConfirm({ params, searchParams }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
+  const from = searchParams?.from || '';
+  const q = from === 'tutor' ? '?from=tutor' : '';
 
   const t = {
     en: { title:'Final Validation', note:'Tutor confirmed logistics. You can now pay.', pay:'Proceed to Payment', back:'Go Back' },
@@ -20,16 +21,14 @@ export default function StudentConfirm({ params }: Params) {
     .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%}
     .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block;width:100%;text-align:center;margin-top:10px}
   </style>
-
   <div class="wrap">
     <div class="card">
       <div class="title">${t.title}</div>
       <p>${t.note}</p>
-      <a class="btn" href="/${locale}/education/payment">${t.pay}</a>
-      <a class="btn ghost" href="/${locale}/education/booking/tutor-confirm">${t.back}</a>
+      <a class="btn" href="/${locale}/education/payment${q}">${t.pay}</a>
+      <a class="btn ghost" href="/${locale}/education/booking/logistics${q}">${t.back}</a>
     </div>
   </div>
   `;
-
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }

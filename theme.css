@@ -2,42 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Light theme (default) */
 :root {
   --bg: #f8fafc;
   --text: #0f172a;
   --card: #ffffff;
   --border: #e2e8f0;
   --muted: #64748b;
-  --primary: #10b981;
+  --primary: #22c55e; /* original green */
 }
 
-/* Dark theme */
 [data-theme="dark"] {
-  --bg: #0f172a;
-  --text: #e2e8f0;
+  --bg: #0d1324;
+  --text: #e5e7eb;
   --card: #111827;
   --border: #1f2937;
-  --muted: #94a3b8;
-  --primary: #22c55e;
+  --muted: #9ca3af;
+  --primary: #22c55e; /* original green */
 }
 
 body {
   background-color: var(--bg);
   color: var(--text);
-}
-
-/* Floating toggle */
-.theme-toggle {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  z-index: 50;
-  background: var(--card);
-  color: var(--text);
-  border: 1px solid var(--border);
-  padding: 10px 12px;
-  border-radius: 999px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  cursor: pointer;
 }

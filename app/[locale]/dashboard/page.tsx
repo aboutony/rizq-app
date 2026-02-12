@@ -1,226 +1,142 @@
+import pool from '@/lib/db';
+import { unstable_noStore as noStore } from 'next/cache';
 import React from 'react';
 
-type Params = { params: { locale?: string } };
+function esc(s: any) {
+  return String(s ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
-export default function TutorDashboard({ params }: Params) {
-  const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
+function formatDate(d: Date) {
+  return new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit' }).format(d);
+}
+
+export default async function DashboardPage({ params }: { params: { locale: string } }) {
+  noStore();
+
+  const locale = params?.locale || 'en';
+  const isAr = locale === 'ar';
 
   const t = {
     en: {
-      logout: 'Logout',
-      active: 'Subscription Active',
-      expired: 'Subscription Expired',
-      renew: 'Renew',
-      locked: 'Your subscription expired. Data is hidden until you renew.',
-      earned: 'Total Earned',
-      owed: 'Total Owed',
-      pending: 'Pending Payments',
+      title: 'Tutor Dashboard',
+      lessonRequests: 'Lesson Requests',
+      viewAll: 'View All',
+      nextLesson: 'Scheduling Calendar',
+      noUpcoming: 'No upcoming lessons.',
+      monthlyEarnings: 'Monthly Earnings',
       activeStudents: 'Active Students',
-      totalStudents: 'Total Students',
-      rating: 'Rating',
-      reviews: 'reviews',
-      requests: 'Lesson Requests',
-      approve: 'Approve',
-      reschedule: 'Reschedule',
-      decline: 'Decline',
-      reason: 'Decline reason',
-      rescheduleRequests: 'Reschedule Requests',
-      activity: 'Recent Activity',
-      calendar: 'Scheduling Calendar',
-      month: 'October 2023',
-      mode: 'Mode',
-      online: 'Online',
-      location: 'Location',
-      studentHome: "Student's home",
-      createLesson: 'Create Lesson',
-      homework: 'Homework',
-      notes: 'Notes',
-      save: 'Save'
+      noRequests: 'No lesson requests yet.'
     },
     ar: {
-      logout: 'تسجيل الخروج',
-      active: 'الاشتراك نشط',
-      expired: 'الاشتراك منتهي',
-      renew: 'تجديد',
-      locked: 'انتهى اشتراكك. البيانات مخفية حتى التجديد.',
-      earned: 'إجمالي المحصّل',
-      owed: 'إجمالي المستحق',
-      pending: 'مدفوعات معلّقة',
+      title: 'لوحة المعلم',
+      lessonRequests: 'طلبات الدروس',
+      viewAll: 'عرض الكل',
+      nextLesson: 'جدول المواعيد',
+      noUpcoming: 'لا توجد دروس قادمة.',
+      monthlyEarnings: 'الأرباح الشهرية',
       activeStudents: 'الطلاب النشطون',
-      totalStudents: 'إجمالي الطلاب',
-      rating: 'التقييم',
-      reviews: 'تقييمًا',
-      requests: 'طلبات الدروس',
-      approve: 'موافقة',
-      reschedule: 'إعادة جدولة',
-      decline: 'رفض',
-      reason: 'سبب الرفض',
-      rescheduleRequests: 'طلبات إعادة الجدولة',
-      activity: 'النشاط الأخير',
-      calendar: 'تقويم الجدولة',
-      month: 'أكتوبر 2023',
-      mode: 'النمط',
-      online: 'أونلاين',
-      location: 'الموقع',
-      studentHome: 'منزل الطالب',
-      createLesson: 'إنشاء درس',
-      homework: 'واجب',
-      notes: 'ملاحظات',
-      save: 'حفظ'
+      noRequests: 'لا توجد طلبات دروس بعد.'
     },
     fr: {
-      logout: 'Déconnexion',
-      active: 'Abonnement Actif',
-      expired: 'Abonnement Expiré',
-      renew: 'Renouveler',
-      locked: 'Votre abonnement a expiré. Les données sont masquées jusqu’au renouvellement.',
-      earned: 'Total perçu',
-      owed: 'Total dû',
-      pending: 'Paiements en attente',
-      activeStudents: 'Élèves actifs',
-      totalStudents: 'Total élèves',
-      rating: 'Note',
-      reviews: 'avis',
-      requests: 'Demandes de cours',
-      approve: 'Approuver',
-      reschedule: 'Replanifier',
-      decline: 'Refuser',
-      reason: 'Raison du refus',
-      rescheduleRequests: 'Demandes de replanification',
-      activity: 'Activité récente',
-      calendar: 'Calendrier',
-      month: 'Octobre 2023',
-      mode: 'Mode',
-      online: 'En ligne',
-      location: 'Lieu',
-      studentHome: "Chez l'élève",
-      createLesson: 'Créer une leçon',
-      homework: 'Devoir',
-      notes: 'Notes',
-      save: 'Enregistrer'
+      title: 'Tableau de bord du tuteur',
+      lessonRequests: 'Demandes de cours',
+      viewAll: 'Voir tout',
+      nextLesson: 'Calendrier de planification',
+      noUpcoming: 'Aucun cours à venir.',
+      monthlyEarnings: 'Gains mensuels',
+      activeStudents: 'Étudiants actifs',
+      noRequests: 'Aucune demande de cours.'
     }
-  }[locale as 'en'|'ar'|'fr'];
+  } as const;
 
-  const subscriptionActive = true;
+  const tr = t[locale as 'en' | 'ar' | 'fr'] || t.en;
+
+  const client = await pool.connect();
+  let lessonRequests: any[] = [];
+  try {
+    const tutorRes = await client.query(
+      `SELECT id FROM tutors WHERE slug = $1 LIMIT 1`,
+      ['farah-fayad']
+    );
+    const tutorId = tutorRes.rows[0]?.id;
+    if (tutorId) {
+      const res = await client.query(
+        `SELECT 
+           l.id, l.student_name, l.duration_minutes, l.requested_start_at_utc, l.created_at, lt.label as lesson_type_label
+         FROM lessons l
+         JOIN lesson_types lt ON l.lesson_type_id = lt.id
+         WHERE l.tutor_id = $1 AND l.status = 'requested'
+         ORDER BY l.created_at ASC`,
+        [tutorId]
+      );
+      lessonRequests = res.rows || [];
+    }
+  } finally {
+    client.release();
+  }
 
   const html = `
-  <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
-    .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--card);border-bottom:1px solid var(--border)}
-    .status{padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700}
-    .active{background:#eaf9f3;color:#0f7a5f}
-    .expired{background:#ffe5e5;color:#b42318}
-.btn{background:var(--primary);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
-    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block}
-    .dashboard{padding:20px;display:grid;gap:20px;max-width:1200px;margin:0 auto}
-    .grid{display:grid;gap:12px}
-    .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
-    .muted{color:var(--muted)}
-    .locked{opacity:0.15;filter:blur(2px);pointer-events:none}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-    .tag{padding:4px 10px;border-radius:999px;font-size:12px;background:#eef2f7}
-    .actions{display:flex;gap:8px;flex-wrap:wrap}
-    .input, select, textarea {width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text)}
-    @media (min-width: 900px){ .dashboard{grid-template-columns:2fr 1fr} }
-    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:13px;color:var(--text)}
-    .day{height:36px;display:flex;align-items:center;justify-content:center;border-radius:9999px}
-    .day.active{background:var(--primary);color:#fff;font-weight:700}
-    .weekday{font-size:12px;color:var(--muted);text-align:center}
-  </style>
+  <div dir="${isAr ? 'rtl' : 'ltr'}" class="p-4 md:p-8 max-w-7xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8 text-slate-800">${esc(tr.title)}</h1>
 
-  <header class="topbar">
-    <div style="font-weight:800">RIZQ</div>
-    <div class="row">
-      <span class="status ${subscriptionActive ? 'active' : 'expired'}">${subscriptionActive ? t.active : t.expired}</span>
-      <a class="btn ghost" href="/${locale}/logout">${t.logout}</a>
-      ${subscriptionActive ? '' : `<a class="btn ghost" href="/${locale}/logout">${t.renew}</a>`}
+    <div class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4">
+
+      <div class="md:col-span-2 md:row-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col justify-between">
+        <div>
+          <h2 class="text-xl font-semibold text-slate-800 mb-4">${esc(tr.lessonRequests)}</h2>
+          <div class="space-y-4">
+            ${lessonRequests.length === 0 ? `
+              <div class="p-4 bg-slate-50 rounded-2xl text-slate-500">${esc(tr.noRequests)}</div>
+` : lessonRequests.map((req) => `
+              <div class="p-4 bg-slate-50 rounded-2xl flex items-center gap-4">
+                <div class="w-12 h-12 bg-slate-200 rounded-full"></div>
+                <div>
+                  <p class="font-semibold text-slate-700">${esc(req.student_name)}</p>
+                  <p class="text-sm text-slate-500">
+                    ${esc(req.lesson_type_label)} • ${esc(req.duration_minutes)} min
+                  </p>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <button class="mt-6 w-full py-3 bg-slate-900 text-white rounded-2xl font-medium hover:bg-slate-800">
+          ${esc(tr.viewAll)}
+        </button>
+      </div>
+
+      <a href="/${esc(locale)}/education/calendar" class="md:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-100 block hover:shadow-md transition">
+        <h2 class="text-lg font-semibold text-slate-800 mb-4">${esc(tr.nextLesson)}</h2>
+        ${lessonRequests[0] ? `
+          <div class="flex items-center gap-4">
+            <div class="text-center bg-cyan-50 p-2 rounded-xl min-w-[60px]">
+              <p class="text-xs uppercase text-cyan-600 font-bold">${esc(formatDate(new Date(lessonRequests[0].requested_start_at_utc)).split(' ')[0])}</p>
+              <p class="text-xl font-bold text-cyan-700">${esc(formatDate(new Date(lessonRequests[0].requested_start_at_utc)).split(' ')[1])}</p>
+            </div>
+            <p class="font-medium text-slate-700">${esc(lessonRequests[0].lesson_type_label)}</p>
+          </div>
+        ` : `
+          <p class="text-slate-500">${esc(tr.noUpcoming)}</p>
+        `}
+      </a>
+
+      <div class="md:col-span-1 bg-indigo-600 p-6 rounded-3xl text-white flex flex-col justify-between">
+        <p class="text-indigo-100 text-sm">${esc(tr.monthlyEarnings)}</p>
+        <p class="text-2xl font-bold mt-2">$0.00</p>
+      </div>
+
+      <div class="md:col-span-1 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+        <p class="text-slate-500 text-sm">${esc(tr.activeStudents)}</p>
+        <p class="text-2xl font-bold text-slate-800 mt-2">${esc(lessonRequests.length)}</p>
+      </div>
+
     </div>
-  </header>
-
-  ${subscriptionActive ? '' : `<div style="padding:12px 20px;background:#fff3cd;border-bottom:1px solid #ffeeba;font-weight:600;">${t.locked}</div>`}
-
-  <main class="dashboard" dir="${locale === 'ar' ? 'rtl' : 'ltr'}">
-    <section class="${subscriptionActive ? '' : 'locked'}">
-      <div class="kpis">
-        <div class="card"><div class="muted">${t.earned}</div><div style="font-size:22px;font-weight:800">$1,240</div></div>
-        <div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
-        <div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
-        <div class="card"><div class="muted">${t.activeStudents}</div><div style="font-size:22px;font-weight:800">12</div></div>
-        <div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
-        <div class="card">
-          <div class="muted">⭐️ ${t.rating}</div>
-          <div style="font-size:22px;font-weight:800">4.8</div>
-          <div class="muted">128 ${t.reviews}</div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:16px">
-        <div class="row">
-          <h3>${t.requests}</h3>
-          <span class="tag">3 New</span>
-          <a class="btn ghost" href="/${locale}/education/tutor/lesson">${t.createLesson}</a>
-        </div>
-        <div style="margin-top:12px" class="grid">
-          <div class="row">
-            <div>
-              <div style="font-weight:700">Rana K.</div>
-              <div class="muted">Math · 60 min · Tue 5:00 PM</div>
-              <div class="muted">${t.mode}: ${t.online} • ${t.location}: ${t.studentHome}</div>
-            </div>
-            <div class="actions">
-              <button class="btn">${t.approve}</button>
-              <a class="btn ghost" href="#calendar">${t.reschedule}</a>
-              <button class="btn ghost">${t.decline}</button>
-            </div>
-          </div>
-          <div class="row">
-<select class="input"><option>${t.reason}</option><option>Schedule conflict</option><option>Not available</option></select>
-          </div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:16px">
-        <h3>${t.rescheduleRequests}</h3>
-        <div class="row" style="margin-top:10px">
-          <div><strong>Hadi M.</strong> <span class="muted">wants Thu 6:00 PM</span></div>
-          <div class="actions"><button class="btn">${t.approve}</button><a class="btn ghost" href="#calendar">${t.reschedule}</a></div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:16px">
-        <h3>${t.homework}</h3>
-        <div class="grid">
-          <label>${t.notes}</label>
-          <textarea class="input" rows="3"></textarea>
-          <label>${t.homework}</label>
-          <textarea class="input" rows="2"></textarea>
-          <button class="btn">${t.save}</button>
-        </div>
-      </div>
-    </section>
-
-    <aside class="${subscriptionActive ? '' : 'locked'}">
-      <div class="card" id="calendar">
-        <h3>${t.calendar}</h3>
-        <div class="muted" style="margin:8px 0">${t.month}</div>
-        <div class="calendar" style="margin-bottom:8px">
-          <div class="weekday">Mon</div><div class="weekday">Tue</div><div class="weekday">Wed</div><div class="weekday">Thu</div><div class="weekday">Fri</div><div class="weekday">Sat</div><div class="weekday">Sun</div>
-        </div>
-        <div class="calendar">
-          <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day active">6</div><div class="day">7</div>
-          <div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:16px">
-        <h3>${t.activity}</h3>
-        <div class="muted" style="margin-top:8px">Rana K. approved · 2h ago</div>
-        <div class="muted">Payment marked paid · 4h ago</div>
-        <div class="muted">Reschedule accepted · yesterday</div>
-      </div>
-    </aside>
-  </main>
+  </div>
   `;
 
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });

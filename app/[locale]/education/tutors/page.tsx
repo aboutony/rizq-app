@@ -63,45 +63,54 @@ export default async function TutorsPage({
   }
 
   const html = `
-  <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff">
-    <div style="max-width:1100px;margin:0 auto;padding:24px">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
-        <a href="${backHref}"
-           style="padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px">
-           ${esc(tr.back)}
-        </a>
-        <div style="font-size:22px;font-weight:800">${esc(tr.title)}</div>
-      </div>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    .top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+    .back{padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px}
+    .title{font-size:22px;font-weight:800}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+    .card{background:var(--card);border:1px solid var(--border);color:var(--text);padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.15)}
+    .row{display:flex;gap:14px;align-items:center}
+    .avatar{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.15)}
+    .name{font-weight:800}
+    .bio{opacity:.8;font-size:13px;margin-top:4px}
+    .btn{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:var(--primary);color:#0b1b13;text-decoration:none;font-size:13px;font-weight:800}
+    .heart{background:transparent;border:none;font-size:18px;cursor:pointer}
+  </style>
 
-      ${tutors.length === 0 ? `
-        <div style="padding:16px;background:rgba(255,255,255,.06);border-radius:14px;color:rgba(255,255,255,.7)">${esc(tr.empty)}</div>
+  <div dir="${isAr ? 'rtl' : 'ltr'}">
+    <div class="wrap">
+      <div class="top">
+        <a class="back" href="${backHref}">${esc(tr.back)}</a>
+        <div class="title">${esc(tr.title)}</div>
+      </div>
+${tutors.length === 0 ? `
+        <div style="padding:16px;background:var(--card);border-radius:14px;opacity:.8">${esc(tr.empty)}</div>
       ` : `
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">
-${tutors.map((tutor) => {
+        <div class="grid">
+          ${tutors.map((tutor) => {
             const name = locale === 'ar' ? tutor.display_name_ar : (locale === 'fr' ? tutor.display_name_fr : tutor.display_name_en);
             const bio = locale === 'ar' ? tutor.bio_ar : (locale === 'fr' ? tutor.bio_fr : tutor.bio_en);
             const isFav = favIds.has(tutor.id);
             return `
-              <div style="position:relative;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#fff;padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.25)">
+              <div class="card" style="position:relative">
                 <form method="POST" action="/api/student/favorites/toggle" style="position:absolute;top:12px;right:12px">
                   <input type="hidden" name="tutor_id" value="${tutor.id}" />
                   <input type="hidden" name="action" value="${isFav ? 'remove' : 'add'}" />
                   <input type="hidden" name="redirect" value="/${locale}/education/student/favorites" />
-                  <button type="submit" style="background:transparent;border:none;font-size:18px;color:${isFav ? '#ef4444' : 'rgba(255,255,255,.6)'};cursor:pointer">♥️</button>
+                  <button type="submit" class="heart" style="color:${isFav ? '#ef4444' : 'rgba(255,255,255,.5)'}">♥️</button>
                 </form>
 
-                <div style="display:flex;gap:14px;align-items:center">
-                  <div style="width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.15)"></div>
+                <div class="row">
+                  <div class="avatar"></div>
                   <div>
-                    <div style="font-weight:800;color:#fff">${esc(name)}</div>
-                    <div style="color:#fff;font-size:13px;margin-top:4px;opacity:.8">${esc(bio || '')}</div>
+                    <div class="name">${esc(name)}</div>
+                    <div class="bio">${esc(bio || '')}</div>
                   </div>
                 </div>
 
-                <a href="/${locale}/education/tutor/profile?slug=${encodeURIComponent(tutor.slug)}"
-                   style="display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:#22c55e;color:#0b1b13;text-decoration:none;font-size:13px;font-weight:800">
-                   ${esc(tr.view)}
-                </a>
+                <a class="btn" href="/${locale}/education/tutor/profile?slug=${encodeURIComponent(tutor.slug)}">${esc(tr.view)}</a>
               </div>
             `;
           }).join('')}

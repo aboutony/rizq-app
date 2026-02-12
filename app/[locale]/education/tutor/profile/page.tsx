@@ -33,7 +33,7 @@ export default async function TutorProfilePage({
   if (!slug) {
     const htmlMissing = `
       <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff;padding:20px">
-        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid #22d3ee;color:#22d3ee;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
         <div style="margin-top:12px;color:rgba(255,255,255,.7)">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
@@ -76,7 +76,7 @@ export default async function TutorProfilePage({
   if (!tutor) {
     const htmlMissing = `
       <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff;padding:20px">
-        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid #22d3ee;color:#22d3ee;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
         <div style="margin-top:12px;color:rgba(255,255,255,.7)">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
@@ -88,24 +88,24 @@ export default async function TutorProfilePage({
   const html = `
   <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff">
     <div style="max-width:900px;margin:0 auto;padding:24px">
-      <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
-<div style="margin-top:16px;background:#fff;color:#0f172a;padding:18px;border-radius:22px;border:1px solid #eef2f7;box-shadow:0 6px 18px rgba(0,0,0,.08)">
+      <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid #22d3ee;color:#22d3ee;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+<div style="margin-top:16px;background:rgba(255,255,255,.06);color:#fff;padding:18px;border-radius:22px;border:1px solid rgba(255,255,255,.08);box-shadow:0 6px 18px rgba(0,0,0,.25)">
         <div style="display:flex;gap:14px;align-items:center">
-          <div style="width:64px;height:64px;border-radius:50%;background:#e2e8f0"></div>
+          <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.15)"></div>
           <div>
-            <div style="font-weight:800;font-size:22px">${esc(name)}</div>
-            <div style="color:#64748b;margin-top:4px">${esc(bio || '')}</div>
+            <div style="font-weight:800;font-size:22px;color:#fff">${esc(name)}</div>
+            <div style="color:#fff;margin-top:4px;opacity:.8">${esc(bio || '')}</div>
           </div>
         </div>
       </div>
 
-      <div style="margin-top:16px;background:#fff;color:#0f172a;padding:18px;border-radius:22px;border:1px solid #eef2f7;box-shadow:0 6px 18px rgba(0,0,0,.08)">
+      <div style="margin-top:16px;background:rgba(255,255,255,.06);color:#fff;padding:18px;border-radius:22px;border:1px solid rgba(255,255,255,.08);box-shadow:0 6px 18px rgba(0,0,0,.25)">
         <div style="font-weight:700">${esc(tr.lessons)}</div>
-        ${lessonTypes.length === 0 ? `<div style="color:#64748b;margin-top:8px">—</div>` : `
+        ${lessonTypes.length === 0 ? `<div style="color:#fff;opacity:.7;margin-top:8px">—</div>` : `
           ${lessonTypes.map((lt) => `
-            <div style="background:#f8fafc;border-radius:14px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between">
+            <div style="background:rgba(255,255,255,.06);border-radius:14px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between">
               <div>${esc(lt.label)}</div>
-              <div style="color:#64748b">${esc(lt.duration_minutes)} min • $${esc(lt.price_amount)}</div>
+              <div style="color:#fff;opacity:.7">${esc(lt.duration_minutes)} min • $${esc(lt.price_amount)}</div>
             </div>
           `).join('')}
         `}

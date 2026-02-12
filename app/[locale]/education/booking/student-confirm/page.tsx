@@ -1,11 +1,8 @@
 import React from 'react';
-type Params = { params: { locale?: string }, searchParams?: { from?: string } };
+type Params = { params: { locale?: string } };
 
-export default function StudentConfirm({ params, searchParams }: Params) {
+export default function StudentConfirm({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
-  const from = searchParams?.from || '';
-  const q = from === 'tutor' ? '?from=tutor' : '';
-
   const t = {
     en: { title:'Final Validation', note:'Tutor confirmed logistics. You can now pay.', pay:'Proceed to Payment', back:'Go Back' },
     ar: { title:'التحقق النهائي', note:'تم تأكيد اللوجستيات. يمكنك الدفع الآن.', pay:'المتابعة للدفع', back:'رجوع' },
@@ -25,8 +22,8 @@ export default function StudentConfirm({ params, searchParams }: Params) {
     <div class="card">
       <div class="title">${t.title}</div>
       <p>${t.note}</p>
-      <a class="btn" href="/${locale}/education/payment${q}">${t.pay}</a>
-      <a class="btn ghost" href="/${locale}/education/booking/logistics${q}">${t.back}</a>
+      <a class="btn" href="/${locale}/education/payment">${t.pay}</a>
+      <a class="btn ghost" href="/${locale}/education/tutor/dashboard">${t.back}</a>
     </div>
   </div>
   `;

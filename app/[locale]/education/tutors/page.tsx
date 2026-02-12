@@ -37,12 +37,14 @@ export default async function TutorsPage({
   let tutors: any[] = [];
   let favIds: Set<string> = new Set();
   try {
-    const favRes = await client.query(`
-      SELECT tutor_profile_id
-      FROM student_favorites
-      WHERE student_id = 'demo-student'
-    `);
-    favIds = new Set(favRes.rows.map((r:any) => r.tutor_profile_id));
+    if (from !== 'tutor') {
+      const favRes = await client.query(`
+        SELECT tutor_profile_id
+        FROM student_favorites
+        WHERE student_id = 'demo-student'
+      `);
+      favIds = new Set(favRes.rows.map((r:any) => r.tutor_profile_id));
+    }
 
     const res = await client.query(
       `SELECT 
@@ -85,22 +87,25 @@ export default async function TutorsPage({
         <a class="back" href="${backHref}">${esc(tr.back)}</a>
         <div class="title">${esc(tr.title)}</div>
       </div>
-${tutors.length === 0 ? `
+
+      ${tutors.length === 0 ? `
         <div style="padding:16px;background:var(--card);border-radius:14px;opacity:.8">${esc(tr.empty)}</div>
       ` : `
         <div class="grid">
-          ${tutors.map((tutor) => {
+${tutors.map((tutor) => {
             const name = locale === 'ar' ? tutor.display_name_ar : (locale === 'fr' ? tutor.display_name_fr : tutor.display_name_en);
             const bio = locale === 'ar' ? tutor.bio_ar : (locale === 'fr' ? tutor.bio_fr : tutor.bio_en);
             const isFav = favIds.has(tutor.id);
             return `
               <div class="card" style="position:relative">
-                <form method="POST" action="/api/student/favorites/toggle" style="position:absolute;top:12px;right:12px">
-                  <input type="hidden" name="tutor_id" value="${tutor.id}" />
-                  <input type="hidden" name="action" value="${isFav ? 'remove' : 'add'}" />
-                  <input type="hidden" name="redirect" value="/${locale}/education/student/favorites" />
-                  <button type="submit" class="heart" style="color:${isFav ? '#ef4444' : 'rgba(255,255,255,.5)'}">♥️</button>
-                </form>
+                ${from === 'tutor' ? '' : `
+                  <form method="POST" action="/api/student/favorites/toggle" style="position:absolute;top:12px;right:12px">
+                    <input type="hidden" name="tutor_id" value="${tutor.id}" />
+                    <input type="hidden" name="action" value="${isFav ? 'remove' : 'add'}" />
+                    <input type="hidden" name="redirect" value="/${locale}/education/student/favorites" />
+                    <button type="submit" class="heart" style="color:${isFav ? '#ef4444' : 'rgba(255,255,255,.5)'}">♥️</button>
+                  </form>
+                `}
 
                 <div class="row">
                   <div class="avatar"></div>

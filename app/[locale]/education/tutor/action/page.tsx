@@ -1,11 +1,15 @@
 import React from 'react';
+import { unstable_noStore as noStore } from 'next/cache';
+import pool from '@/lib/db';
 
 type Params = { params: { locale?: string }, searchParams?: { action?: string; kind?: string } };
 
-export default function TutorActionPage({ params, searchParams }: Params) {
+export default async function TutorActionPage({ params, searchParams }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
   const action = searchParams?.action || 'approve';
   const kind = searchParams?.kind || 'request';
+
+  const TUTOR_ID = 'c2f8242e-34d2-4402-9d30-76d546120731';
 
   const labels: any = {
     en: {
@@ -14,7 +18,9 @@ export default function TutorActionPage({ params, searchParams }: Params) {
       decline:'Declined',
       request:'Lesson Request',
       resReq:'Reschedule Request',
-      back:'Go Back'
+      back:'Go Back',
+      done:'Action saved.',
+      none:'No matching request found.'
     },
     ar: {
       approve:'تمت الموافقة',
@@ -22,7 +28,9 @@ export default function TutorActionPage({ params, searchParams }: Params) {
       decline:'تم الرفض',
       request:'طلب درس',
       resReq:'طلب إعادة جدولة',
-      back:'رجوع'
+      back:'رجوع',
+      done:'تم حفظ الإجراء.',
+      none:'لا يوجد طلب مطابق.'
     },
     fr: {
       approve:'Approuvé',
@@ -30,7 +38,9 @@ export default function TutorActionPage({ params, searchParams }: Params) {
       decline:'Refusé',
       request:'Demande de cours',
       resReq:'Demande de replanification',
-      back:'Retour'
+      back:'Retour',
+      done:'Action enregistrée.',
+      none:'Aucune demande correspondante.'
     }
   }[locale];
 
@@ -39,6 +49,100 @@ export default function TutorActionPage({ params, searchParams }: Params) {
      action === 'reschedule' ? labels.reschedule : labels.decline);
 
   const kindLabel = kind === 'reschedule' ? labels.resReq : labels.request;
+
+  noStore();
+  const client = await pool.connect();
+  let updated = false;
+
+  try {
+    if (kind === 'request') {
+      const newStatus =
+        action === 'approve' ? 'confirmed' :
+        action === 'reschedule' ? 'reschedule_requested' : 'canceled';
+
+      const res = await client.query(
+        `WITH target AS (
+           SELECT id FROM lessons
+           WHERE tutor_id = $1 AND status = 'requested'
+           ORDER BY created_at DESC
+           LIMIT 1
+         )
+         UPDATE lessons
+         SET status = $2
+         WHERE id IN (SELECT id FROM target)
+         RETURNING id`,
+        [TUTOR_ID, newStatus]
+      );
+      updated = res.rows.length > 0;
+    }
+
+    if (kind === 'reschedule') {
+      if (action === 'approve') {
+        const res = await client.query(
+          `WITH target AS (
+             SELECT rr.id, rr.lesson_id
+             FROM reschedule_requests rr
+             JOIN lessons l ON rr.lesson_id = l.id
+             WHERE l.tutor_id = $1 AND rr.status = 'pending'
+             ORDER BY rr.created_at DESC
+             LIMIT 1
+           )
+           UPDATE reschedule_requests
+           SET status = 'approved'
+           WHERE id IN (SELECT id FROM target)
+           RETURNING lesson_id`,
+          [TUTOR_ID]
+        );
+
+        if (res.rows.length > 0) {
+          await client.query(
+            `UPDATE lessons SET status = 'rescheduled'
+             WHERE id = $1`,
+            [res.rows[0].lesson_id]
+          );
+          updated = true;
+        }
+      }
+
+      if (action === 'reschedule') {
+        const res = await client.query(
+          `WITH target AS (
+             SELECT id FROM lessons
+             WHERE tutor_id = $1 AND status = 'confirmed'
+             ORDER BY created_at DESC
+             LIMIT 1
+           )
+           UPDATE lessons
+           SET status = 'reschedule_requested'
+           WHERE id IN (SELECT id FROM target)
+           RETURNING id`,
+          [TUTOR_ID]
+        );
+        updated = res.rows.length > 0;
+      }
+
+      if (action === 'decline') {
+const res = await client.query(
+          `WITH target AS (
+             SELECT rr.id
+             FROM reschedule_requests rr
+             JOIN lessons l ON rr.lesson_id = l.id
+             WHERE l.tutor_id = $1 AND rr.status = 'pending'
+             ORDER BY rr.created_at DESC
+             LIMIT 1
+           )
+           UPDATE reschedule_requests
+           SET status = 'declined'
+           WHERE id IN (SELECT id FROM target)
+           RETURNING id`,
+          [TUTOR_ID]
+        );
+        updated = res.rows.length > 0;
+      }
+    }
+  } finally {
+    client.release();
+  }
 
   const html = `
   <style>
@@ -54,6 +158,7 @@ export default function TutorActionPage({ params, searchParams }: Params) {
     <div class="card">
       <div class="title">${title}</div>
       <div class="muted">${kindLabel}</div>
+      <div class="muted" style="margin-top:8px">${updated ? labels.done : labels.none}</div>
       <a class="btn" href="/${locale}/education/tutor/dashboard">${labels.back}</a>
     </div>
   </div>

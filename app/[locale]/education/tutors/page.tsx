@@ -44,35 +44,45 @@ export default async function TutorsPage({ params }: { params: { locale: string 
   }
 
   const html = `
-  <div dir="${isAr ? 'rtl' : 'ltr'}" class="min-h-screen bg-[#0d1324] text-white">
-    <div class="p-4 md:p-8 max-w-6xl mx-auto">
-      <div class="flex items-center gap-3 mb-6">
-        <a href="/${esc(locale)}/education/student/dashboard" class="text-sm px-4 py-1 rounded-full border border-white/30 hover:bg-white/10">${esc(tr.back)}</a>
-        <h1 class="text-2xl font-bold">${esc(tr.title)}</h1>
+  <style>
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0d1324;color:#fff}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    .top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+    .back{padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-size:12px}
+    .title{font-size:22px;font-weight:800}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+    .card{background:#fff;color:#0f172a;padding:18px;border-radius:22px;border:1px solid #eef2f7;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    .row{display:flex;gap:14px;align-items:center}
+    .avatar{width:54px;height:54px;border-radius:50%;background:#e2e8f0}
+    .name{font-weight:700}
+    .bio{color:#64748b;font-size:13px;margin-top:4px}
+    .btn{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:#0d1324;color:#fff;text-decoration:none;font-size:13px}
+  </style>
+
+  <div dir="${isAr ? 'rtl' : 'ltr'}">
+    <div class="wrap">
+      <div class="top">
+        <a class="back" href="/${esc(locale)}/education/student/dashboard">${esc(tr.back)}</a>
+        <div class="title">${esc(tr.title)}</div>
       </div>
 
       ${tutors.length === 0 ? `
-        <div class="p-4 bg-white/10 rounded-2xl text-white/70">${esc(tr.empty)}</div>
+        <div style="padding:16px;background:rgba(255,255,255,.08);border-radius:14px;color:rgba(255,255,255,.7)">${esc(tr.empty)}</div>
       ` : `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          ${tutors.map((tutor) => {
+        <div class="grid">
+${tutors.map((tutor) => {
             const name = locale === 'ar' ? tutor.display_name_ar : (locale === 'fr' ? tutor.display_name_fr : tutor.display_name_en);
             const bio = locale === 'ar' ? tutor.bio_ar : (locale === 'fr' ? tutor.bio_fr : tutor.bio_en);
             return `
-              <div class="bg-white text-slate-900 p-5 rounded-3xl shadow-sm border border-slate-100">
-                <div class="flex items-center gap-4">
-                  <div class="w-14 h-14 rounded-full bg-slate-200"></div>
-                  <div class="flex-1">
-                    <div class="font-semibold text-slate-800">${esc(name)}</div>
-                    <div class="text-sm text-slate-500 mt-1">${esc(bio || '')}</div>
+              <div class="card">
+                <div class="row">
+                  <div class="avatar"></div>
+                  <div>
+                    <div class="name">${esc(name)}</div>
+                    <div class="bio">${esc(bio || '')}</div>
                   </div>
                 </div>
-                <div class="mt-4">
-                  <a href="/${esc(locale)}/education/tutor/profile?slug=${encodeURIComponent(tutor.slug)}"
-                     class="inline-block px-4 py-2 rounded-2xl bg-[#0d1324] text-white text-sm hover:bg-[#111a33]">
-                    ${esc(tr.view)}
-                  </a>
-                </div>
+                <a class="btn" href="/${esc(locale)}/education/tutor/profile?slug=${encodeURIComponent(tutor.slug)}">${esc(tr.view)}</a>
               </div>
             `;
           }).join('')}

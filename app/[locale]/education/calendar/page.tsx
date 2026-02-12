@@ -1,20 +1,13 @@
 import React from 'react';
-type Params = { params: { locale?: string }, searchParams?: { from?: string } };
+type Params = { params: { locale?: string } };
 
-export default function CalendarPage({ params, searchParams }: Params) {
+export default function CalendarPage({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
-  const from = searchParams?.from || '';
-  const backHref = from === 'tutor'
-    ? `/${locale}/education/tutor/dashboard`
-    : `/${locale}/education/student/lesson`;
-
   const t = {
     en: { title:'Select Date & Time', date:'Date', time:'Time Slot', student:'Student Name', book:'Confirm Booking', back:'Go Back' },
     ar: { title:'اختر التاريخ والوقت', date:'التاريخ', time:'الوقت', student:'اسم الطالب', book:'تأكيد الحجز', back:'رجوع' },
     fr: { title:'Choisir la date et l’heure', date:'Date', time:'Heure', student:'Nom de l’élève', book:'Confirmer', back:'Retour' }
   }[locale as 'en'|'ar'|'fr'];
-
-  const nextQuery = from === 'tutor' ? '?from=tutor' : '';
 
   const html = `
   <style>
@@ -33,7 +26,6 @@ export default function CalendarPage({ params, searchParams }: Params) {
       <form class="grid" method="post" action="/api/booking/create">
         <input type="hidden" name="locale" value="${locale}" />
         <input type="hidden" name="tutor_id" value="c2f8242e-34d2-4402-9d30-76d546120731" />
-        <input type="hidden" name="from" value="${from}" />
         <label>${t.student}</label>
         <input class="input" name="student_name" placeholder="Demo Student" />
         <label>${t.date}</label>
@@ -46,7 +38,7 @@ export default function CalendarPage({ params, searchParams }: Params) {
         </select>
         <button class="btn" type="submit">${t.book}</button>
       </form>
-      <a class="btn ghost" href="${backHref}">${t.back}</a>
+      <a class="btn ghost" href="/${locale}/education/tutor/dashboard">${t.back}</a>
     </div>
   </div>
   `;

@@ -2,7 +2,7 @@ import React from 'react';
 import { unstable_noStore as noStore } from 'next/cache';
 import pool from '@/lib/db';
 
-type Params = { params: { locale?: string } };
+type Params = { params: { locale?: string }, searchParams?: { category?: string; level?: string; location?: string } };
 
 function getDisplayName(row: any, locale: string) {
   if (locale === 'ar' && row.display_name_ar) return row.display_name_ar;
@@ -17,9 +17,13 @@ function nameWithInitial(fullName: string) {
   return parts.slice(0, -1).join(' ') + ' ' + last.charAt(0) + '.';
 }
 
-export default async function TutorDirectory({ params }: Params) {
+export default async function TutorDirectory({ params, searchParams }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
   noStore();
+
+  const category = (searchParams?.category || '').trim();
+  const level = (searchParams?.level || '').trim();
+  const location = (searchParams?.location || '').trim();
 
   const client = await pool.connect();
   let tutors: any[] = [];
@@ -45,9 +49,12 @@ export default async function TutorDirectory({ params }: Params) {
       LEFT JOIN tutor_levels lv ON lv.tutor_profile_id = t.id
       LEFT JOIN tutor_rating_summary trs ON t.id = trs.tutor_id
       WHERE t.is_active = true
+        AND ($1 = '' OR $1 ILIKE '%' || ts.subject || '%' OR $1 ILIKE '%' || tp.bio || '%')
+        AND ($2 = '' OR $2 ILIKE '%' || lv.level || '%')
+        AND ($3 = '' OR $3 ILIKE '%' || tl.location || '%')
       GROUP BY t.id, t.name, t.slug, t.display_name_en, t.display_name_ar, t.display_name_fr, tp.photo_url, trs.avg_stars, trs.rating_count
       ORDER BY t.display_name_en;
-    `);
+    `, [category, level, location]);
     tutors = res.rows;
   } finally {
     client.release();
@@ -62,7 +69,8 @@ export default async function TutorDirectory({ params }: Params) {
       list:'List View',
       view:'View Profile',
       backStudent:'Back to Student Dashboard',
-      backTutor:'Back to Tutor Dashboard'
+      backTutor:'Back to Tutor Dashboard',
+      empty:'No tutors match your filters.'
     },
     ar: {
       title:'دليل المدرّسين',
@@ -72,7 +80,8 @@ export default async function TutorDirectory({ params }: Params) {
       list:'عرض قائمة',
       view:'عرض الملف',
       backStudent:'العودة إلى لوحة الطالب',
-      backTutor:'العودة إلى لوحة المدرّس'
+      backTutor:'العودة إلى لوحة المدرّس',
+      empty:'لا يوجد نتائج مطابقة.'
     },
     fr: {
       title:'Annuaire des tuteurs',
@@ -82,11 +91,11 @@ export default async function TutorDirectory({ params }: Params) {
       list:'Vue Liste',
       view:'Voir profil',
       backStudent:'Retour au tableau Élève',
-      backTutor:'Retour au tableau Tuteur'
+      backTutor:'Retour au tableau Tuteur',
+      empty:'Aucun tuteur ne correspond aux filtres.'
     }
   }[locale as 'en'|'ar'|'fr'];
-
-  const cardsGrid = tutors.map((row) => {
+const cardsGrid = tutors.map((row) => {
     const fullName = getDisplayName(row, locale);
     const name = nameWithInitial(fullName);
     const subjects = row.subjects || '';
@@ -105,7 +114,8 @@ export default async function TutorDirectory({ params }: Params) {
       </div>
     `;
   }).join('');
-const cardsList = tutors.map((row) => {
+
+  const cardsList = tutors.map((row) => {
     const fullName = getDisplayName(row, locale);
     const name = nameWithInitial(fullName);
     const subjects = row.subjects || '';
@@ -127,6 +137,8 @@ const cardsList = tutors.map((row) => {
       </div>
     `;
   }).join('');
+
+  const emptyState = `<div class="muted">${t.empty}</div>`;
 
   const html = `
   <style>
@@ -158,11 +170,11 @@ const cardsList = tutors.map((row) => {
     </div>
 
     <div id="grid" class="grid cards">
-      ${cardsGrid || '<div class="muted">No tutors found.</div>'}
+      ${cardsGrid || emptyState}
     </div>
 
     <div id="list" class="grid" style="margin-top:20px">
-      ${cardsList || '<div class="muted">No tutors found.</div>'}
+      ${cardsList || emptyState}
     </div>
 
     <div style="margin-top:16px;display:grid;gap:8px">

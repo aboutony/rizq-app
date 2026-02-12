@@ -112,14 +112,14 @@ export default function TutorDashboard({ params }: Params) {
       reason:'Raison du refus',
       reason1:'Conflit d’horaire',
       reason2:'Non disponible',
-      rescheduleRequests:'Demandes de replanification',
+rescheduleRequests:'Demandes de replanification',
       activity:'Activité récente',
       calendar:'Calendrier',
       month:'Octobre 2023',
       mode:'Mode',
       online:'En ligne',
       location:'Lieu',
-studentHome:"Chez l'élève",
+      studentHome:"Chez l'élève",
       createLesson:'Créer une leçon',
       homework:'Devoir',
       notes:'Notes',
@@ -183,9 +183,9 @@ studentHome:"Chez l'élève",
   <main class="dashboard" dir="${locale === 'ar' ? 'rtl' : 'ltr'}">
     <section class="${subscriptionActive ? '' : 'locked'}">
       <div class="kpis">
-        <div class="card"><div class="muted">${t.earned}</div><div style="font-size:22px;font-weight:800">$1,240</div></div>
+<div class="card"><div class="muted">${t.earned}</div><div style="font-size:22px;font-weight:800">$1,240</div></div>
         <div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
-<div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
+        <div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
         <div class="card"><div class="muted">${t.activeStudents}</div><div style="font-size:22px;font-weight:800">12</div></div>
         <div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
         <div class="card">
@@ -248,7 +248,7 @@ studentHome:"Chez l'élève",
     </section>
 
     <aside class="${subscriptionActive ? '' : 'locked'}">
-      <div class="card" id="calendar">
+      <a href="/${locale}/education/calendar" class="card" style="text-decoration:none;color:inherit;display:block" id="calendar">
         <h3>${t.calendar}</h3>
         <div class="muted" style="margin:8px 0">${t.month}</div>
         <div class="calendar" style="margin-bottom:8px">
@@ -257,15 +257,15 @@ studentHome:"Chez l'élève",
         </div>
         <div class="calendar">
           <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day active">6</div><div class="day">7</div>
-          <div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
+<div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
         </div>
-      </div>
+      </a>
 
       <div class="card" style="margin-top:16px">
         <h3>${t.activity}</h3>
         <div class="muted" style="margin-top:8px">${t.act1}</div>
         <div class="muted">${t.act2}</div>
-<div class="muted">${t.act3}</div>
+        <div class="muted">${t.act3}</div>
       </div>
     </aside>
   </main>

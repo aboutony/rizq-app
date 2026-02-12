@@ -9,6 +9,7 @@ export default function TutorLessonPage({ params }: Params) {
     en: {
       title:'Lesson Promotion',
       subtitle:'Tutor version — you can edit “Other” fields.',
+      select:'Select one',
       lessonTitle:'Lesson Title',
       lessonTitlePh:'e.g., Grade 9 Algebra Crash Course',
       description:'Description',
@@ -101,6 +102,7 @@ export default function TutorLessonPage({ params }: Params) {
     ar: {
       title:'ترويج الدرس',
       subtitle:'نسخة المدرّس — يمكنك تعديل حقول «أخرى».',
+      select:'اختر واحدًا',
       lessonTitle:'عنوان الدرس',
       lessonTitlePh:'مثال: دورة مكثفة في الجبر للصف التاسع',
       description:'الوصف',
@@ -130,12 +132,12 @@ export default function TutorLessonPage({ params }: Params) {
       ge1:'المرحلة الابتدائية',
       ge2:'المرحلة المتوسطة / الإعدادية',
       ge3:'المرحلة الثانوية (المسار العام)',
-      ge4:'المرحلة الجامعية (بكالوريوس)',
+ge4:'المرحلة الجامعية (بكالوريوس)',
       ge5:'أخرى',
 
       tvet:'2. التعليم والتدريب التقني والمهني',
       tv1:'CAP',
-tv2:'BP',
+      tv2:'BP',
       tv3:'BT',
       tv4:'TS',
       tv5:'شهادات/دبلومات مهنية أخرى',
@@ -193,6 +195,7 @@ tv2:'BP',
     fr: {
       title:'Promotion du cours',
       subtitle:'Version tuteur — vous pouvez modifier les champs « Autre ».',
+      select:'Sélectionner',
       lessonTitle:'Titre du cours',
       lessonTitlePh:'ex. Cours intensif d’algèbre 3e',
       description:'Description',
@@ -279,14 +282,14 @@ tv2:'BP',
       c3:'Développement mobile',
       c4:'Données & IA',
       c5:'DevOps & Cloud',
-      c6:'Parcours débutant',
+c6:'Parcours débutant',
       c7:'Préparation aux certifications'
     }
   }[locale as 'en'|'ar'|'fr'];
 
   const html = `
   <style>
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
     .wrap{min-height:100vh;padding:20px;display:flex;justify-content:center}
     .card{width:100%;max-width:760px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,0.05)}
     .title{font-size:20px;font-weight:800;margin-bottom:6px}
@@ -316,6 +319,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
           <div>
             <label>${t.mode}</label>
             <select class="input">
+              <option value="">${t.select}</option>
               <option>${t.modeOnline}</option>
               <option>${t.modeInPerson}</option>
             </select>
@@ -323,6 +327,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
           <div>
             <label>${t.location}</label>
             <select class="input">
+              <option value="">${t.select}</option>
               <option>${t.locTutor}</option>
               <option>${t.locSchool}</option>
               <option>${t.locStudent}</option>
@@ -345,6 +350,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
           <div>
             <label>${t.language}</label>
             <select class="input">
+              <option value="">${t.select}</option>
               <option>${t.langArabic}</option>
               <option>${t.langEnglish}</option>
               <option>${t.langFrench}</option>
@@ -360,6 +366,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
       <div class="section">
         <h3>${t.ge}</h3>
         <select class="input">
+          <option value="">${t.select}</option>
           <option>${t.ge1}</option>
           <option>${t.ge2}</option>
           <option>${t.ge3}</option>
@@ -372,6 +379,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
       <div class="section">
         <h3>${t.tvet}</h3>
         <select class="input">
+          <option value="">${t.select}</option>
           <option>${t.tv1}</option>
           <option>${t.tv2}</option>
           <option>${t.tv3}</option>
@@ -383,8 +391,9 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
       </div>
 
       <div class="section">
-        <h3>${t.arts}</h3>
+<h3>${t.arts}</h3>
         <select class="input">
+          <option value="">${t.select}</option>
           <option>${t.ar1}</option>
           <option>${t.ar2}</option>
           <option>${t.ar3}</option>
@@ -396,7 +405,8 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
 
       <div class="section">
         <h3>${t.sports}</h3>
-<select class="input">
+        <select class="input">
+          <option value="">${t.select}</option>
           <option>${t.sp1}</option>
           <option>${t.sp2}</option>
           <option>${t.sp3}</option>
@@ -409,6 +419,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
       <div class="section">
         <h3>${t.culinary}</h3>
         <select class="input">
+          <option value="">${t.select}</option>
           <option>${t.cu1}</option>
           <option>${t.cu2}</option>
           <option>${t.cu3}</option>
@@ -425,6 +436,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
       <div class="section">
         <h3>${t.bac}</h3>
         <select class="input">
+          <option value="">${t.select}</option>
           <option>${t.bac1}</option>
           <option>${t.bac2}</option>
         </select>
@@ -433,6 +445,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
       <div class="section">
         <h3>${t.langLearn}</h3>
         <select class="input">
+          <option value="">${t.select}</option>
           <option>${t.ll1}</option>
           <option>${t.ll2}</option>
           <option>${t.ll3}</option>
@@ -451,6 +464,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;backgr
       <div class="section">
         <h3>${t.code}</h3>
         <select class="input">
+          <option value="">${t.select}</option>
           <option>${t.c1}</option>
           <option>${t.c2}</option>
           <option>${t.c3}</option>

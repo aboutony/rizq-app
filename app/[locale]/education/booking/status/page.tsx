@@ -1,11 +1,17 @@
 import React from 'react';
+import { headers } from 'next/headers';
+
 type Params = { params: { locale?: string }, searchParams?: { from?: string } };
 
 export default function BookingStatus({ params, searchParams }: Params) {
-const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
+  const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
   const from = searchParams?.from || '';
-  const q = from === 'tutor' ? '?from=tutor' : '';
-  const backHref = from === 'tutor'
+  const hdrs = headers();
+  const referer = hdrs.get('referer') || '';
+  const isTutorFlow = from === 'tutor' || referer.includes('/education/tutor/') || referer.includes('from=tutor');
+
+  const q = isTutorFlow ? '?from=tutor' : '';
+  const backHref = isTutorFlow
     ? `/${locale}/education/tutor/dashboard`
     : `/${locale}/education/student/dashboard`;
 

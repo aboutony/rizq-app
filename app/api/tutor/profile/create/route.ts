@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   const pin = String(form.get('pin') || '');
   const locale = String(form.get('locale') || 'en');
 
-  if (pin !== '4') {
+  if (pin !== '1234') {
     return NextResponse.redirect(new URL(`/${locale}/education/tutor/create?error=pin`, request.url));
   }
 
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
   const client = await pool.connect();
   try {
     const exists = await client.query('select 1 from tutors where slug = $1', [slug]);
-if (exists.rows.length > 0) {
+    if (exists.rows.length > 0) {
       return NextResponse.redirect(new URL(`/${locale}/education/tutor/create?error=slug`, request.url));
     }
 
@@ -108,5 +108,5 @@ if (exists.rows.length > 0) {
     return NextResponse.redirect(new URL(`/${locale}/education/tutors`, request.url));
   } finally {
     client.release();
-  }
+}
 }

@@ -20,6 +20,7 @@ export default async function FavoritesPage({ params }: Params) {
     const res = await client.query(`
       SELECT
         t.id,
+        t.slug,
         t.name,
         t.display_name_en,
         t.display_name_ar,
@@ -33,7 +34,7 @@ export default async function FavoritesPage({ params }: Params) {
       LEFT JOIN tutor_locations tl ON tl.tutor_profile_id = t.id
       LEFT JOIN tutor_rating_summary trs ON t.id = trs.tutor_id
       WHERE sf.student_id = 'demo-student'
-      GROUP BY t.id, t.name, t.display_name_en, t.display_name_ar, t.display_name_fr, trs.avg_stars
+      GROUP BY t.id, t.slug, t.name, t.display_name_en, t.display_name_ar, t.display_name_fr, trs.avg_stars
       ORDER BY t.display_name_en;
     `);
     favorites = res.rows;
@@ -43,7 +44,7 @@ export default async function FavoritesPage({ params }: Params) {
 
   const t = {
     en: { title:'My Favorites', subtitle:'Saved tutors for quick booking.', view:'View Profile', back:'Go Back', empty:'No favorites yet.' },
-    ar: { title:'المفضلة', subtitle:'المدرّسون المحفوظون للحجز السريع.', view:'عرض الملف', back:'رجوع', empty:'لا يوجد مفضلات بعد.' },
+ar: { title:'المفضلة', subtitle:'المدرّسون المحفوظون للحجز السريع.', view:'عرض الملف', back:'رجوع', empty:'لا يوجد مفضلات بعد.' },
     fr: { title:'Mes favoris', subtitle:'Tuteurs enregistrés pour réservation rapide.', view:'Voir profil', back:'Retour', empty:'Aucun favori pour le moment.' }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -53,13 +54,19 @@ export default async function FavoritesPage({ params }: Params) {
     const locations = row.locations || '';
     const rating = row.avg_stars ? Number(row.avg_stars).toFixed(1) : '0.0';
     return `
-      <div class="card">
+      <div class="card" style="position:relative">
+        <form method="POST" action="/api/student/favorites/toggle" style="position:absolute;top:12px;right:12px">
+          <input type="hidden" name="tutor_id" value="${row.id}" />
+          <input type="hidden" name="action" value="remove" />
+          <input type="hidden" name="redirect" value="/${locale}/education/tutors" />
+          <button type="submit" style="background:transparent;border:none;font-size:18px;color:#ef4444;cursor:pointer">♥️</button>
+        </form>
         <div class="row">
           <div>
             <div style="font-weight:800">${name}</div>
             <div class="muted">${subjects} · ${locations} · ${rating} ★</div>
           </div>
-          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
+          <a class="btn" href="/${locale}/education/tutor/profile?slug=${encodeURIComponent(row.slug)}">${t.view}</a>
         </div>
       </div>
     `;

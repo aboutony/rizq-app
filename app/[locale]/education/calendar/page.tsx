@@ -1,8 +1,13 @@
 import React from 'react';
-type Params = { params: { locale?: string } };
+type Params = { params: { locale?: string }, searchParams?: { from?: string } };
 
-export default function CalendarPage({ params }: Params) {
+export default function CalendarPage({ params, searchParams }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
+  const from = searchParams?.from || '';
+  const backHref = from === 'student'
+    ? `/${locale}/education/student/dashboard`
+    : `/${locale}/education/tutor/dashboard`;
+
   const t = {
     en: { title:'Select Date & Time', date:'Date', time:'Time Slot', student:'Student Name', book:'Confirm Booking', back:'Go Back' },
     ar: { title:'اختر التاريخ والوقت', date:'التاريخ', time:'الوقت', student:'اسم الطالب', book:'تأكيد الحجز', back:'رجوع' },
@@ -38,7 +43,7 @@ export default function CalendarPage({ params }: Params) {
         </select>
         <button class="btn" type="submit">${t.book}</button>
       </form>
-      <a class="btn ghost" href="/${locale}/education/tutor/dashboard">${t.back}</a>
+      <a class="btn ghost" href="${backHref}">${t.back}</a>
     </div>
   </div>
   `;

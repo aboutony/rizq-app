@@ -48,7 +48,7 @@ export default async function TutorsPage({ params }: { params: { locale: string 
     <div style="max-width:1100px;margin:0 auto;padding:24px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
         <a href="/${esc(locale)}/education/student/dashboard"
-           style="padding:6px 12px;border-radius:999px;border:1px solid #22d3ee;color:#22d3ee;text-decoration:none;font-size:12px">
+           style="padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px">
            ${esc(tr.back)}
         </a>
         <div style="font-size:22px;font-weight:800">${esc(tr.title)}</div>
@@ -71,7 +71,7 @@ export default async function TutorsPage({ params }: { params: { locale: string 
                   </div>
                 </div>
                 <a href="/${esc(locale)}/education/tutor/profile?slug=${encodeURIComponent(tutor.slug)}"
-                   style="display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:#22d3ee;color:#042028;text-decoration:none;font-size:13px;font-weight:800">
+                   style="display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:#22c55e;color:#0b1b13;text-decoration:none;font-size:13px;font-weight:800">
                    ${esc(tr.view)}
                 </a>
               </div>
@@ -80,7 +80,7 @@ export default async function TutorsPage({ params }: { params: { locale: string 
         </div>
       `}
     </div>
-</div>
+  </div>
   `;
 
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });

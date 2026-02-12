@@ -17,15 +17,15 @@ export async function POST(request: Request) {
   try {
     // ensure lesson type exists (create if missing)
     let lessonTypeId: string | null = null;
-
     const lt = await client.query(
       `select id from lesson_types where tutor_id = $1 and active = true limit 1`,
       [tutor_id]
     );
+
     if (lt.rows.length > 0) {
       lessonTypeId = lt.rows[0].id;
     } else {
-const createLt = await client.query(
+      const createLt = await client.query(
         `insert into lesson_types (tutor_id, category, label, active)
          values ($1, 'academic', 'General Lesson', true)
          returning id`,
@@ -41,10 +41,8 @@ const createLt = await client.query(
     }
 
     const requested_at_utc = new Date(`${date}T${time}:00.000Z`);
-
     await client.query(
-      `insert into lessons
-       (tutor_id, lesson_type_id, student_name, duration_minutes, price_amount, status, requested_start_at_utc)
+      `insert into lessons (tutor_id, lesson_type_id, student_name, duration_minutes, price_amount, status, requested_start_at_utc)
        values ($1, $2, $3, 60, 45.00, 'requested', $4)`,
       [tutor_id, lessonTypeId, student_name, requested_at_utc]
     );
@@ -57,7 +55,6 @@ const createLt = await client.query(
        limit 1`,
       [tutor_id]
     );
-
   } finally {
     client.release();
   }

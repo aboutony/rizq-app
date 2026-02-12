@@ -6,7 +6,7 @@ function esc(s: any) {
   return String(s ?? '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
-.replace(/>/g, '&gt;')
+    .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 }
@@ -32,9 +32,9 @@ export default async function TutorProfilePage({
 
   if (!slug) {
     const htmlMissing = `
-      <div dir="${isAr ? 'rtl' : 'ltr'}" class="min-h-screen bg-[#0d1324] text-white p-6">
-        <a href="/${esc(locale)}/education/tutors" class="text-sm px-4 py-1 rounded-full border border-white/30 hover:bg-white/10">${esc(tr.back)}</a>
-        <div class="mt-4 text-white/70">${esc(tr.missing)}</div>
+      <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff;padding:20px">
+        <a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+        <div style="margin-top:12px;color:rgba(255,255,255,.7)">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
   }
@@ -75,9 +75,9 @@ export default async function TutorProfilePage({
 
   if (!tutor) {
     const htmlMissing = `
-      <div dir="${isAr ? 'rtl' : 'ltr'}" class="min-h-screen bg-[#0d1324] text-white p-6">
-        <a href="/${esc(locale)}/education/tutors" class="text-sm px-4 py-1 rounded-full border border-white/30 hover:bg-white/10">${esc(tr.back)}</a>
-        <div class="mt-4 text-white/70">${esc(tr.missing)}</div>
+      <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff;padding:20px">
+<a href="/${esc(locale)}/education/tutors" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+        <div style="margin-top:12px;color:rgba(255,255,255,.7)">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
   }
@@ -86,33 +86,41 @@ export default async function TutorProfilePage({
   const bio = locale === 'ar' ? tutor.bio_ar : (locale === 'fr' ? tutor.bio_fr : tutor.bio_en);
 
   const html = `
-  <div dir="${isAr ? 'rtl' : 'ltr'}" class="min-h-screen bg-[#0d1324] text-white">
-    <div class="p-4 md:p-8 max-w-4xl mx-auto">
-      <a href="/${esc(locale)}/education/tutors" class="text-sm px-4 py-1 rounded-full border border-white/30 hover:bg-white/10">${esc(tr.back)}</a>
+  <style>
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0d1324;color:#fff}
+    .wrap{max-width:900px;margin:0 auto;padding:24px}
+    .back{padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-size:12px}
+    .card{background:#fff;color:#0f172a;padding:18px;border-radius:22px;border:1px solid #eef2f7;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    .row{display:flex;gap:14px;align-items:center}
+    .avatar{width:64px;height:64px;border-radius:50%;background:#e2e8f0}
+    .name{font-weight:800;font-size:22px}
+    .bio{color:#64748b;margin-top:4px}
+    .lesson{background:#f8fafc;border-radius:14px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between}
+  </style>
 
-      <div class="mt-6 bg-white text-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100">
-        <div class="flex items-center gap-4">
-          <div class="w-16 h-16 rounded-full bg-slate-200"></div>
+  <div dir="${isAr ? 'rtl' : 'ltr'}">
+    <div class="wrap">
+      <a class="back" href="/${esc(locale)}/education/tutors">${esc(tr.back)}</a>
+
+      <div class="card" style="margin-top:16px">
+        <div class="row">
+          <div class="avatar"></div>
           <div>
-            <h1 class="text-2xl font-bold text-slate-800">${esc(name)}</h1>
-            <p class="text-slate-500 mt-1">${esc(bio || '')}</p>
+            <div class="name">${esc(name)}</div>
+            <div class="bio">${esc(bio || '')}</div>
           </div>
         </div>
       </div>
 
-      <div class="mt-6 bg-white text-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100">
-        <h2 class="text-lg font-semibold text-slate-800 mb-4">${esc(tr.lessons)}</h2>
-        ${lessonTypes.length === 0 ? `
-          <p class="text-slate-500">—</p>
-        ` : `
-<div class="space-y-3">
-            ${lessonTypes.map((lt) => `
-              <div class="flex items-center justify-between bg-slate-50 rounded-2xl p-3">
-                <div class="font-medium text-slate-700">${esc(lt.label)}</div>
-                <div class="text-sm text-slate-600">${esc(lt.duration_minutes)} min • $${esc(lt.price_amount)}</div>
-              </div>
-            `).join('')}
-          </div>
+      <div class="card" style="margin-top:16px">
+        <div style="font-weight:700">${esc(tr.lessons)}</div>
+        ${lessonTypes.length === 0 ? `<div style="color:#64748b;margin-top:8px">—</div>` : `
+          ${lessonTypes.map((lt) => `
+            <div class="lesson">
+              <div>${esc(lt.label)}</div>
+              <div style="color:#64748b">${esc(lt.duration_minutes)} min • $${esc(lt.price_amount)}</div>
+            </div>
+          `).join('')}
         `}
       </div>
     </div>

@@ -1,19 +1,9 @@
 import React from 'react';
-import { headers } from 'next/headers';
 
-type Params = { params: { locale?: string }, searchParams?: { from?: string } };
+type Params = { params: { locale?: string } };
 
-export default function BookingStatus({ params, searchParams }: Params) {
+export default function BookingStatus({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
-  const from = searchParams?.from || '';
-  const hdrs = headers();
-  const referer = hdrs.get('referer') || '';
-  const isTutorFlow = from === 'tutor' || referer.includes('/education/tutor/') || referer.includes('from=tutor');
-
-  const q = isTutorFlow ? '?from=tutor' : '';
-  const backHref = isTutorFlow
-    ? `/${locale}/education/tutor/dashboard`
-    : `/${locale}/education/student/dashboard`;
 
   const t = {
     en: { title:'Booking Status', pending:'Pending Payment', confirmed:'Confirmed', logistics:'Confirm Equipment & Venue', back:'Go Back' },
@@ -36,8 +26,8 @@ export default function BookingStatus({ params, searchParams }: Params) {
       <div class="title">${t.title}</div>
       <div class="status">${t.pending}</div>
       <div class="status">${t.confirmed}</div>
-      <a class="btn" href="/${locale}/education/booking/logistics${q}">${t.logistics}</a>
-      <a class="btn ghost" href="${backHref}">${t.back}</a>
+      <a class="btn" href="/${locale}/education/booking/logistics?from=tutor">${t.logistics}</a>
+      <a class="btn ghost" href="/${locale}/education/tutor/dashboard">${t.back}</a>
     </div>
   </div>
   `;

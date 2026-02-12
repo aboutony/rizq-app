@@ -45,7 +45,6 @@ export default async function TutorsPage({ params }: { params: { locale: string 
 
   const html = `
   <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:#0d1324;color:#fff">
-      <div style="color:#fff;font-weight:700;margin-bottom:10px">VERSION 4db1f41</div>
     <div style="max-width:1100px;margin:0 auto;padding:24px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
         <a href="/${esc(locale)}/education/student/dashboard" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-size:12px">${esc(tr.back)}</a>

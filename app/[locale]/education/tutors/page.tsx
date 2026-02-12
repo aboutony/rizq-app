@@ -115,7 +115,7 @@ ${tutors.map((tutor) => {
                   </div>
                 </div>
 
-                <a class="btn" href="/${locale}/education/tutor/profile?slug=${encodeURIComponent(tutor.slug)}">${esc(tr.view)}</a>
+                <a class="btn" href="/${locale}/education/tutor/profile?slug=${encodeURIComponent(tutor.slug)}${from === 'tutor' ? '&from=tutor' : ''}">
               </div>
             `;
           }).join('')}

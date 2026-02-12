@@ -66,33 +66,36 @@ export default async function TutorsPage({
 
   const html = `
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f8fafc;color:#0f172a;line-height:1.4}
+    [data-theme="dark"] body{background:#0d1324;color:#e5e7eb}
     .wrap{max-width:1100px;margin:0 auto;padding:24px}
     .top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-    .back{padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px}
+    .back{padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px}
     .title{font-size:22px;font-weight:800}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
-    .card{background:var(--card);border:1px solid var(--border);color:var(--text);padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.15)}
+    .card{background:#ffffff;border:1px solid #e2e8f0;color:#0f172a;padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    [data-theme="dark"] .card{background:#111827;border:1px solid #1f2937;color:#e5e7eb;box-shadow:0 6px 18px rgba(0,0,0,.25)}
     .row{display:flex;gap:14px;align-items:center}
-    .avatar{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.15)}
+    .avatar{width:54px;height:54px;border-radius:50%;background:#e2e8f0}
+    [data-theme="dark"] .avatar{background:rgba(255,255,255,.15)}
     .name{font-weight:800}
     .bio{opacity:.8;font-size:13px;margin-top:4px}
-    .btn{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:var(--primary);color:#0b1b13;text-decoration:none;font-size:13px;font-weight:800}
+    .btn{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:#22c55e;color:#0b1b13;text-decoration:none;font-size:13px;font-weight:800}
     .heart{background:transparent;border:none;font-size:18px;cursor:pointer}
   </style>
 
   <div dir="${isAr ? 'rtl' : 'ltr'}">
     <div class="wrap">
-      <div class="top">
+<div class="top">
         <a class="back" href="${backHref}">${esc(tr.back)}</a>
         <div class="title">${esc(tr.title)}</div>
       </div>
 
       ${tutors.length === 0 ? `
-        <div style="padding:16px;background:var(--card);border-radius:14px;opacity:.8">${esc(tr.empty)}</div>
+        <div style="padding:16px;border-radius:14px;opacity:.8">${esc(tr.empty)}</div>
       ` : `
         <div class="grid">
-${tutors.map((tutor) => {
+          ${tutors.map((tutor) => {
             const name = locale === 'ar' ? tutor.display_name_ar : (locale === 'fr' ? tutor.display_name_fr : tutor.display_name_en);
             const bio = locale === 'ar' ? tutor.bio_ar : (locale === 'fr' ? tutor.bio_fr : tutor.bio_en);
             const isFav = favIds.has(tutor.id);
@@ -115,7 +118,7 @@ ${tutors.map((tutor) => {
                   </div>
                 </div>
 
-                <a class="btn" href="/${locale}/education/tutor/profile?slug=${encodeURIComponent(tutor.slug)}${from === 'tutor' ? '&from=tutor' : ''}">
+                <a class="btn" href="/${locale}/education/tutor/profile?slug=${encodeURIComponent(tutor.slug)}${from === 'tutor' ? '&from=tutor' : ''}">${esc(tr.view)}</a>
               </div>
             `;
           }).join('')}

@@ -25,7 +25,7 @@ export default function TutorOffice({ params }: Params) {
       subscription:'Subscription',
       status:'Status',
       active:'Active',
-      renew:'Renew Subscription',
+      renew:'Subscribe / Renew Subscription',
       update:'Update Profile',
       back:'Go Back'
     },
@@ -48,7 +48,7 @@ export default function TutorOffice({ params }: Params) {
       subscription:'الاشتراك',
       status:'الحالة',
       active:'نشط',
-      renew:'تجديد الاشتراك',
+      renew:'الاشتراك / تجديد الاشتراك',
       update:'تحديث الملف',
       back:'رجوع'
     },
@@ -71,7 +71,7 @@ export default function TutorOffice({ params }: Params) {
       subscription:'Abonnement',
       status:'Statut',
       active:'Actif',
-      renew:'Renouveler l’abonnement',
+      renew:'S’abonner / Renouveler l’abonnement',
       update:'Mettre à jour le profil',
       back:'Retour'
     }
@@ -99,12 +99,11 @@ export default function TutorOffice({ params }: Params) {
     <div class="card">
       <div class="title">${t.title}</div>
       <div class="muted">${t.subtitle}</div>
-
-      <div class="section">
+<div class="section">
         <h3>${t.profile}</h3>
         <div class="grid">
           <label>${t.photo}</label>
-<input class="input" placeholder="Photo URL" />
+          <input class="input" placeholder="Photo URL" />
           <label>${t.displayName}</label>
           <input class="input" placeholder="Sarah Al‑Fayed" />
           <label>${t.bio}</label>

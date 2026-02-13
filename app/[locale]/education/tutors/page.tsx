@@ -35,15 +35,7 @@ export default async function TutorsPage({
 
   const client = await pool.connect();
   let tutors: any[] = [];
-  let favIds: Set<string> = new Set();
   try {
-    const favRes = await client.query(`
-      SELECT tutor_profile_id
-      FROM student_favorites
-      WHERE student_id = 'demo-student'
-    `);
-    favIds = new Set(favRes.rows.map((r:any) => r.tutor_profile_id));
-
     const res = await client.query(
       `SELECT 
          t.id,
@@ -64,20 +56,19 @@ export default async function TutorsPage({
 
   const html = `
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0d1324;color:#e5e7eb;line-height:1.4}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
     .wrap{max-width:1200px;margin:0 auto;padding:24px}
     .top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-    .back{padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px}
+    .back{padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px}
     .title{font-size:22px;font-weight:800}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
-    .card{background:#111827;border:1px solid #1f2937;color:#e5e7eb;padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.25);position:relative}
+    .card{background:var(--card);border:1px solid var(--border);color:var(--text);padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.08);position:relative}
     .row{display:flex;gap:14px;align-items:center}
     .avatar{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.15)}
+    [data-theme="light"] .avatar{background:#e5e7eb}
     .name{font-weight:800}
     .bio{opacity:.8;font-size:13px;margin-top:4px}
-    .btn{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:#22c55e;color:#0b1b13;text-decoration:none;font-size:13px;font-weight:800}
-    .heart{background:transparent;border:none;cursor:pointer;position:absolute;top:12px;right:12px;padding:0}
-    .heart svg{display:block}
+    .btn{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:var(--primary);color:#0b1b13;text-decoration:none;font-size:13px;font-weight:800}
   </style>
 
   <div dir="${isAr ? 'rtl' : 'ltr'}">
@@ -91,26 +82,11 @@ export default async function TutorsPage({
         <div style="padding:16px;border-radius:14px;opacity:.8">${esc(tr.empty)}</div>
       ` : `
         <div class="grid">
-${tutors.map((tutor) => {
+          ${tutors.map((tutor) => {
             const name = locale === 'ar' ? tutor.display_name_ar : (locale === 'fr' ? tutor.display_name_fr : tutor.display_name_en);
             const bio = locale === 'ar' ? tutor.bio_ar : (locale === 'fr' ? tutor.bio_fr : tutor.bio_en);
-            const isFav = favIds.has(tutor.id);
             return `
               <div class="card">
-                ${from === 'tutor' ? '' : `
-                  <form method="POST" action="/api/student/favorites/toggle">
-                    <input type="hidden" name="tutor_id" value="${tutor.id}" />
-                    <input type="hidden" name="action" value="${isFav ? 'remove' : 'add'}" />
-                    <input type="hidden" name="redirect" value="/${locale}/education/tutors" />
-                    <button type="submit" class="heart" aria-label="Toggle favorite">
-                      <svg viewBox="0 0 24 24" width="18" height="18"
-                        ${isFav ? 'fill="#ef4444" stroke="#ef4444"' : 'fill="none" stroke="rgba(255,255,255,.6)"'}
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
-                      </svg>
-                    </button>
-                  </form>
-                `}
                 <div class="row">
                   <div class="avatar"></div>
                   <div>

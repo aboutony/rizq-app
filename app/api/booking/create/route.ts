@@ -8,9 +8,10 @@ export async function POST(request: Request) {
   const student_name = String(form.get('student_name') || 'Demo Student');
   const date = String(form.get('date') || '');
   const time = String(form.get('time') || '16:00');
+  const from = String(form.get('from') || 'student'); // default to student flow
 
   if (!tutor_id || !date) {
-    return NextResponse.redirect(new URL(`/${locale}/education/calendar`, request.url));
+    return NextResponse.redirect(new URL(`/${locale}/education/calendar?from=${from}`, request.url));
   }
 
   const client = await pool.connect();
@@ -59,5 +60,5 @@ export async function POST(request: Request) {
     client.release();
   }
 
-  return NextResponse.redirect(new URL(`/${locale}/education/booking/status`, request.url));
+  return NextResponse.redirect(new URL(`/${locale}/education/booking/status?from=${from}`, request.url));
 }

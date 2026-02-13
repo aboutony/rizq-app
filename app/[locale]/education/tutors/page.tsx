@@ -93,7 +93,7 @@ export default async function TutorsPage({
 ${tutors.map((tutor) => {
             const name = locale === 'ar' ? tutor.display_name_ar : (locale === 'fr' ? tutor.display_name_fr : tutor.display_name_en);
             const bio = locale === 'ar' ? tutor.bio_ar : (locale === 'fr' ? tutor.bio_fr : tutor.bio_en);
-            const isFav = favIds.has(tutor.id);
+            const isFav = false;
             return `
               <div class="card">
                 ${from === 'tutor' ? '' : `
@@ -101,7 +101,7 @@ ${tutors.map((tutor) => {
                     <input type="hidden" name="tutor_id" value="${tutor.id}" />
                     <input type="hidden" name="action" value="${isFav ? 'remove' : 'add'}" />
                     <input type="hidden" name="redirect" value="/${locale}/education/tutors" />
-                    <button type="submit" class="heart" style="color:${isFav ? '#ef4444' : 'rgba(255,255,255,.5)'}">♥️</button>
+                    style="color:rgba(255,255,255,.5)"
                   </form>
                 `}
                 <div class="row">

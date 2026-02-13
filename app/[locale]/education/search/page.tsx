@@ -20,22 +20,14 @@ export default async function SearchPage({ params, searchParams }: Params) {
   const location = String(searchParams?.location || '').trim();
 
   const t = {
-    en: { title:'Tutor Search Results', view:'View Profile', back:'Back', search:'Search tutors or subjects', loc:'Location', fav:'Add to Favorites', chat:'Start Chat' },
-    ar: { title:'نتائج البحث عن المدرّسين', view:'عرض الملف', back:'رجوع', search:'ابحث عن مدرس أو مادة', loc:'الموقع', fav:'أضف إلى المفضلة', chat:'بدء المحادثة' },
-    fr: { title:'Résultats de recherche', view:'Voir profil', back:'Retour', search:'Rechercher tuteur ou matière', loc:'Localisation', fav:'Ajouter aux favoris', chat:'Démarrer le chat' }
+    en: { title:'Tutor Search Results', view:'View Profile', back:'Back', search:'Search tutors or subjects', loc:'Location', fav:'Add to Favorites', chat:'Start Chat', empty:'No results found.' },
+    ar: { title:'نتائج البحث عن المدرّسين', view:'عرض الملف', back:'رجوع', search:'ابحث عن مدرس أو مادة', loc:'الموقع', fav:'أضف إلى المفضلة', chat:'بدء المحادثة', empty:'لا توجد نتائج.' },
+    fr: { title:'Résultats de recherche', view:'Voir profil', back:'Retour', search:'Rechercher tuteur ou matière', loc:'Localisation', fav:'Ajouter aux favoris', chat:'Démarrer le chat', empty:'Aucun résultat.' }
   }[locale as 'en'|'ar'|'fr'];
 
   const client = await pool.connect();
   let tutors: any[] = [];
-  let favIds: Set<string> = new Set();
   try {
-    const favRes = await client.query(`
-      SELECT tutor_profile_id
-      FROM student_favorites
-      WHERE student_id = 'demo-student'
-    `);
-    favIds = new Set(favRes.rows.map((r:any) => r.tutor_profile_id));
-
     const res = await client.query(
       `SELECT t.id, t.slug,
               COALESCE(t.display_name_en, t.name) as display_name_en,
@@ -46,7 +38,10 @@ export default async function SearchPage({ params, searchParams }: Params) {
        FROM tutors t
        LEFT JOIN tutor_profiles tp ON t.id = tp.tutor_id
        LEFT JOIN tutor_locations tl ON tl.tutor_profile_id = t.id
+       LEFT JOIN student_favorites sf
+         ON sf.tutor_profile_id = t.id AND sf.student_id = 'demo-student'
        WHERE t.is_active = true
+         AND sf.tutor_profile_id IS NULL
          AND ($1 = '' OR t.name ILIKE $1 OR tp.bio_en ILIKE $1 OR tp.bio_ar ILIKE $1 OR tp.bio_fr ILIKE $1)
          AND ($2 = '' OR tl.location ILIKE $2)
        GROUP BY t.id, t.slug, t.display_name_en, t.display_name_ar, t.display_name_fr, tp.bio_en, tp.bio_ar, tp.bio_fr
@@ -72,7 +67,7 @@ export default async function SearchPage({ params, searchParams }: Params) {
     .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border)}
     .row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
     .input{width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text)}
-.heart{background:transparent;border:none;font-size:18px;cursor:pointer}
+.heart{background:transparent;border:none;font-size:18px;cursor:pointer;color:var(--muted)}
     .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
   </style>
 
@@ -85,18 +80,17 @@ export default async function SearchPage({ params, searchParams }: Params) {
     </form>
 
     <div class="grid">
-      ${tutors.map((row) => {
+      ${tutors.length === 0 ? `<div class="muted">${t.empty}</div>` : tutors.map((row) => {
         const name = locale === 'ar' ? row.display_name_ar : (locale === 'fr' ? row.display_name_fr : row.display_name_en);
         const bio = locale === 'ar' ? row.bio_ar : (locale === 'fr' ? row.bio_fr : row.bio_en);
         const loc = row.locations || '';
-        const isFav = favIds.has(row.id);
         return `
           <div class="card">
             <form method="POST" action="/api/student/favorites/toggle" style="position:absolute;top:12px;right:12px">
               <input type="hidden" name="tutor_id" value="${row.id}" />
-              <input type="hidden" name="action" value="${isFav ? 'remove' : 'add'}" />
+              <input type="hidden" name="action" value="add" />
               <input type="hidden" name="redirect" value="${returnUrl}" />
-              <button type="submit" class="heart" title="${t.fav}" style="color:${isFav ? '#ef4444' : 'var(--muted)'}">♥️</button>
+              <button type="submit" class="heart" title="${t.fav}">♥️</button>
             </form>
             <div class="row">
               <div>

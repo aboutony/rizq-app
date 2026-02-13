@@ -1,94 +1,144 @@
 import React from 'react';
-import pool from '@/lib/db';
-import { unstable_noStore as noStore } from 'next/cache';
 
 type Params = { params: { locale?: string } };
 
-function esc(s: any) {
-  return String(s ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-export default async function TutorDashboard({ params }: Params) {
-  noStore();
+export default function TutorDashboard({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
 
   const t = {
-    en: { logout:'Logout', active:'Subscription Active', expired:'Subscription Expired', renew:'Renew Subscription', locked:'Your subscription expired. Data is hidden until you renew.',
-      earned:'Total Earned', owed:'Total Owed', pending:'Pending Payments', activeStudents:'Active Students', totalStudents:'Total Students',
-      rating:'Rating', reviews:'reviews', requests:'Lesson Requests', approve:'Approve', reschedule:'Reschedule', decline:'Decline',
-      reason:'Decline reason', reason1:'Schedule conflict', reason2:'Not available', rescheduleRequests:'Reschedule Requests',
-      activity:'Recent Activity', calendar:'Scheduling Calendar', month:'October 2023', mode:'Mode', online:'Online', location:'Location', studentHome:"Student's home",
-      createLesson:'Create Lesson', homework:'Homework', notes:'Notes', save:'Save', newCount:'New', wants:'wants Thu 6:00 PM',
+    en: {
+      logout:'Logout',
+      active:'Subscription Active',
+      expired:'Subscription Expired',
+      renew:'Subscribe / Renew Subscription',
+      locked:'Your subscription expired. Data is hidden until you renew.',
+      earned:'Total Earned',
+      owed:'Total Owed',
+      pending:'Pending Payments',
+      activeStudents:'Active Students',
+      totalStudents:'Total Students',
+      rating:'Rating',
+      reviews:'reviews',
+      requests:'Lesson Requests',
+      approve:'Approve',
+      reschedule:'Reschedule',
+      decline:'Decline',
+      reason:'Decline reason',
+      reason1:'Schedule conflict',
+      reason2:'Not available',
+      rescheduleRequests:'Reschedule Requests',
+      activity:'Recent Activity',
+      calendar:'Scheduling Calendar',
+      month:'October 2023',
+      mode:'Mode',
+      online:'Online',
+      location:'Location',
+      studentHome:"Student's home",
+      createLesson:'Create Lesson',
+      homework:'Homework',
+      notes:'Notes',
+      save:'Save',
+      newCount:'3 New',
+      wants:'wants Thu 6:00 PM',
       mon:'Mon', tue:'Tue', wed:'Wed', thu:'Thu', fri:'Fri', sat:'Sat', sun:'Sun',
-      act1:'Request received · just now', act2:'Payment marked paid · 4h ago', act3:'Reschedule accepted · yesterday',
-      office:'My Office', register:'Registration', directory:'Tutor Directory', createTutor:'Create Tutor Profile' },
-    ar: { logout:'تسجيل الخروج', active:'الاشتراك نشط', expired:'الاشتراك منتهي', renew:'تجديد الاشتراك', locked:'انتهى اشتراكك. البيانات مخفية حتى التجديد.',
-      earned:'إجمالي المحصّل', owed:'إجمالي المستحق', pending:'مدفوعات معلّقة', activeStudents:'الطلاب النشطون', totalStudents:'إجمالي الطلاب',
-      rating:'التقييم', reviews:'تقييمًا', requests:'طلبات الدروس', approve:'موافقة', reschedule:'إعادة جدولة', decline:'رفض',
-      reason:'سبب الرفض', reason1:'تعارض في الجدول', reason2:'غير متاح', rescheduleRequests:'طلبات إعادة الجدولة',
-      activity:'النشاط الأخير', calendar:'تقويم الجدولة', month:'أكتوبر 2023', mode:'النمط', online:'أونلاين', location:'الموقع', studentHome:'منزل الطالب',
-      createLesson:'إنشاء درس', homework:'واجب', notes:'ملاحظات', save:'حفظ', newCount:'جديد', wants:'يريد الخميس 6:00 مساءً',
+      act1:'Rana K. approved · 2h ago',
+      act2:'Payment marked paid · 4h ago',
+      act3:'Reschedule accepted · yesterday',
+      office:'My Office',
+      register:'Registration',
+      directory:'Tutor Directory',
+      createTutor:'Create Tutor Profile'
+    },
+    ar: {
+      logout:'تسجيل الخروج',
+      active:'الاشتراك نشط',
+      expired:'الاشتراك منتهي',
+      renew:'الاشتراك / تجديد الاشتراك',
+      locked:'انتهى اشتراكك. البيانات مخفية حتى التجديد.',
+      earned:'إجمالي المحصّل',
+      owed:'إجمالي المستحق',
+      pending:'مدفوعات معلّقة',
+      activeStudents:'الطلاب النشطون',
+      totalStudents:'إجمالي الطلاب',
+      rating:'التقييم',
+      reviews:'تقييمًا',
+      requests:'طلبات الدروس',
+      approve:'موافقة',
+      reschedule:'إعادة جدولة',
+      decline:'رفض',
+      reason:'سبب الرفض',
+      reason1:'تعارض في الجدول',
+      reason2:'غير متاح',
+      rescheduleRequests:'طلبات إعادة الجدولة',
+      activity:'النشاط الأخير',
+      calendar:'تقويم الجدولة',
+      month:'أكتوبر 2023',
+      mode:'النمط',
+      online:'أونلاين',
+      location:'الموقع',
+      studentHome:'منزل الطالب',
+      createLesson:'إنشاء درس',
+      homework:'واجب',
+      notes:'ملاحظات',
+      save:'حفظ',
+      newCount:'٣ جديد',
+      wants:'يريد الخميس 6:00 مساءً',
       mon:'الإث', tue:'الث', wed:'الأر', thu:'الخ', fri:'الج', sat:'السب', sun:'الأحد',
-      act1:'طلب جديد · الآن', act2:'تم تأكيد الدفع · قبل 4 ساعات', act3:'تم قبول إعادة الجدولة · أمس',
-      office:'مكتبي', register:'التسجيل', directory:'دليل المدرّسين', createTutor:'إنشاء ملف مدرس' },
-    fr: { logout:'Déconnexion', active:'Abonnement Actif', expired:'Abonnement Expiré', renew:'Renouveler l’abonnement', locked:'Votre abonnement a expiré. Les données sont masquées jusqu’au renouvellement.',
-      earned:'Total perçu', owed:'Total dû', pending:'Paiements en attente', activeStudents:'Élèves actifs', totalStudents:'Total élèves',
-      rating:'Note', reviews:'avis', requests:'Demandes de cours', approve:'Approuver', reschedule:'Replanifier', decline:'Refuser',
-      reason:'Raison du refus', reason1:'Conflit d’horaire', reason2:'Non disponible', rescheduleRequests:'Demandes de replanification',
-      activity:'Activité récente', calendar:'Calendrier', month:'Octobre 2023', mode:'Mode', online:'En ligne', location:'Lieu', studentHome:"Chez l'élève",
-createLesson:'Créer une leçon', homework:'Devoir', notes:'Notes', save:'Enregistrer', newCount:'Nouveaux', wants:'souhaite jeu 18:00',
+      act1:'رنا ك. تمت الموافقة · قبل ساعتين',
+      act2:'تم تأكيد الدفع · قبل 4 ساعات',
+      act3:'تم قبول إعادة الجدولة · أمس',
+      office:'مكتبي',
+      register:'التسجيل',
+      directory:'دليل المدرّسين',
+      createTutor:'إنشاء ملف مدرس'
+    },
+    fr: {
+      logout:'Déconnexion',
+      active:'Abonnement Actif',
+      expired:'Abonnement Expiré',
+      renew:'S’abonner / Renouveler l’abonnement',
+      locked:'Votre abonnement a expiré. Les données sont masquées jusqu’au renouvellement.',
+      earned:'Total perçu',
+      owed:'Total dû',
+      pending:'Paiements en attente',
+      activeStudents:'Élèves actifs',
+      totalStudents:'Total élèves',
+      rating:'Note',
+      reviews:'avis',
+      requests:'Demandes de cours',
+      approve:'Approuver',
+      reschedule:'Replanifier',
+decline:'Refuser',
+      reason:'Raison du refus',
+      reason1:'Conflit d’horaire',
+      reason2:'Non disponible',
+      rescheduleRequests:'Demandes de replanification',
+      activity:'Activité récente',
+      calendar:'Calendrier',
+      month:'Octobre 2023',
+      mode:'Mode',
+      online:'En ligne',
+      location:'Lieu',
+      studentHome:"Chez l'élève",
+      createLesson:'Créer une leçon',
+      homework:'Devoir',
+      notes:'Notes',
+      save:'Enregistrer',
+      newCount:'3 nouveaux',
+      wants:'souhaite jeu 18:00',
       mon:'Lun', tue:'Mar', wed:'Mer', thu:'Jeu', fri:'Ven', sat:'Sam', sun:'Dim',
-      act1:'Nouvelle demande · à l’instant', act2:'Paiement marqué · il y a 4 h', act3:'Replanification acceptée · hier',
-      office:'Mon bureau', register:'Inscription', directory:'Annuaire', createTutor:'Créer un profil de tuteur' }
+      act1:'Rana K. approuvé · il y a 2 h',
+      act2:'Paiement marqué · il y a 4 h',
+      act3:'Replanification acceptée · hier',
+      office:'Mon bureau',
+      register:'Inscription',
+      directory:'Annuaire',
+      createTutor:'Créer un profil de tuteur'
+    }
   }[locale as 'en'|'ar'|'fr'];
 
-  const tutorId = 'c2f8242e-34d2-4402-9d30-76d546120731';
-
-  const client = await pool.connect();
-  let lessonRequests: any[] = [];
-  let subscriptionActive = false;
-  try {
-    const sub = await client.query(
-      `select subscription_active from tutor_profiles where tutor_id = $1 limit 1`,
-      [tutorId]
-    );
-    subscriptionActive = sub.rows[0]?.subscription_active ?? false;
-
-    const res = await client.query(
-      `SELECT l.id, l.student_name, l.duration_minutes, l.requested_start_at_utc,
-              lt.label as lesson_type_label
-       FROM lessons l
-       JOIN lesson_types lt ON l.lesson_type_id = lt.id
-       WHERE l.tutor_id = $1 AND l.status = 'requested'
-       ORDER BY l.created_at DESC
-       LIMIT 3`,
-      [tutorId]
-    );
-    lessonRequests = res.rows || [];
-  } finally {
-    client.release();
-  }
-
-  const requestsHtml = lessonRequests.length === 0
-    ? `<div class="muted">No lesson requests yet.</div>`
-    : lessonRequests.map((r: any) => `
-        <div class="row">
-          <div>
-            <div style="font-weight:700">${esc(r.student_name)}</div>
-            <div class="muted">${esc(r.lesson_type_label)} · ${esc(r.duration_minutes)} min</div>
-          </div>
-          <div class="actions">
-            <a class="btn" href="/${locale}/education/tutor/action?action=approve&kind=request">${t.approve}</a>
-            <a class="btn ghost" href="/${locale}/education/tutor/action?action=reschedule&kind=request">${t.reschedule}</a>
-            <a class="btn ghost" href="/${locale}/education/tutor/action?action=decline&kind=request">${t.decline}</a>
-          </div>
-        </div>
-      `).join('');
+  // Always allow access
+  const subscriptionActive = true;
 
   const html = `
   <style>
@@ -104,7 +154,6 @@ createLesson:'Créer une leçon', homework:'Devoir', notes:'Notes', save:'Enregi
     .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
     .muted{color:var(--muted)}
-    .locked{opacity:0.2;filter:blur(1px);pointer-events:none}
     .row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
     .tag{padding:4px 10px;border-radius:999px;font-size:12px;background:#eef2f7}
     .actions{display:flex;gap:8px;flex-wrap:wrap}
@@ -112,7 +161,7 @@ createLesson:'Créer une leçon', homework:'Devoir', notes:'Notes', save:'Enregi
     @media (min-width: 900px){ .dashboard{grid-template-columns:2fr 1fr} }
     .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:13px;color:var(--text)}
     .day{height:36px;display:flex;align-items:center;justify-content:center;border-radius:9999px}
-.day.active{background:var(--primary);color:#fff;font-weight:700}
+    .day.active{background:var(--primary);color:#fff;font-weight:700}
     .weekday{font-size:12px;color:var(--muted);text-align:center}
   </style>
 
@@ -123,18 +172,17 @@ createLesson:'Créer une leçon', homework:'Devoir', notes:'Notes', save:'Enregi
       <a class="btn ghost" href="/${locale}/education/tutor/create">${t.createTutor}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/office">${t.office}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/register">${t.register}</a>
-      <a class="btn ghost" href="/${locale}/education/tutors?from=tutor">${t.directory}</a>
+      <a class="btn ghost" href="/${locale}/education/tutors">${t.directory}</a>
       <a class="btn ghost" href="/${locale}/logout">${t.logout}</a>
+      <a class="btn ghost" href="/${locale}/education/tutor/office?subscribe=1">${t.renew}</a>
     </div>
   </header>
 
-  ${subscriptionActive ? '' : `<div style="padding:12px 20px;background:#fff3cd;border-bottom:1px solid #ffeeba;font-weight:600;">${t.locked} <a class="btn ghost" style="margin-left:10px" href="/${locale}/education/tutor/office?subscribe=1">${t.renew}</a></div>`}
-
   <main class="dashboard" dir="${locale === 'ar' ? 'rtl' : 'ltr'}">
-    <section class="${subscriptionActive ? '' : 'locked'}">
+    <section>
       <div class="kpis">
         <div class="card"><div class="muted">${t.earned}</div><div style="font-size:22px;font-weight:800">$1,240</div></div>
-        <div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
+<div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
         <div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
         <div class="card"><div class="muted">${t.activeStudents}</div><div style="font-size:22px;font-weight:800">12</div></div>
         <div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
@@ -148,11 +196,40 @@ createLesson:'Créer une leçon', homework:'Devoir', notes:'Notes', save:'Enregi
       <div class="card" style="margin-top:16px">
         <div class="row">
           <h3>${t.requests}</h3>
-          <span class="tag">${lessonRequests.length} ${t.newCount}</span>
+          <span class="tag">${t.newCount}</span>
           <a class="btn ghost" href="/${locale}/education/tutor/lesson">${t.createLesson}</a>
         </div>
         <div style="margin-top:12px" class="grid">
-          ${requestsHtml}
+          <div class="row">
+            <div>
+              <div style="font-weight:700">Rana K.</div>
+              <div class="muted">Math · 60 min · Tue 5:00 PM</div>
+              <div class="muted">${t.mode}: ${t.online} • ${t.location}: ${t.studentHome}</div>
+            </div>
+            <div class="actions">
+              <a class="btn" href="/${locale}/education/tutor/action?action=approve&kind=request">${t.approve}</a>
+              <a class="btn ghost" href="/${locale}/education/tutor/action?action=reschedule&kind=request">${t.reschedule}</a>
+              <a class="btn ghost" href="/${locale}/education/tutor/action?action=decline&kind=request">${t.decline}</a>
+            </div>
+          </div>
+          <div class="row">
+            <select class="input">
+              <option>${t.reason}</option>
+              <option>${t.reason1}</option>
+              <option>${t.reason2}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>${t.rescheduleRequests}</h3>
+        <div class="row" style="margin-top:10px">
+          <div><strong>Hadi M.</strong> <span class="muted">${t.wants}</span></div>
+          <div class="actions">
+            <a class="btn" href="/${locale}/education/tutor/action?action=approve&kind=reschedule">${t.approve}</a>
+            <a class="btn ghost" href="/${locale}/education/tutor/action?action=reschedule&kind=reschedule">${t.reschedule}</a>
+          </div>
         </div>
       </div>
 
@@ -168,8 +245,8 @@ createLesson:'Créer une leçon', homework:'Devoir', notes:'Notes', save:'Enregi
       </div>
     </section>
 
-    <aside class="${subscriptionActive ? '' : 'locked'}">
-      <a href="/${locale}/education/calendar" class="card" style="text-decoration:none;color:inherit;display:block" id="calendar">
+    <aside>
+      <div class="card" id="calendar">
         <h3>${t.calendar}</h3>
         <div class="muted" style="margin:8px 0">${t.month}</div>
         <div class="calendar" style="margin-bottom:8px">
@@ -180,7 +257,7 @@ createLesson:'Créer une leçon', homework:'Devoir', notes:'Notes', save:'Enregi
           <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day active">6</div><div class="day">7</div>
           <div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
         </div>
-      </a>
+      </div>
 
       <div class="card" style="margin-top:16px">
         <h3>${t.activity}</h3>

@@ -1,8 +1,20 @@
 import React from 'react';
+import pool from '@/lib/db';
+import { unstable_noStore as noStore } from 'next/cache';
 
 type Params = { params: { locale?: string } };
 
-export default function TutorDashboard({ params }: Params) {
+function esc(s: any) {
+  return String(s ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+export default async function TutorDashboard({ params }: Params) {
+  noStore();
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
 
   const t = {
@@ -38,10 +50,10 @@ export default function TutorDashboard({ params }: Params) {
       homework:'Homework',
       notes:'Notes',
       save:'Save',
-      newCount:'3 New',
+      newCount:'New',
       wants:'wants Thu 6:00 PM',
       mon:'Mon', tue:'Tue', wed:'Wed', thu:'Thu', fri:'Fri', sat:'Sat', sun:'Sun',
-      act1:'Rana K. approved · 2h ago',
+      act1:'Request received · just now',
       act2:'Payment marked paid · 4h ago',
       act3:'Reschedule accepted · yesterday',
       office:'My Office',
@@ -81,10 +93,10 @@ export default function TutorDashboard({ params }: Params) {
       homework:'واجب',
       notes:'ملاحظات',
       save:'حفظ',
-      newCount:'٣ جديد',
+      newCount:'جديد',
       wants:'يريد الخميس 6:00 مساءً',
       mon:'الإث', tue:'الث', wed:'الأر', thu:'الخ', fri:'الج', sat:'السب', sun:'الأحد',
-      act1:'رنا ك. تمت الموافقة · قبل ساعتين',
+      act1:'طلب جديد · الآن',
       act2:'تم تأكيد الدفع · قبل 4 ساعات',
       act3:'تم قبول إعادة الجدولة · أمس',
       office:'مكتبي',
@@ -100,7 +112,7 @@ export default function TutorDashboard({ params }: Params) {
       locked:'Votre abonnement a expiré. Les données sont masquées jusqu’au renouvellement.',
       earned:'Total perçu',
       owed:'Total dû',
-      pending:'Paiements en attente',
+pending:'Paiements en attente',
       activeStudents:'Élèves actifs',
       totalStudents:'Total élèves',
       rating:'Note',
@@ -115,7 +127,7 @@ export default function TutorDashboard({ params }: Params) {
       rescheduleRequests:'Demandes de replanification',
       activity:'Activité récente',
       calendar:'Calendrier',
-month:'Octobre 2023',
+      month:'Octobre 2023',
       mode:'Mode',
       online:'En ligne',
       location:'Lieu',
@@ -124,10 +136,10 @@ month:'Octobre 2023',
       homework:'Devoir',
       notes:'Notes',
       save:'Enregistrer',
-      newCount:'3 nouveaux',
+      newCount:'Nouveaux',
       wants:'souhaite jeu 18:00',
       mon:'Lun', tue:'Mar', wed:'Mer', thu:'Jeu', fri:'Ven', sat:'Sam', sun:'Dim',
-      act1:'Rana K. approuvé · il y a 2 h',
+      act1:'Nouvelle demande · à l’instant',
       act2:'Paiement marqué · il y a 4 h',
       act3:'Replanification acceptée · hier',
       office:'Mon bureau',
@@ -137,7 +149,41 @@ month:'Octobre 2023',
     }
   }[locale as 'en'|'ar'|'fr'];
 
-  const subscriptionActive = true;
+  const tutorId = 'c2f8242e-34d2-4402-9d30-76d546120731';
+
+  const client = await pool.connect();
+  let lessonRequests: any[] = [];
+  try {
+    const res = await client.query(
+      `SELECT l.id, l.student_name, l.duration_minutes, l.requested_start_at_utc,
+              lt.label as lesson_type_label
+       FROM lessons l
+       JOIN lesson_types lt ON l.lesson_type_id = lt.id
+       WHERE l.tutor_id = $1 AND l.status = 'requested'
+       ORDER BY l.created_at DESC
+       LIMIT 3`,
+      [tutorId]
+    );
+    lessonRequests = res.rows || [];
+  } finally {
+    client.release();
+  }
+
+  const requestsHtml = lessonRequests.length === 0
+    ? `<div class="muted">No lesson requests yet.</div>`
+    : lessonRequests.map((r: any) => `
+        <div class="row">
+          <div>
+            <div style="font-weight:700">${esc(r.student_name)}</div>
+            <div class="muted">${esc(r.lesson_type_label)} · ${esc(r.duration_minutes)} min</div>
+          </div>
+          <div class="actions">
+            <a class="btn" href="/${locale}/education/tutor/action?action=approve&kind=request">${t.approve}</a>
+            <a class="btn ghost" href="/${locale}/education/tutor/action?action=reschedule&kind=request">${t.reschedule}</a>
+            <a class="btn ghost" href="/${locale}/education/tutor/action?action=decline&kind=request">${t.decline}</a>
+          </div>
+        </div>
+      `).join('');
 
   const html = `
   <style>
@@ -157,7 +203,7 @@ month:'Octobre 2023',
     .row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
     .tag{padding:4px 10px;border-radius:999px;font-size:12px;background:#eef2f7}
     .actions{display:flex;gap:8px;flex-wrap:wrap}
-    .input, select, textarea {width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text)}
+.input, select, textarea {width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text)}
     @media (min-width: 900px){ .dashboard{grid-template-columns:2fr 1fr} }
     .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:13px;color:var(--text)}
     .day{height:36px;display:flex;align-items:center;justify-content:center;border-radius:9999px}
@@ -168,23 +214,20 @@ month:'Octobre 2023',
   <header class="topbar">
     <div style="font-weight:800">RIZQ</div>
     <div class="row">
-      <span class="status ${subscriptionActive ? 'active' : 'expired'}">${subscriptionActive ? t.active : t.expired}</span>
+      <span class="status active">${t.active}</span>
       <a class="btn ghost" href="/${locale}/education/tutor/create">${t.createTutor}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/office">${t.office}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/register">${t.register}</a>
       <a class="btn ghost" href="/${locale}/education/tutors?from=tutor">${t.directory}</a>
       <a class="btn ghost" href="/${locale}/logout">${t.logout}</a>
-      ${subscriptionActive ? '' : `<a class="btn ghost" href="/${locale}/logout">${t.renew}</a>`}
     </div>
   </header>
 
-  ${subscriptionActive ? '' : `<div style="padding:12px 20px;background:#fff3cd;border-bottom:1px solid #ffeeba;font-weight:600;">${t.locked}</div>`}
-
   <main class="dashboard" dir="${locale === 'ar' ? 'rtl' : 'ltr'}">
-    <section class="${subscriptionActive ? '' : 'locked'}">
+    <section>
       <div class="kpis">
         <div class="card"><div class="muted">${t.earned}</div><div style="font-size:22px;font-weight:800">$1,240</div></div>
-<div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
+        <div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
         <div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
         <div class="card"><div class="muted">${t.activeStudents}</div><div style="font-size:22px;font-weight:800">12</div></div>
         <div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
@@ -198,40 +241,11 @@ month:'Octobre 2023',
       <div class="card" style="margin-top:16px">
         <div class="row">
           <h3>${t.requests}</h3>
-          <span class="tag">${t.newCount}</span>
+          <span class="tag">${lessonRequests.length} ${t.newCount}</span>
           <a class="btn ghost" href="/${locale}/education/tutor/lesson">${t.createLesson}</a>
         </div>
         <div style="margin-top:12px" class="grid">
-          <div class="row">
-            <div>
-              <div style="font-weight:700">Rana K.</div>
-              <div class="muted">Math · 60 min · Tue 5:00 PM</div>
-              <div class="muted">${t.mode}: ${t.online} • ${t.location}: ${t.studentHome}</div>
-            </div>
-            <div class="actions">
-              <a class="btn" href="/${locale}/education/tutor/action?action=approve&kind=request">${t.approve}</a>
-              <a class="btn ghost" href="/${locale}/education/tutor/action?action=reschedule&kind=request">${t.reschedule}</a>
-              <a class="btn ghost" href="/${locale}/education/tutor/action?action=decline&kind=request">${t.decline}</a>
-            </div>
-          </div>
-          <div class="row">
-            <select class="input">
-              <option>${t.reason}</option>
-              <option>${t.reason1}</option>
-              <option>${t.reason2}</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:16px">
-        <h3>${t.rescheduleRequests}</h3>
-        <div class="row" style="margin-top:10px">
-          <div><strong>Hadi M.</strong> <span class="muted">${t.wants}</span></div>
-          <div class="actions">
-            <a class="btn" href="/${locale}/education/tutor/action?action=approve&kind=reschedule">${t.approve}</a>
-            <a class="btn ghost" href="/${locale}/education/tutor/action?action=reschedule&kind=reschedule">${t.reschedule}</a>
-          </div>
+          ${requestsHtml}
         </div>
       </div>
 
@@ -247,7 +261,7 @@ month:'Octobre 2023',
       </div>
     </section>
 
-    <aside class="${subscriptionActive ? '' : 'locked'}">
+    <aside>
       <a href="/${locale}/education/calendar" class="card" style="text-decoration:none;color:inherit;display:block" id="calendar">
         <h3>${t.calendar}</h3>
         <div class="muted" style="margin:8px 0">${t.month}</div>
@@ -260,9 +274,10 @@ month:'Octobre 2023',
           <div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
         </div>
       </a>
-<div class="card" style="margin-top:16px">
+
+      <div class="card" style="margin-top:16px">
         <h3>${t.activity}</h3>
-        <div class="muted" style="margin-top:8px">${t.act1}</div>
+<div class="muted" style="margin-top:8px">${t.act1}</div>
         <div class="muted">${t.act2}</div>
         <div class="muted">${t.act3}</div>
       </div>

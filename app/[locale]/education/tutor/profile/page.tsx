@@ -16,16 +16,18 @@ export default async function TutorProfilePage({
   searchParams
 }: {
   params: { locale: string };
-  searchParams: { slug?: string; from?: string };
+  searchParams: { slug?: string; from?: string; return?: string };
 }) {
   noStore();
   const locale = params?.locale || 'en';
   const isAr = locale === 'ar';
   const slug = searchParams?.slug;
+  const returnUrl = searchParams?.return || '';
   const from = searchParams?.from || '';
-  const backHref = from === 'tutor'
-    ? `/${locale}/education/tutors?from=tutor`
-    : `/${locale}/education/tutors`;
+
+  const backHref =
+    returnUrl ? returnUrl :
+    (from === 'tutor' ? `/${locale}/education/tutors?from=tutor` : `/${locale}/education/tutors`);
 
   const t = {
     en: { back: 'Back', missing: 'Tutor not found.', lessons: 'Lesson Types & Pricing', none: 'No lesson types yet.' },
@@ -37,7 +39,7 @@ export default async function TutorProfilePage({
   if (!slug) {
     const htmlMissing = `
       <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:var(--bg);color:var(--text);padding:20px">
-        <a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+<a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
         <div style="margin-top:12px;opacity:.8">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
@@ -47,7 +49,7 @@ export default async function TutorProfilePage({
   let tutor: any = null;
   let lessonTypes: any[] = [];
   try {
-const res = await client.query(
+    const res = await client.query(
       `SELECT 
          t.id, t.name,
          COALESCE(t.display_name_en, t.name) as display_name_en,
@@ -80,7 +82,7 @@ const res = await client.query(
   if (!tutor) {
     const htmlMissing = `
       <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:var(--bg);color:var(--text);padding:20px">
-        <a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+        <a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
         <div style="margin-top:12px;opacity:.8">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
@@ -123,7 +125,7 @@ const res = await client.query(
       <div class="card" style="margin-top:16px">
         <div style="font-weight:700">${esc(tr.lessons)}</div>
         ${lessonTypes.length === 0 ? `<div style="opacity:.7;margin-top:8px">${esc(tr.none)}</div>` : `
-          ${lessonTypes.map((lt) => `
+${lessonTypes.map((lt) => `
             <div class="lesson">
               <div>${esc(lt.label)}</div>
               <div style="opacity:.7">${esc(lt.duration_minutes)} min • $${esc(lt.price_amount)}</div>

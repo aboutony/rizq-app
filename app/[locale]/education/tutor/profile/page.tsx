@@ -30,16 +30,16 @@ export default async function TutorProfilePage({
     (from === 'tutor' ? `/${locale}/education/tutors?from=tutor` : `/${locale}/education/tutors`);
 
   const t = {
-    en: { back: 'Back', missing: 'Tutor not found.', lessons: 'Lesson Types & Pricing', none: 'No lesson types yet.' },
-    ar: { back: 'رجوع', missing: 'لم يتم العثور على المعلم.', lessons: 'أنواع الدروس والأسعار', none: 'لا توجد أنواع دروس بعد.' },
-    fr: { back: 'Retour', missing: 'Tuteur introuvable.', lessons: 'Types de cours & tarifs', none: 'Aucun type de cours pour le moment.' }
+    en: { back: 'Back', missing: 'Tutor not found.', lessons: 'Lesson Types & Pricing', none: 'No lesson types yet.', chat:'Start Chat', book:'Book Session' },
+    ar: { back: 'رجوع', missing: 'لم يتم العثور على المعلم.', lessons: 'أنواع الدروس والأسعار', none: 'لا توجد أنواع دروس بعد.', chat:'بدء المحادثة', book:'احجز جلسة' },
+    fr: { back: 'Retour', missing: 'Tuteur introuvable.', lessons: 'Types de cours & tarifs', none: 'Aucun type de cours pour le moment.', chat:'Démarrer le chat', book:'Réserver' }
   } as const;
   const tr = t[locale as 'en'|'ar'|'fr'] || t.en;
 
   if (!slug) {
     const htmlMissing = `
       <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:var(--bg);color:var(--text);padding:20px">
-<a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+        <a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
         <div style="margin-top:12px;opacity:.8">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
@@ -82,7 +82,7 @@ export default async function TutorProfilePage({
   if (!tutor) {
     const htmlMissing = `
       <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:var(--bg);color:var(--text);padding:20px">
-        <a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
+<a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
         <div style="margin-top:12px;opacity:.8">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
@@ -106,6 +106,9 @@ export default async function TutorProfilePage({
     .bio{opacity:.8;margin-top:4px}
     .lesson{background:#f8fafc;border-radius:14px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between}
     [data-theme="dark"] .lesson{background:rgba(255,255,255,.06)}
+    .actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+    .btn{background:#22c55e;color:#0b1b13;border:none;padding:10px 14px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block}
+    .btn.ghost{background:transparent;color:#22c55e;border:1px solid #22c55e}
   </style>
 
   <div dir="${isAr ? 'rtl' : 'ltr'}">
@@ -118,6 +121,10 @@ export default async function TutorProfilePage({
           <div>
             <div class="name">${esc(name)}</div>
             <div class="bio">${esc(bio || '')}</div>
+            <div class="actions">
+              <a class="btn" href="/${locale}/education/chat?slug=${encodeURIComponent(slug)}&from=student">${esc(tr.chat)}</a>
+              <a class="btn ghost" href="/${locale}/education/calendar?from=student">${esc(tr.book)}</a>
+            </div>
           </div>
         </div>
       </div>
@@ -125,7 +132,7 @@ export default async function TutorProfilePage({
       <div class="card" style="margin-top:16px">
         <div style="font-weight:700">${esc(tr.lessons)}</div>
         ${lessonTypes.length === 0 ? `<div style="opacity:.7;margin-top:8px">${esc(tr.none)}</div>` : `
-${lessonTypes.map((lt) => `
+          ${lessonTypes.map((lt) => `
             <div class="lesson">
               <div>${esc(lt.label)}</div>
               <div style="opacity:.7">${esc(lt.duration_minutes)} min • $${esc(lt.price_amount)}</div>
@@ -136,6 +143,5 @@ ${lessonTypes.map((lt) => `
     </div>
   </div>
   `;
-
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }

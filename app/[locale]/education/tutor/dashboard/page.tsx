@@ -109,11 +109,11 @@ export default function TutorDashboard({ params }: Params) {
       reason:'Raison du refus',
       reason1:'Conflit d’horaire',
       reason2:'Non disponible',
-rescheduleRequests:'Demandes de replanification',
+      rescheduleRequests:'Demandes de replanification',
       activity:'Activité récente',
       calendar:'Calendrier',
       month:'Octobre 2023',
-      mode:'Mode',
+mode:'Mode',
       online:'En ligne',
       location:'Lieu',
       studentHome:"Chez l'élève",
@@ -134,16 +134,18 @@ rescheduleRequests:'Demandes de replanification',
     }
   }[locale as 'en'|'ar'|'fr'];
 
-  const subscriptionActive = false; // keep "Subscription Expired" visible
+  const subscriptionActive = false;
 
   const html = `
   <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
-    .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--card);border-bottom:1px solid var(--border)}
+    .topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px 20px;background:var(--card);border-bottom:1px solid var(--border)}
+    .brand{font-weight:800;font-size:16px;letter-spacing:.5px}
+    .menu{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end}
     .status{padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700}
     .active{background:#eaf9f3;color:#0f7a5f}
     .expired{background:#ffe5e5;color:#b42318}
-    .btn{background:var(--primary);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
+    .btn{background:var(--primary);color:white;border:none;padding:9px 12px;border-radius:10px;font-weight:600;cursor:pointer}
     .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block}
     .dashboard{padding:20px;display:grid;gap:20px;max-width:1200px;margin:0 auto}
     .grid{display:grid;gap:12px}
@@ -162,8 +164,8 @@ rescheduleRequests:'Demandes de replanification',
   </style>
 
   <header class="topbar">
-    <div style="font-weight:800">RIZQ</div>
-    <div class="row">
+    <div class="brand">RIZQ</div>
+    <div class="menu">
       <span class="status ${subscriptionActive ? 'active' : 'expired'}">${subscriptionActive ? t.active : t.expired}</span>
       <a class="btn ghost" href="/${locale}/education/tutor/create">${t.createTutor}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/office">${t.office}</a>

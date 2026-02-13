@@ -35,7 +35,15 @@ export default async function TutorsPage({
 
   const client = await pool.connect();
   let tutors: any[] = [];
+  let favIds: Set<string> = new Set();
   try {
+    const favRes = await client.query(`
+      SELECT tutor_profile_id
+      FROM student_favorites
+      WHERE student_id = 'demo-student'
+    `);
+    favIds = new Set(favRes.rows.map((r:any) => r.tutor_profile_id));
+
     const res = await client.query(
       `SELECT 
          t.id,
@@ -46,10 +54,7 @@ export default async function TutorsPage({
          tp.bio_en, tp.bio_ar, tp.bio_fr
        FROM tutors t
        LEFT JOIN tutor_profiles tp ON t.id = tp.tutor_id
-       LEFT JOIN student_favorites sf
-         ON sf.tutor_profile_id = t.id AND sf.student_id = 'demo-student'
        WHERE t.is_active = true
-         AND sf.tutor_profile_id IS NULL
        ORDER BY t.name ASC`
     );
     tutors = res.rows || [];
@@ -71,7 +76,8 @@ export default async function TutorsPage({
     .name{font-weight:800}
     .bio{opacity:.8;font-size:13px;margin-top:4px}
     .btn{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:#22c55e;color:#0b1b13;text-decoration:none;font-size:13px;font-weight:800}
-    .heart{background:transparent;border:none;font-size:18px;cursor:pointer;position:absolute;top:12px;right:12px;color:rgba(255,255,255,.5)}
+    .heart{background:transparent;border:none;cursor:pointer;position:absolute;top:12px;right:12px;padding:0}
+    .heart svg{display:block}
   </style>
 
   <div dir="${isAr ? 'rtl' : 'ltr'}">
@@ -84,18 +90,25 @@ export default async function TutorsPage({
       ${tutors.length === 0 ? `
         <div style="padding:16px;border-radius:14px;opacity:.8">${esc(tr.empty)}</div>
       ` : `
-<div class="grid">
-          ${tutors.map((tutor) => {
+        <div class="grid">
+${tutors.map((tutor) => {
             const name = locale === 'ar' ? tutor.display_name_ar : (locale === 'fr' ? tutor.display_name_fr : tutor.display_name_en);
             const bio = locale === 'ar' ? tutor.bio_ar : (locale === 'fr' ? tutor.bio_fr : tutor.bio_en);
+            const isFav = favIds.has(tutor.id);
             return `
               <div class="card">
                 ${from === 'tutor' ? '' : `
                   <form method="POST" action="/api/student/favorites/toggle">
                     <input type="hidden" name="tutor_id" value="${tutor.id}" />
-                    <input type="hidden" name="action" value="add" />
+                    <input type="hidden" name="action" value="${isFav ? 'remove' : 'add'}" />
                     <input type="hidden" name="redirect" value="/${locale}/education/tutors" />
-                    <button type="submit" class="heart">♥️</button>
+                    <button type="submit" class="heart" aria-label="Toggle favorite">
+                      <svg viewBox="0 0 24 24" width="18" height="18"
+                        ${isFav ? 'fill="#ef4444" stroke="#ef4444"' : 'fill="none" stroke="rgba(255,255,255,.6)"'}
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+                      </svg>
+                    </button>
                   </form>
                 `}
                 <div class="row">

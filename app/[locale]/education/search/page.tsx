@@ -90,7 +90,7 @@ export default async function SearchPage({ params, searchParams }: Params) {
               <input type="hidden" name="tutor_id" value="${row.id}" />
               <input type="hidden" name="action" value="add" />
               <input type="hidden" name="redirect" value="${returnUrl}" />
-              <button type="submit" class="heart" title="${t.fav}">♥️</button>
+              <button type="submit" class="heart" title="${t.fav}" style="color:var(--muted)">♥️</button>
             </form>
             <div class="row">
               <div>

@@ -105,7 +105,7 @@ export default async function TutorsPage({
                     <input type="hidden" name="tutor_id" value="${tutor.id}" />
                     <input type="hidden" name="action" value="${isFav ? 'remove' : 'add'}" />
                     <input type="hidden" name="redirect" value="/${locale}/education/tutors" />
-                    <button type="submit" class="heart" style="color:${isFav ? '#ef4444' : 'rgba(255,255,255,.5)'}">♥️</button>
+                    <button type="submit" class="heart" style="color:rgba(255,255,255,.5)"
                   </form>
                 `}
                 <div class="row">

@@ -108,11 +108,11 @@ export default function TutorDashboard({ params }: Params) {
       requests:'Demandes de cours',
       approve:'Approuver',
       reschedule:'Replanifier',
-decline:'Refuser',
+      decline:'Refuser',
       reason:'Raison du refus',
       reason1:'Conflit d’horaire',
       reason2:'Non disponible',
-      rescheduleRequests:'Demandes de replanification',
+rescheduleRequests:'Demandes de replanification',
       activity:'Activité récente',
       calendar:'Calendrier',
       month:'Octobre 2023',
@@ -182,8 +182,8 @@ decline:'Refuser',
     <section>
       <div class="kpis">
         <div class="card"><div class="muted">${t.earned}</div><div style="font-size:22px;font-weight:800">$1,240</div></div>
-<div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
-        <div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
+        <div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
+<div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
         <div class="card"><div class="muted">${t.activeStudents}</div><div style="font-size:22px;font-weight:800">12</div></div>
         <div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
         <div class="card">
@@ -261,12 +261,12 @@ decline:'Refuser',
 
       <div class="card" style="margin-top:16px">
         <h3>${t.activity}</h3>
-<div class="muted" style="margin-top:8px">${t.act1}</div>
+        <div class="muted" style="margin-top:8px">${t.act1}</div>
         <div class="muted">${t.act2}</div>
         <div class="muted">${t.act3}</div>
       </div>
     </aside>
-  </main>
+</main>
   `;
 
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });

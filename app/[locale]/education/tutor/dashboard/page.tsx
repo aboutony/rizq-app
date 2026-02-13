@@ -11,7 +11,6 @@ export default function TutorDashboard({ params }: Params) {
       active:'Subscription Active',
       expired:'Subscription Expired',
       renew:'Subscribe / Renew Subscription',
-      locked:'Your subscription expired. Data is hidden until you renew.',
       earned:'Total Earned',
       owed:'Total Owed',
       pending:'Pending Payments',
@@ -54,7 +53,6 @@ export default function TutorDashboard({ params }: Params) {
       active:'الاشتراك نشط',
       expired:'الاشتراك منتهي',
       renew:'الاشتراك / تجديد الاشتراك',
-      locked:'انتهى اشتراكك. البيانات مخفية حتى التجديد.',
       earned:'إجمالي المحصّل',
       owed:'إجمالي المستحق',
       pending:'مدفوعات معلّقة',
@@ -97,7 +95,6 @@ export default function TutorDashboard({ params }: Params) {
       active:'Abonnement Actif',
       expired:'Abonnement Expiré',
       renew:'S’abonner / Renouveler l’abonnement',
-      locked:'Votre abonnement a expiré. Les données sont masquées jusqu’au renouvellement.',
       earned:'Total perçu',
       owed:'Total dû',
       pending:'Paiements en attente',
@@ -137,8 +134,7 @@ rescheduleRequests:'Demandes de replanification',
     }
   }[locale as 'en'|'ar'|'fr'];
 
-  // Always allow access
-  const subscriptionActive = true;
+  const subscriptionActive = false; // keep "Subscription Expired" visible
 
   const html = `
   <style>
@@ -172,7 +168,7 @@ rescheduleRequests:'Demandes de replanification',
       <a class="btn ghost" href="/${locale}/education/tutor/create">${t.createTutor}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/office">${t.office}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/register">${t.register}</a>
-      <a class="btn ghost" href="/${locale}/education/tutors">${t.directory}</a>
+      <a class="btn ghost" href="/${locale}/education/tutors?from=tutor">${t.directory}</a>
       <a class="btn ghost" href="/${locale}/logout">${t.logout}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/office?subscribe=1">${t.renew}</a>
     </div>
@@ -246,27 +242,29 @@ rescheduleRequests:'Demandes de replanification',
     </section>
 
     <aside>
-      <div class="card" id="calendar">
-        <h3>${t.calendar}</h3>
-        <div class="muted" style="margin:8px 0">${t.month}</div>
-        <div class="calendar" style="margin-bottom:8px">
-          <div class="weekday">${t.mon}</div><div class="weekday">${t.tue}</div><div class="weekday">${t.wed}</div>
-          <div class="weekday">${t.thu}</div><div class="weekday">${t.fri}</div><div class="weekday">${t.sat}</div><div class="weekday">${t.sun}</div>
+      <a href="/${locale}/education/calendar?from=tutor" style="text-decoration:none;color:inherit">
+        <div class="card" id="calendar">
+          <h3>${t.calendar}</h3>
+          <div class="muted" style="margin:8px 0">${t.month}</div>
+          <div class="calendar" style="margin-bottom:8px">
+            <div class="weekday">${t.mon}</div><div class="weekday">${t.tue}</div><div class="weekday">${t.wed}</div>
+            <div class="weekday">${t.thu}</div><div class="weekday">${t.fri}</div><div class="weekday">${t.sat}</div><div class="weekday">${t.sun}</div>
+          </div>
+          <div class="calendar">
+            <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day active">6</div><div class="day">7</div>
+            <div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
+          </div>
         </div>
-        <div class="calendar">
-          <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day active">6</div><div class="day">7</div>
-          <div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
-        </div>
-      </div>
+      </a>
 
       <div class="card" style="margin-top:16px">
         <h3>${t.activity}</h3>
-        <div class="muted" style="margin-top:8px">${t.act1}</div>
+<div class="muted" style="margin-top:8px">${t.act1}</div>
         <div class="muted">${t.act2}</div>
         <div class="muted">${t.act3}</div>
       </div>
     </aside>
-</main>
+  </main>
   `;
 
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });

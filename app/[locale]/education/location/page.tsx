@@ -1,9 +1,9 @@
 import React from 'react';
+type Params = { params: { locale?: string }, searchParams?: { loc?: string } };
 
-type Params = { params: { locale?: string } };
-
-export default function LocationPicker({ params }: Params) {
+export default function LocationPicker({ params, searchParams }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
+  const loc = String(searchParams?.loc || '');
 
   const t = {
     en: { title:'Choose Location', search:'Search city or area', gps:'Use GPS Location', use:'Use my location', recent:'Recent Locations', save:'Save Location', back:'Go Back' },
@@ -28,26 +28,25 @@ export default function LocationPicker({ params }: Params) {
   <div class="wrap">
     <div class="card">
       <div class="title">${t.title}</div>
-      <div class="row">
-        <input class="input" placeholder="${t.search}" />
-        <button class="btn">${t.gps}</button>
-        <button class="btn ghost">${t.use}</button>
-      </div>
+
+      <form class="row" method="get" action="/${locale}/education/search">
+        <input class="input" name="location" placeholder="${t.search}" value="${loc}" />
+        <button class="btn" type="submit">${t.save}</button>
+      </form>
 
       <div style="margin-top:14px;font-weight:700">${t.recent}</div>
       <div class="list">
-        <div class="item">Beirut, Lebanon</div>
-        <div class="item">Tripoli, Lebanon</div>
-        <div class="item">Saida, Lebanon</div>
+        <a class="item" href="/${locale}/education/search?location=Beirut">Beirut, Lebanon</a>
+        <a class="item" href="/${locale}/education/search?location=Tripoli">Tripoli, Lebanon</a>
+        <a class="item" href="/${locale}/education/search?location=Saida">Saida, Lebanon</a>
       </div>
 
       <div style="margin-top:16px" class="row">
-        <button class="btn">${t.save}</button>
+        <button class="btn">${t.gps}</button>
         <a class="btn ghost" href="/${locale}/education/student/dashboard">${t.back}</a>
       </div>
     </div>
   </div>
   `;
-
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }

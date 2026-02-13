@@ -44,9 +44,11 @@ export default async function FavoritesPage({ params }: Params) {
 
   const t = {
     en: { title:'My Favorites', subtitle:'Saved tutors for quick booking.', view:'View Profile', back:'Go Back', empty:'No favorites yet.' },
-ar: { title:'المفضلة', subtitle:'المدرّسون المحفوظون للحجز السريع.', view:'عرض الملف', back:'رجوع', empty:'لا يوجد مفضلات بعد.' },
+    ar: { title:'المفضلة', subtitle:'المدرّسون المحفوظون للحجز السريع.', view:'عرض الملف', back:'رجوع', empty:'لا يوجد مفضلات بعد.' },
     fr: { title:'Mes favoris', subtitle:'Tuteurs enregistrés pour réservation rapide.', view:'Voir profil', back:'Retour', empty:'Aucun favori pour le moment.' }
   }[locale as 'en'|'ar'|'fr'];
+
+  const returnUrl = `/${locale}/education/student/favorites`;
 
   const cards = favorites.map((row) => {
     const name = getDisplayName(row, locale);
@@ -54,19 +56,13 @@ ar: { title:'المفضلة', subtitle:'المدرّسون المحفوظون ل
     const locations = row.locations || '';
     const rating = row.avg_stars ? Number(row.avg_stars).toFixed(1) : '0.0';
     return `
-      <div class="card" style="position:relative">
-        <form method="POST" action="/api/student/favorites/toggle" style="position:absolute;top:12px;right:12px">
-          <input type="hidden" name="tutor_id" value="${row.id}" />
-          <input type="hidden" name="action" value="remove" />
-          <input type="hidden" name="redirect" value="/${locale}/education/tutors" />
-          <button type="submit" style="background:transparent;border:none;font-size:18px;color:#ef4444;cursor:pointer">♥️</button>
-        </form>
+      <div class="card">
         <div class="row">
           <div>
             <div style="font-weight:800">${name}</div>
             <div class="muted">${subjects} · ${locations} · ${rating} ★</div>
           </div>
-          <a class="btn" href="/${locale}/education/tutor/profile?slug=${encodeURIComponent(row.slug)}">${t.view}</a>
+          <a class="btn" href="/${locale}/education/tutor/profile?slug=${encodeURIComponent(row.slug)}&from=student&return=${encodeURIComponent(returnUrl)}">${t.view}</a>
         </div>
       </div>
     `;
@@ -82,7 +78,7 @@ ar: { title:'المفضلة', subtitle:'المدرّسون المحفوظون ل
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
     .row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
     .btn{background:var(--primary);color:#fff;border:none;padding:8px 10px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block}
-    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block}
   </style>
 
   <div class="wrap">
@@ -98,5 +94,5 @@ ar: { title:'المفضلة', subtitle:'المدرّسون المحفوظون ل
     </div>
   </div>
   `;
-return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
+  return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }

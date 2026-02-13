@@ -18,142 +18,47 @@ export default async function TutorDashboard({ params }: Params) {
   const locale = ['en','ar','fr'].includes(params?.locale || '') ? params!.locale! : 'en';
 
   const t = {
-    en: {
-      logout:'Logout',
-      active:'Subscription Active',
-      expired:'Subscription Expired',
-      renew:'Renew',
-      locked:'Your subscription expired. Data is hidden until you renew.',
-      earned:'Total Earned',
-      owed:'Total Owed',
-      pending:'Pending Payments',
-      activeStudents:'Active Students',
-      totalStudents:'Total Students',
-      rating:'Rating',
-      reviews:'reviews',
-      requests:'Lesson Requests',
-      approve:'Approve',
-      reschedule:'Reschedule',
-      decline:'Decline',
-      reason:'Decline reason',
-      reason1:'Schedule conflict',
-      reason2:'Not available',
-      rescheduleRequests:'Reschedule Requests',
-      activity:'Recent Activity',
-      calendar:'Scheduling Calendar',
-      month:'October 2023',
-      mode:'Mode',
-      online:'Online',
-      location:'Location',
-      studentHome:"Student's home",
-      createLesson:'Create Lesson',
-      homework:'Homework',
-      notes:'Notes',
-      save:'Save',
-      newCount:'New',
-      wants:'wants Thu 6:00 PM',
+    en: { logout:'Logout', active:'Subscription Active', expired:'Subscription Expired', renew:'Renew Subscription', locked:'Your subscription expired. Data is hidden until you renew.',
+      earned:'Total Earned', owed:'Total Owed', pending:'Pending Payments', activeStudents:'Active Students', totalStudents:'Total Students',
+      rating:'Rating', reviews:'reviews', requests:'Lesson Requests', approve:'Approve', reschedule:'Reschedule', decline:'Decline',
+      reason:'Decline reason', reason1:'Schedule conflict', reason2:'Not available', rescheduleRequests:'Reschedule Requests',
+      activity:'Recent Activity', calendar:'Scheduling Calendar', month:'October 2023', mode:'Mode', online:'Online', location:'Location', studentHome:"Student's home",
+      createLesson:'Create Lesson', homework:'Homework', notes:'Notes', save:'Save', newCount:'New', wants:'wants Thu 6:00 PM',
       mon:'Mon', tue:'Tue', wed:'Wed', thu:'Thu', fri:'Fri', sat:'Sat', sun:'Sun',
-      act1:'Request received · just now',
-      act2:'Payment marked paid · 4h ago',
-      act3:'Reschedule accepted · yesterday',
-      office:'My Office',
-      register:'Registration',
-      directory:'Tutor Directory',
-      createTutor:'Create Tutor Profile'
-    },
-    ar: {
-      logout:'تسجيل الخروج',
-      active:'الاشتراك نشط',
-      expired:'الاشتراك منتهي',
-      renew:'تجديد',
-      locked:'انتهى اشتراكك. البيانات مخفية حتى التجديد.',
-      earned:'إجمالي المحصّل',
-      owed:'إجمالي المستحق',
-      pending:'مدفوعات معلّقة',
-      activeStudents:'الطلاب النشطون',
-      totalStudents:'إجمالي الطلاب',
-      rating:'التقييم',
-      reviews:'تقييمًا',
-      requests:'طلبات الدروس',
-      approve:'موافقة',
-      reschedule:'إعادة جدولة',
-      decline:'رفض',
-      reason:'سبب الرفض',
-      reason1:'تعارض في الجدول',
-      reason2:'غير متاح',
-      rescheduleRequests:'طلبات إعادة الجدولة',
-      activity:'النشاط الأخير',
-      calendar:'تقويم الجدولة',
-      month:'أكتوبر 2023',
-      mode:'النمط',
-      online:'أونلاين',
-      location:'الموقع',
-      studentHome:'منزل الطالب',
-      createLesson:'إنشاء درس',
-      homework:'واجب',
-      notes:'ملاحظات',
-      save:'حفظ',
-      newCount:'جديد',
-      wants:'يريد الخميس 6:00 مساءً',
+      act1:'Request received · just now', act2:'Payment marked paid · 4h ago', act3:'Reschedule accepted · yesterday',
+      office:'My Office', register:'Registration', directory:'Tutor Directory', createTutor:'Create Tutor Profile' },
+    ar: { logout:'تسجيل الخروج', active:'الاشتراك نشط', expired:'الاشتراك منتهي', renew:'تجديد الاشتراك', locked:'انتهى اشتراكك. البيانات مخفية حتى التجديد.',
+      earned:'إجمالي المحصّل', owed:'إجمالي المستحق', pending:'مدفوعات معلّقة', activeStudents:'الطلاب النشطون', totalStudents:'إجمالي الطلاب',
+      rating:'التقييم', reviews:'تقييمًا', requests:'طلبات الدروس', approve:'موافقة', reschedule:'إعادة جدولة', decline:'رفض',
+      reason:'سبب الرفض', reason1:'تعارض في الجدول', reason2:'غير متاح', rescheduleRequests:'طلبات إعادة الجدولة',
+      activity:'النشاط الأخير', calendar:'تقويم الجدولة', month:'أكتوبر 2023', mode:'النمط', online:'أونلاين', location:'الموقع', studentHome:'منزل الطالب',
+      createLesson:'إنشاء درس', homework:'واجب', notes:'ملاحظات', save:'حفظ', newCount:'جديد', wants:'يريد الخميس 6:00 مساءً',
       mon:'الإث', tue:'الث', wed:'الأر', thu:'الخ', fri:'الج', sat:'السب', sun:'الأحد',
-      act1:'طلب جديد · الآن',
-      act2:'تم تأكيد الدفع · قبل 4 ساعات',
-      act3:'تم قبول إعادة الجدولة · أمس',
-      office:'مكتبي',
-      register:'التسجيل',
-      directory:'دليل المدرّسين',
-      createTutor:'إنشاء ملف مدرس'
-    },
-    fr: {
-      logout:'Déconnexion',
-      active:'Abonnement Actif',
-      expired:'Abonnement Expiré',
-      renew:'Renouveler',
-      locked:'Votre abonnement a expiré. Les données sont masquées jusqu’au renouvellement.',
-      earned:'Total perçu',
-      owed:'Total dû',
-pending:'Paiements en attente',
-      activeStudents:'Élèves actifs',
-      totalStudents:'Total élèves',
-      rating:'Note',
-      reviews:'avis',
-      requests:'Demandes de cours',
-      approve:'Approuver',
-      reschedule:'Replanifier',
-      decline:'Refuser',
-      reason:'Raison du refus',
-      reason1:'Conflit d’horaire',
-      reason2:'Non disponible',
-      rescheduleRequests:'Demandes de replanification',
-      activity:'Activité récente',
-      calendar:'Calendrier',
-      month:'Octobre 2023',
-      mode:'Mode',
-      online:'En ligne',
-      location:'Lieu',
-      studentHome:"Chez l'élève",
-      createLesson:'Créer une leçon',
-      homework:'Devoir',
-      notes:'Notes',
-      save:'Enregistrer',
-      newCount:'Nouveaux',
-      wants:'souhaite jeu 18:00',
+      act1:'طلب جديد · الآن', act2:'تم تأكيد الدفع · قبل 4 ساعات', act3:'تم قبول إعادة الجدولة · أمس',
+      office:'مكتبي', register:'التسجيل', directory:'دليل المدرّسين', createTutor:'إنشاء ملف مدرس' },
+    fr: { logout:'Déconnexion', active:'Abonnement Actif', expired:'Abonnement Expiré', renew:'Renouveler l’abonnement', locked:'Votre abonnement a expiré. Les données sont masquées jusqu’au renouvellement.',
+      earned:'Total perçu', owed:'Total dû', pending:'Paiements en attente', activeStudents:'Élèves actifs', totalStudents:'Total élèves',
+      rating:'Note', reviews:'avis', requests:'Demandes de cours', approve:'Approuver', reschedule:'Replanifier', decline:'Refuser',
+      reason:'Raison du refus', reason1:'Conflit d’horaire', reason2:'Non disponible', rescheduleRequests:'Demandes de replanification',
+      activity:'Activité récente', calendar:'Calendrier', month:'Octobre 2023', mode:'Mode', online:'En ligne', location:'Lieu', studentHome:"Chez l'élève",
+createLesson:'Créer une leçon', homework:'Devoir', notes:'Notes', save:'Enregistrer', newCount:'Nouveaux', wants:'souhaite jeu 18:00',
       mon:'Lun', tue:'Mar', wed:'Mer', thu:'Jeu', fri:'Ven', sat:'Sam', sun:'Dim',
-      act1:'Nouvelle demande · à l’instant',
-      act2:'Paiement marqué · il y a 4 h',
-      act3:'Replanification acceptée · hier',
-      office:'Mon bureau',
-      register:'Inscription',
-      directory:'Annuaire',
-      createTutor:'Créer un profil de tuteur'
-    }
+      act1:'Nouvelle demande · à l’instant', act2:'Paiement marqué · il y a 4 h', act3:'Replanification acceptée · hier',
+      office:'Mon bureau', register:'Inscription', directory:'Annuaire', createTutor:'Créer un profil de tuteur' }
   }[locale as 'en'|'ar'|'fr'];
 
   const tutorId = 'c2f8242e-34d2-4402-9d30-76d546120731';
 
   const client = await pool.connect();
   let lessonRequests: any[] = [];
+  let subscriptionActive = false;
   try {
+    const sub = await client.query(
+      `select subscription_active from tutor_profiles where tutor_id = $1 limit 1`,
+      [tutorId]
+    );
+    subscriptionActive = sub.rows[0]?.subscription_active ?? false;
+
     const res = await client.query(
       `SELECT l.id, l.student_name, l.duration_minutes, l.requested_start_at_utc,
               lt.label as lesson_type_label
@@ -199,22 +104,22 @@ pending:'Paiements en attente',
     .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
     .muted{color:var(--muted)}
-    .locked{opacity:0.15;filter:blur(2px);pointer-events:none}
+    .locked{opacity:0.2;filter:blur(1px);pointer-events:none}
     .row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
     .tag{padding:4px 10px;border-radius:999px;font-size:12px;background:#eef2f7}
     .actions{display:flex;gap:8px;flex-wrap:wrap}
-.input, select, textarea {width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text)}
+    .input, select, textarea {width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text)}
     @media (min-width: 900px){ .dashboard{grid-template-columns:2fr 1fr} }
     .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:13px;color:var(--text)}
     .day{height:36px;display:flex;align-items:center;justify-content:center;border-radius:9999px}
-    .day.active{background:var(--primary);color:#fff;font-weight:700}
+.day.active{background:var(--primary);color:#fff;font-weight:700}
     .weekday{font-size:12px;color:var(--muted);text-align:center}
   </style>
 
   <header class="topbar">
     <div style="font-weight:800">RIZQ</div>
     <div class="row">
-      <span class="status active">${t.active}</span>
+      <span class="status ${subscriptionActive ? 'active' : 'expired'}">${subscriptionActive ? t.active : t.expired}</span>
       <a class="btn ghost" href="/${locale}/education/tutor/create">${t.createTutor}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/office">${t.office}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/register">${t.register}</a>
@@ -223,8 +128,10 @@ pending:'Paiements en attente',
     </div>
   </header>
 
+  ${subscriptionActive ? '' : `<div style="padding:12px 20px;background:#fff3cd;border-bottom:1px solid #ffeeba;font-weight:600;">${t.locked} <a class="btn ghost" style="margin-left:10px" href="/${locale}/education/tutor/office?subscribe=1">${t.renew}</a></div>`}
+
   <main class="dashboard" dir="${locale === 'ar' ? 'rtl' : 'ltr'}">
-    <section>
+    <section class="${subscriptionActive ? '' : 'locked'}">
       <div class="kpis">
         <div class="card"><div class="muted">${t.earned}</div><div style="font-size:22px;font-weight:800">$1,240</div></div>
         <div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
@@ -261,7 +168,7 @@ pending:'Paiements en attente',
       </div>
     </section>
 
-    <aside>
+    <aside class="${subscriptionActive ? '' : 'locked'}">
       <a href="/${locale}/education/calendar" class="card" style="text-decoration:none;color:inherit;display:block" id="calendar">
         <h3>${t.calendar}</h3>
         <div class="muted" style="margin:8px 0">${t.month}</div>

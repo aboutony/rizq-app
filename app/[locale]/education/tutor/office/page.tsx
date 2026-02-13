@@ -65,7 +65,7 @@ export default function TutorOffice({ params }: Params) {
       subjects:'Matières',
       logistics:'Logistique',
       availability:'Disponibilité',
-      travel:'Préférence de déplacement',
+travel:'Préférence de déplacement',
       travelHome:'Je me déplace chez l’élève',
       travelStudio:'L’élève vient à mon lieu',
       subscription:'Abonnement',
@@ -81,7 +81,7 @@ export default function TutorOffice({ params }: Params) {
   <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
     .wrap{min-height:100vh;padding:20px;display:flex;justify-content:center}
-    .card{width:100%;max-width:860px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,0.05)}
+    .card{width:100%;max-width:860px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,0.05);position:relative}
     .title{font-size:20px;font-weight:800;margin-bottom:6px}
     .muted{color:var(--muted);font-size:13px}
     .grid{display:grid;gap:12px;margin-top:16px}
@@ -93,13 +93,20 @@ export default function TutorOffice({ params }: Params) {
     .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border)}
     .chip{padding:8px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px}
     .chips{display:flex;gap:8px;flex-wrap:wrap}
+    .top-actions{display:flex;justify-content:flex-end;margin-top:8px}
+    .bottom-actions{display:flex;gap:8px;justify-content:flex-start;margin-top:14px}
   </style>
 
   <div class="wrap">
     <div class="card">
       <div class="title">${t.title}</div>
       <div class="muted">${t.subtitle}</div>
-<div class="section">
+
+      <div class="top-actions">
+        <button class="btn">${t.update}</button>
+      </div>
+
+      <div class="section">
         <h3>${t.profile}</h3>
         <div class="grid">
           <label>${t.photo}</label>
@@ -158,14 +165,13 @@ export default function TutorOffice({ params }: Params) {
 
       <div class="section">
         <h3>${t.subscription}</h3>
-        <div class="row">
+<div class="row">
           <div><strong>${t.status}:</strong> ${t.active}</div>
-          <button class="btn ghost">${t.renew}</button>
         </div>
       </div>
 
-      <div class="section">
-        <button class="btn">${t.update}</button>
+      <div class="bottom-actions">
+        <button class="btn ghost">${t.renew}</button>
         <a class="btn ghost" href="/${locale}/education/tutor/dashboard">${t.back}</a>
       </div>
     </div>

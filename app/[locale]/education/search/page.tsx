@@ -64,10 +64,10 @@ export default async function SearchPage({ params, searchParams }: Params) {
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04);position:relative}
     .muted{color:var(--muted)}
     .btn{background:var(--primary);color:#fff;border:none;padding:10px 12px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block}
-    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border)}
+.btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border)}
     .row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
     .input{width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text)}
-.heart{background:transparent;border:none;font-size:18px;cursor:pointer;color:var(--muted)}
+    .heart{background:transparent;border:none;font-size:18px;cursor:pointer;color:#9ca3af;position:absolute;top:12px;right:12px;z-index:5;pointer-events:auto}
     .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
   </style>
 
@@ -86,7 +86,7 @@ export default async function SearchPage({ params, searchParams }: Params) {
         const loc = row.locations || '';
         return `
           <div class="card">
-            <form method="POST" action="/api/student/favorites/toggle" style="position:absolute;top:12px;right:12px">
+            <form method="POST" action="/api/student/favorites/toggle">
               <input type="hidden" name="tutor_id" value="${row.id}" />
               <input type="hidden" name="action" value="add" />
               <input type="hidden" name="redirect" value="${returnUrl}" />

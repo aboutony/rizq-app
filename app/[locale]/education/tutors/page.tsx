@@ -6,6 +6,7 @@ function esc(s: any) {
   return String(s ?? '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
+    .replace(/>/g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
@@ -37,14 +38,12 @@ export default async function TutorsPage({
   let tutors: any[] = [];
   let favIds: Set<string> = new Set();
   try {
-    if (from !== 'tutor') {
-      const favRes = await client.query(`
-        SELECT tutor_profile_id
-        FROM student_favorites
-        WHERE student_id = 'demo-student'
-      `);
-      favIds = new Set(favRes.rows.map((r:any) => r.tutor_profile_id));
-    }
+    const favRes = await client.query(`
+      SELECT tutor_profile_id
+      FROM student_favorites
+      WHERE student_id = 'demo-student'
+    `);
+    favIds = new Set(favRes.rows.map((r:any) => r.tutor_profile_id));
 
     const res = await client.query(
       `SELECT 
@@ -73,7 +72,7 @@ export default async function TutorsPage({
     .back{padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px}
     .title{font-size:22px;font-weight:800}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
-    .card{background:#ffffff;border:1px solid #e2e8f0;color:#0f172a;padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    .card{background:#ffffff;border:1px solid #e2e8f0;color:#0f172a;padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.08);position:relative}
     [data-theme="dark"] .card{background:#111827;border:1px solid #1f2937;color:#e5e7eb;box-shadow:0 6px 18px rgba(0,0,0,.25)}
     .row{display:flex;gap:14px;align-items:center}
     .avatar{width:54px;height:54px;border-radius:50%;background:#e2e8f0}
@@ -81,13 +80,13 @@ export default async function TutorsPage({
     .name{font-weight:800}
     .bio{opacity:.8;font-size:13px;margin-top:4px}
     .btn{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:#22c55e;color:#0b1b13;text-decoration:none;font-size:13px;font-weight:800}
-    .heart{background:transparent;border:none;font-size:18px;cursor:pointer}
+    .heart{background:transparent;border:none;font-size:18px;cursor:pointer;position:absolute;top:12px;right:12px}
   </style>
 
   <div dir="${isAr ? 'rtl' : 'ltr'}">
     <div class="wrap">
-<div class="top">
-        <a class="back" href="${backHref}">${esc(tr.back)}</a>
+      <div class="top">
+<a class="back" href="${backHref}">${esc(tr.back)}</a>
         <div class="title">${esc(tr.title)}</div>
       </div>
 
@@ -100,16 +99,15 @@ export default async function TutorsPage({
             const bio = locale === 'ar' ? tutor.bio_ar : (locale === 'fr' ? tutor.bio_fr : tutor.bio_en);
             const isFav = favIds.has(tutor.id);
             return `
-              <div class="card" style="position:relative">
+              <div class="card">
                 ${from === 'tutor' ? '' : `
-                  <form method="POST" action="/api/student/favorites/toggle" style="position:absolute;top:12px;right:12px">
+                  <form method="POST" action="/api/student/favorites/toggle">
                     <input type="hidden" name="tutor_id" value="${tutor.id}" />
                     <input type="hidden" name="action" value="${isFav ? 'remove' : 'add'}" />
-                    <input type="hidden" name="redirect" value="/${locale}/education/student/favorites" />
+                    <input type="hidden" name="redirect" value="/${locale}/education/tutors" />
                     <button type="submit" class="heart" style="color:${isFav ? '#ef4444' : 'rgba(255,255,255,.5)'}">♥️</button>
                   </form>
                 `}
-
                 <div class="row">
                   <div class="avatar"></div>
                   <div>
@@ -117,7 +115,6 @@ export default async function TutorsPage({
                     <div class="bio">${esc(bio || '')}</div>
                   </div>
                 </div>
-
                 <a class="btn" href="/${locale}/education/tutor/profile?slug=${encodeURIComponent(tutor.slug)}${from === 'tutor' ? '&from=tutor' : ''}">${esc(tr.view)}</a>
               </div>
             `;

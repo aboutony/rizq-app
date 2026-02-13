@@ -35,7 +35,7 @@ export default function TutorDashboard({ params }: Params) {
       studentHome:"Student's home",
       createLesson:'Create Lesson',
       homework:'Homework',
-      notes:'Notes',
+      notes:'Homework Notes',
       save:'Save',
       newCount:'3 New',
       wants:'wants Thu 6:00 PM',
@@ -44,9 +44,10 @@ export default function TutorDashboard({ params }: Params) {
       act2:'Payment marked paid · 4h ago',
       act3:'Reschedule accepted · yesterday',
       office:'My Office',
-      register:'Registration',
+      register:'Tutor Registration',
       directory:'Tutor Directory',
-      createTutor:'Create Tutor Profile'
+      createTutor:'Create Tutor Profile',
+      menu:'Menu'
     },
     ar: {
       logout:'تسجيل الخروج',
@@ -77,7 +78,7 @@ export default function TutorDashboard({ params }: Params) {
       studentHome:'منزل الطالب',
       createLesson:'إنشاء درس',
       homework:'واجب',
-      notes:'ملاحظات',
+      notes:'ملاحظات الواجب',
       save:'حفظ',
       newCount:'٣ جديد',
       wants:'يريد الخميس 6:00 مساءً',
@@ -86,9 +87,10 @@ export default function TutorDashboard({ params }: Params) {
       act2:'تم تأكيد الدفع · قبل 4 ساعات',
       act3:'تم قبول إعادة الجدولة · أمس',
       office:'مكتبي',
-      register:'التسجيل',
+      register:'تسجيل المدرّس',
       directory:'دليل المدرّسين',
-      createTutor:'إنشاء ملف مدرس'
+      createTutor:'إنشاء ملف مدرس',
+      menu:'القائمة'
     },
     fr: {
       logout:'Déconnexion',
@@ -103,7 +105,7 @@ export default function TutorDashboard({ params }: Params) {
       rating:'Note',
       reviews:'avis',
       requests:'Demandes de cours',
-      approve:'Approuver',
+approve:'Approuver',
       reschedule:'Replanifier',
       decline:'Refuser',
       reason:'Raison du refus',
@@ -113,13 +115,13 @@ export default function TutorDashboard({ params }: Params) {
       activity:'Activité récente',
       calendar:'Calendrier',
       month:'Octobre 2023',
-mode:'Mode',
+      mode:'Mode',
       online:'En ligne',
       location:'Lieu',
       studentHome:"Chez l'élève",
       createLesson:'Créer une leçon',
       homework:'Devoir',
-      notes:'Notes',
+      notes:'Notes de devoir',
       save:'Enregistrer',
       newCount:'3 nouveaux',
       wants:'souhaite jeu 18:00',
@@ -128,9 +130,10 @@ mode:'Mode',
       act2:'Paiement marqué · il y a 4 h',
       act3:'Replanification acceptée · hier',
       office:'Mon bureau',
-      register:'Inscription',
+      register:'Inscription tuteur',
       directory:'Annuaire',
-      createTutor:'Créer un profil de tuteur'
+      createTutor:'Créer un profil de tuteur',
+      menu:'Menu'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -147,13 +150,20 @@ mode:'Mode',
     .expired{background:#ffe5e5;color:#b42318}
     .btn{background:var(--primary);color:white;border:none;padding:9px 12px;border-radius:10px;font-weight:600;cursor:pointer}
     .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block}
+    .dropdown{position:relative}
+    .dropdown summary{list-style:none;cursor:pointer;padding:9px 12px;border-radius:10px;border:1px solid var(--border);color:var(--primary);background:transparent;font-weight:600}
+    .dropdown[open] summary{background:var(--card)}
+    .dropdown-menu{position:absolute;right:0;top:42px;background:var(--card);border:1px solid var(--border);border-radius:12px;min-width:220px;box-shadow:0 10px 25px rgba(0,0,0,.15);padding:8px;z-index:10}
+    .dropdown-menu a{display:block;padding:8px 10px;border-radius:8px;color:var(--text);text-decoration:none}
+    .dropdown-menu a:hover{background:rgba(255,255,255,.06)}
     .dashboard{padding:20px;display:grid;gap:20px;max-width:1200px;margin:0 auto}
     .grid{display:grid;gap:12px}
     .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
     .muted{color:var(--muted)}
     .row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-    .tag{padding:4px 10px;border-radius:999px;font-size:12px;background:#eef2f7}
+    .tag{padding:4px 10px;border-radius:999px;font-size:12px;background:rgba(255,255,255,.12);color:var(--text)}
+    [data-theme="light"] .tag{background:#eef2f7;color:#0f172a}
     .actions{display:flex;gap:8px;flex-wrap:wrap}
     .input, select, textarea {width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text)}
     @media (min-width: 900px){ .dashboard{grid-template-columns:2fr 1fr} }
@@ -166,13 +176,18 @@ mode:'Mode',
   <header class="topbar">
     <div class="brand">RIZQ</div>
     <div class="menu">
-      <span class="status ${subscriptionActive ? 'active' : 'expired'}">${subscriptionActive ? t.active : t.expired}</span>
-      <a class="btn ghost" href="/${locale}/education/tutor/create">${t.createTutor}</a>
-      <a class="btn ghost" href="/${locale}/education/tutor/office">${t.office}</a>
-      <a class="btn ghost" href="/${locale}/education/tutor/register">${t.register}</a>
-      <a class="btn ghost" href="/${locale}/education/tutors?from=tutor">${t.directory}</a>
-      <a class="btn ghost" href="/${locale}/logout">${t.logout}</a>
-      <a class="btn ghost" href="/${locale}/education/tutor/office?subscribe=1">${t.renew}</a>
+<span class="status ${subscriptionActive ? 'active' : 'expired'}">${subscriptionActive ? t.active : t.expired}</span>
+      <a class="btn ghost" href="/${locale}/education/tutor/lesson">${t.createLesson}</a>
+      <details class="dropdown">
+        <summary>${t.menu}</summary>
+        <div class="dropdown-menu">
+          <a href="/${locale}/education/tutor/create">${t.createTutor}</a>
+          <a href="/${locale}/education/tutor/office">${t.office}</a>
+          <a href="/${locale}/education/tutor/register">${t.register}</a>
+          <a href="/${locale}/education/tutors?from=tutor">${t.directory}</a>
+          <a href="/${locale}/logout">${t.logout}</a>
+        </div>
+      </details>
     </div>
   </header>
 
@@ -181,7 +196,7 @@ mode:'Mode',
       <div class="kpis">
         <div class="card"><div class="muted">${t.earned}</div><div style="font-size:22px;font-weight:800">$1,240</div></div>
         <div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
-<div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
+        <div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
         <div class="card"><div class="muted">${t.activeStudents}</div><div style="font-size:22px;font-weight:800">12</div></div>
         <div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
         <div class="card">
@@ -195,7 +210,6 @@ mode:'Mode',
         <div class="row">
           <h3>${t.requests}</h3>
           <span class="tag">${t.newCount}</span>
-          <a class="btn ghost" href="/${locale}/education/tutor/lesson">${t.createLesson}</a>
         </div>
         <div style="margin-top:12px" class="grid">
           <div class="row">
@@ -233,18 +247,19 @@ mode:'Mode',
 
       <div class="card" style="margin-top:16px">
         <h3>${t.homework}</h3>
-        <div class="grid">
+        <form class="grid" method="post" action="/api/tutor/lesson/homework">
+          <input type="hidden" name="locale" value="${locale}" />
           <label>${t.notes}</label>
-          <textarea class="input" rows="3"></textarea>
+          <textarea class="input" rows="3" name="homework_notes"></textarea>
           <label>${t.homework}</label>
-          <textarea class="input" rows="2"></textarea>
-          <button class="btn">${t.save}</button>
-        </div>
+          <textarea class="input" rows="2" name="homework_text"></textarea>
+          <button class="btn" type="submit">${t.save}</button>
+        </form>
       </div>
     </section>
 
     <aside>
-      <a href="/${locale}/education/calendar?from=tutor" style="text-decoration:none;color:inherit">
+<a href="/${locale}/education/calendar?from=tutor" style="text-decoration:none;color:inherit">
         <div class="card" id="calendar">
           <h3>${t.calendar}</h3>
           <div class="muted" style="margin:8px 0">${t.month}</div>
@@ -261,7 +276,7 @@ mode:'Mode',
 
       <div class="card" style="margin-top:16px">
         <h3>${t.activity}</h3>
-<div class="muted" style="margin-top:8px">${t.act1}</div>
+        <div class="muted" style="margin-top:8px">${t.act1}</div>
         <div class="muted">${t.act2}</div>
         <div class="muted">${t.act3}</div>
       </div>

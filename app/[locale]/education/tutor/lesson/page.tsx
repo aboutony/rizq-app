@@ -132,8 +132,8 @@ export default function TutorLessonPage({ params }: Params) {
       ge1:'المرحلة الابتدائية',
       ge2:'المرحلة المتوسطة / الإعدادية',
       ge3:'المرحلة الثانوية (المسار العام)',
-ge4:'المرحلة الجامعية (بكالوريوس)',
-      ge5:'أخرى',
+      ge4:'المرحلة الجامعية (بكالوريوس)',
+ge5:'أخرى',
 
       tvet:'2. التعليم والتدريب التقني والمهني',
       tv1:'CAP',
@@ -282,8 +282,8 @@ ge4:'المرحلة الجامعية (بكالوريوس)',
       c3:'Développement mobile',
       c4:'Données & IA',
       c5:'DevOps & Cloud',
-c6:'Parcours débutant',
-      c7:'Préparation aux certifications'
+      c6:'Parcours débutant',
+c7:'Préparation aux certifications'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -331,6 +331,7 @@ c6:'Parcours débutant',
               <option>${t.locTutor}</option>
               <option>${t.locSchool}</option>
               <option>${t.locStudent}</option>
+              <option>${t.other}</option>
             </select>
           </div>
         </div>
@@ -389,9 +390,8 @@ c6:'Parcours débutant',
         </select>
         <input class="input" placeholder="${t.other}"/>
       </div>
-
-      <div class="section">
-<h3>${t.arts}</h3>
+<div class="section">
+        <h3>${t.arts}</h3>
         <select class="input">
           <option value="">${t.select}</option>
           <option>${t.ar1}</option>

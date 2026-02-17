@@ -20,7 +20,6 @@ export default async function FavoritesPage({ params }: Params) {
     const res = await client.query(`
       SELECT
         t.id,
-        t.slug,
         t.name,
         t.display_name_en,
         t.display_name_ar,
@@ -34,7 +33,7 @@ export default async function FavoritesPage({ params }: Params) {
       LEFT JOIN tutor_locations tl ON tl.tutor_profile_id = t.id
       LEFT JOIN tutor_rating_summary trs ON t.id = trs.tutor_id
       WHERE sf.student_id = 'demo-student'
-      GROUP BY t.id, t.slug, t.name, t.display_name_en, t.display_name_ar, t.display_name_fr, trs.avg_stars
+      GROUP BY t.id, t.name, t.display_name_en, t.display_name_ar, t.display_name_fr, trs.avg_stars
       ORDER BY t.display_name_en;
     `);
     favorites = res.rows;
@@ -48,8 +47,6 @@ export default async function FavoritesPage({ params }: Params) {
     fr: { title:'Mes favoris', subtitle:'Tuteurs enregistrés pour réservation rapide.', view:'Voir profil', back:'Retour', empty:'Aucun favori pour le moment.' }
   }[locale as 'en'|'ar'|'fr'];
 
-  const returnUrl = `/${locale}/education/student/favorites`;
-
   const cards = favorites.map((row) => {
     const name = getDisplayName(row, locale);
     const subjects = row.subjects || '';
@@ -62,7 +59,7 @@ export default async function FavoritesPage({ params }: Params) {
             <div style="font-weight:800">${name}</div>
             <div class="muted">${subjects} · ${locations} · ${rating} ★</div>
           </div>
-          <a class="btn" href="/${locale}/education/tutor/profile?slug=${encodeURIComponent(row.slug)}&from=student&return=${encodeURIComponent(returnUrl)}">${t.view}</a>
+          <a class="btn" href="/${locale}/education/tutor/profile">${t.view}</a>
         </div>
       </div>
     `;
@@ -78,7 +75,7 @@ export default async function FavoritesPage({ params }: Params) {
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
     .row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
     .btn{background:var(--primary);color:#fff;border:none;padding:8px 10px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block}
-.btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block}
   </style>
 
   <div class="wrap">
@@ -90,9 +87,9 @@ export default async function FavoritesPage({ params }: Params) {
     </div>
 
     <div style="margin-top:16px">
-      <a class="btn ghost" href="/${locale}/education/student/dashboard">${t.back}</a>
+<a class="btn ghost" href="/${locale}/education/student/dashboard">${t.back}</a>
     </div>
   </div>
   `;
-  return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
+return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }

@@ -15,7 +15,7 @@ export default function Home() {
             <div style={{ padding: 14, borderRadius: 16, background: 'var(--text)', color: 'var(--card)', fontWeight: 700, textAlign: 'center' }}>العربية</div>
           </a>
           <a href="/fr/login" style={{ textDecoration: 'none' }}>
-            <div style={{ padding: 14, borderRadius: 16, background: 'transparent', color: 'var(--text)', fontWeight: 700, textAlign: 'center', border: '1px solid var(--border)' }}>Français</div>
+            <div style={{ padding: 14, borderRadius: 16, background: 'transparent', color: '#E2E8F0', fontWeight: 700, textAlign: 'center', border: '1px solid var(--border)' }}>Français</div>
           </a>
         </div>
       </div>

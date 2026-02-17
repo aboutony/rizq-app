@@ -23,3 +23,15 @@ export default function NotificationsPage({ params }: Params) {
   </style>
 
   <div class="wrap">
+<div class="title">${t.title}</div>
+
+    <div class="card"><div>✅ Lesson confirmed</div><div class="muted">Tue 3:30 PM</div></div>
+    <div class="card"><div>💬 New message from tutor</div><div class="muted">2 hours ago</div></div>
+    <div class="card"><div>💳 Payment reminder</div><div class="muted">Yesterday</div></div>
+
+    <a class="btn ghost" href="/${locale}/education/student/dashboard">${t.back}</a>
+  </div>
+  `;
+
+  return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
+}

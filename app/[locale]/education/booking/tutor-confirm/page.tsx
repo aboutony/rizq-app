@@ -42,7 +42,7 @@ export default function TutorConfirm({ params }: Params) {
       <div class="title">${t.title}</div>
       <div class="muted">${t.note}</div>
       <a class="btn" href="/${locale}/education/booking/status">${t.confirm}</a>
-      <a class="btn.ghost" href="/${locale}/education/booking/logistics">${t.back}</a>
+      <a class="btn.ghost" href="/${locale}/education/booking/student-confirm">${t.back}</a>
     </div>
   </div>
   `;

@@ -50,7 +50,7 @@ export default async function TutorProfilePage({
     },
     fr: {
       title: 'Profil du tuteur',
-back: 'Retour',
+      back: 'Retour',
       missing: 'Tuteur introuvable.',
       lessons: 'Types de cours & tarifs',
       disclaimerTitle: 'Clause de non‑responsabilité & consentement',
@@ -95,7 +95,7 @@ back: 'Retour',
         `SELECT 1 FROM student_favorites WHERE student_id = 'demo-student' AND tutor_profile_id = $1 LIMIT 1`,
         [tutor.id]
       );
-      isFav = fav.rows.length > 0;
+isFav = fav.rows.length > 0;
 
       const lt = await client.query(
         `SELECT lt.label, lp.duration_minutes, lp.price_amount
@@ -125,22 +125,26 @@ back: 'Retour',
 
   const html = `
   <style>
+    .card{background:#111827;border:1px solid #1f2937;color:#e5e7eb;border-radius:22px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+    .muted{color:#9ca3af}
     .heart{background:transparent;border:none;cursor:pointer;position:absolute;top:18px;right:18px;padding:0}
     .heart svg{display:block}
+    .btn{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:16px;background:#22c55e;color:#0b1b13;text-decoration:none;font-size:13px;font-weight:800}
   </style>
+
   <div dir="${isAr ? 'rtl' : 'ltr'}" class="min-h-screen bg-[#0d1324] text-white">
     <div class="p-4 md:p-8 max-w-4xl mx-auto">
       <a href="${backHref}" class="text-sm px-4 py-1 rounded-full border border-white/30 hover:bg-white/10">${esc(tr.back)}</a>
 
-      <div class="mt-6 bg-white text-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100 relative">
+      <div class="mt-6 card relative">
         ${from === 'tutor' ? '' : `
           <form method="POST" action="/api/student/favorites/toggle">
             <input type="hidden" name="tutor_id" value="${tutor.id}" />
             <input type="hidden" name="action" value="${isFav ? 'remove' : 'add'}" />
             <input type="hidden" name="redirect" value="/${locale}/education/tutor/profile?slug=${encodeURIComponent(slug)}" />
             <button type="submit" class="heart" aria-label="Toggle favorite">
-<svg viewBox="0 0 24 24" width="18" height="18"
-                ${isFav ? 'fill="#ef4444" stroke="#ef4444"' : 'fill="none" stroke="rgba(55,65,81,.8)"'}
+              <svg viewBox="0 0 24 24" width="18" height="18"
+                ${isFav ? 'fill="#ef4444" stroke="#ef4444"' : 'fill="none" stroke="rgba(255,255,255,.7)"'}
                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
               </svg>
@@ -148,36 +152,36 @@ back: 'Retour',
           </form>
         `}
         <div class="flex items-center gap-4">
-          <div class="w-16 h-16 rounded-full bg-slate-200"></div>
+          <div class="w-16 h-16 rounded-full bg-white/10"></div>
           <div>
-            <h1 class="text-2xl font-bold text-slate-800">${esc(name)}</h1>
-            <p class="text-slate-500 mt-1">${esc(bio || '')}</p>
+            <h1 class="text-2xl font-bold">${esc(name)}</h1>
+            <p class="muted mt-1">${esc(bio || '')}</p>
           </div>
         </div>
       </div>
 
-      <div class="mt-6 bg-white text-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100">
-        <h2 class="text-lg font-semibold text-slate-800 mb-4">${esc(tr.lessons)}</h2>
+      <div class="mt-6 card">
+        <h2 class="text-lg font-semibold mb-4">${esc(tr.lessons)}</h2>
         ${lessonTypes.length === 0 ? `
-          <p class="text-slate-500">—</p>
+          <p class="muted">—</p>
         ` : `
           <div class="space-y-3">
             ${lessonTypes.map((lt) => `
-              <div class="flex items-center justify-between bg-slate-50 rounded-2xl p-3">
-                <div class="font-medium text-slate-700">${esc(lt.label)}</div>
-                <div class="text-sm text-slate-600">${esc(lt.duration_minutes)} min • $${esc(lt.price_amount)}</div>
+              <div class="flex items-center justify-between bg-white/5 rounded-2xl p-3">
+                <div class="font-medium">${esc(lt.label)}</div>
+                <div class="muted">${esc(lt.duration_minutes)} min • $${esc(lt.price_amount)}</div>
               </div>
             `).join('')}
           </div>
         `}
       </div>
 
-      <div class="mt-6 bg-white text-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100">
-        <h2 class="text-lg font-semibold text-slate-800 mb-3">${esc(tr.disclaimerTitle)}</h2>
-        <ul class="text-slate-600 space-y-2 text-sm">
+      <div class="mt-6 card">
+        <h2 class="text-lg font-semibold mb-3">${esc(tr.disclaimerTitle)}</h2>
+        <ul class="muted space-y-2 text-sm">
           <li>${esc(tr.disclaimer1)}</li>
           <li>${esc(tr.disclaimer2)}</li>
-          <li>${esc(tr.disclaimer3)}</li>
+<li>${esc(tr.disclaimer3)}</li>
         </ul>
       </div>
     </div>

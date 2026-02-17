@@ -11,7 +11,7 @@ export default function LogisticsPrompt({ params }: Params) {
       equip:'Confirm equipment availability (instruments, art tools, etc.)',
       venue:'Confirm venue reservation (studio, pool, court, etc.)',
       note:'This must be confirmed before payment.',
-      next:'Proceed to Tutor Confirmation',
+      next:'Proceed to Student Confirmation',
       back:'Go Back'
     },
     ar: {
@@ -19,7 +19,7 @@ export default function LogisticsPrompt({ params }: Params) {
       equip:'تأكيد توفر المعدات (آلات موسيقية، أدوات فنون، إلخ)',
       venue:'تأكيد حجز المكان (استوديو، مسبح، ملعب، إلخ)',
       note:'يجب التأكيد قبل الدفع.',
-      next:'الانتقال لتأكيد المدرّس',
+      next:'الانتقال لتأكيد الطالب',
       back:'رجوع'
     },
     fr: {
@@ -27,7 +27,7 @@ export default function LogisticsPrompt({ params }: Params) {
       equip:'Confirmer la disponibilité du matériel (instruments, outils artistiques, etc.)',
       venue:'Confirmer la réservation du lieu (studio, piscine, terrain, etc.)',
       note:'Doit être confirmé avant le paiement.',
-      next:'Aller à la confirmation du tuteur',
+      next:'Aller à la confirmation élève/parent',
       back:'Retour'
     }
   }[locale as 'en'|'ar'|'fr'];
@@ -60,7 +60,7 @@ export default function LogisticsPrompt({ params }: Params) {
         <span>${t.venue}</span>
       </label>
 
-      <a class="btn" href="/${locale}/education/booking/tutor-confirm">${t.next}</a>
+      <a class="btn" href="/${locale}/education/booking/student-confirm">${t.next}</a>
       <a class="btn.ghost" href="/${locale}/education/student/dashboard">${t.back}</a>
     </div>
   </div>

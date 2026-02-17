@@ -47,7 +47,8 @@ export default function TutorDashboard({ params }: Params) {
       office:'My Office',
       register:'Registration',
       directory:'Tutor Directory',
-      createTutor:'Create Tutor Profile'
+      createTutor:'Create Tutor Profile',
+      tutorConfirm:'Tutor Confirmation'
     },
     ar: {
       logout:'تسجيل الخروج',
@@ -90,7 +91,8 @@ export default function TutorDashboard({ params }: Params) {
       office:'مكتبي',
       register:'التسجيل',
       directory:'دليل المدرّسين',
-      createTutor:'إنشاء ملف مدرس'
+      createTutor:'إنشاء ملف مدرس',
+      tutorConfirm:'تأكيد المدرّس'
     },
     fr: {
       logout:'Déconnexion',
@@ -113,8 +115,8 @@ export default function TutorDashboard({ params }: Params) {
       reason1:'Conflit d’horaire',
       reason2:'Non disponible',
       rescheduleRequests:'Demandes de replanification',
-activity:'Activité récente',
-      calendar:'Calendrier',
+      activity:'Activité récente',
+calendar:'Calendrier',
       month:'Octobre 2023',
       mode:'Mode',
       online:'En ligne',
@@ -133,7 +135,8 @@ activity:'Activité récente',
       office:'Mon bureau',
       register:'Inscription',
       directory:'Annuaire',
-      createTutor:'Créer un profil de tuteur'
+      createTutor:'Créer un profil de tuteur',
+      tutorConfirm:'Confirmation du tuteur'
     }
   }[locale as 'en'|'ar'|'fr'];
 
@@ -153,7 +156,6 @@ activity:'Activité récente',
     .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
     .muted{color:var(--muted)}
-    .locked{opacity:0.15;filter:blur(2px);pointer-events:none}
     .row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
     .tag{padding:4px 10px;border-radius:999px;font-size:12px;background:var(--border);color:var(--text)}
     .actions{display:flex;gap:8px;flex-wrap:wrap}
@@ -169,6 +171,8 @@ activity:'Activité récente',
     <div style="font-weight:800">RIZQ</div>
     <div class="row">
       <span class="status ${subscriptionActive ? 'active' : 'expired'}">${subscriptionActive ? t.active : t.expired}</span>
+      <a class="btn ghost" href="/${locale}/education/tutor/lesson">${t.createLesson}</a>
+      <a class="btn ghost" href="/${locale}/education/booking/tutor-confirm">${t.tutorConfirm}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/create">${t.createTutor}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/office">${t.office}</a>
       <a class="btn ghost" href="/${locale}/education/tutor/register">${t.register}</a>
@@ -178,13 +182,11 @@ activity:'Activité récente',
     </div>
   </header>
 
-  ${subscriptionActive ? '' : `<div style="padding:12px 20px;background:rgba(255,193,7,.2);border-bottom:1px solid var(--border);font-weight:600;color:var(--text);">${t.locked}</div>`}
-
   <main class="dashboard" dir="${locale === 'ar' ? 'rtl' : 'ltr'}">
-    <section class="${subscriptionActive ? '' : 'locked'}">
+    <section>
       <div class="kpis">
-<div class="card"><div class="muted">${t.earned}</div><div style="font-size:22px;font-weight:800">$1,240</div></div>
-        <div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
+        <div class="card"><div class="muted">${t.earned}</div><div style="font-size:22px;font-weight:800">$1,240</div></div>
+<div class="card"><div class="muted">${t.owed}</div><div style="font-size:22px;font-weight:800">$320</div></div>
         <div class="card"><div class="muted">${t.pending}</div><div style="font-size:22px;font-weight:800">5</div></div>
         <div class="card"><div class="muted">${t.activeStudents}</div><div style="font-size:22px;font-weight:800">12</div></div>
         <div class="card"><div class="muted">${t.totalStudents}</div><div style="font-size:22px;font-weight:800">64</div></div>
@@ -199,7 +201,6 @@ activity:'Activité récente',
         <div class="row">
           <h3>${t.requests}</h3>
           <span class="tag">${t.newCount}</span>
-          <a class="btn ghost" href="/${locale}/education/tutor/lesson">${t.createLesson}</a>
         </div>
         <div style="margin-top:12px" class="grid">
           <div class="row">
@@ -247,7 +248,7 @@ activity:'Activité récente',
       </div>
     </section>
 
-    <aside class="${subscriptionActive ? '' : 'locked'}">
+    <aside>
       <div class="card" id="calendar">
         <h3>${t.calendar}</h3>
         <div class="muted" style="margin:8px 0">${t.month}</div>
@@ -258,7 +259,7 @@ activity:'Activité récente',
         <div class="calendar">
           <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day active">6</div><div class="day">7</div>
           <div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
-</div>
+        </div>
       </div>
 
       <div class="card" style="margin-top:16px">
@@ -266,7 +267,7 @@ activity:'Activité récente',
         <div class="muted" style="margin-top:8px">${t.act1}</div>
         <div class="muted">${t.act2}</div>
         <div class="muted">${t.act3}</div>
-      </div>
+</div>
     </aside>
   </main>
   `;

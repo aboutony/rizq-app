@@ -11,7 +11,7 @@ export default function LogisticsPrompt({ params }: Params) {
       equip:'Confirm equipment availability (instruments, art tools, etc.)',
       venue:'Confirm venue reservation (studio, pool, court, etc.)',
       note:'This must be confirmed before payment.',
-      next:'Proceed to Student Confirmation',
+      next:'Proceed to Student/Parent Confirmation',
       back:'Go Back'
     },
     ar: {
@@ -19,7 +19,7 @@ export default function LogisticsPrompt({ params }: Params) {
       equip:'تأكيد توفر المعدات (آلات موسيقية، أدوات فنون، إلخ)',
       venue:'تأكيد حجز المكان (استوديو، مسبح، ملعب، إلخ)',
       note:'يجب التأكيد قبل الدفع.',
-      next:'الانتقال لتأكيد الطالب',
+      next:'الانتقال لتأكيد الطالب/ولي الأمر',
       back:'رجوع'
     },
     fr: {
@@ -39,7 +39,7 @@ export default function LogisticsPrompt({ params }: Params) {
     .card{width:100%;max-width:520px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,0.05)}
     .title{font-size:20px;font-weight:800;margin-bottom:6px}
     .muted{color:var(--muted);font-size:13px;margin-bottom:12px}
-    .check{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--border);border-radius:12px;margin-bottom:10px}
+.check{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--border);border-radius:12px;margin-bottom:10px}
     .check input{margin-top:4px}
     .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%}
     .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block;width:100%;text-align:center;margin-top:10px;padding:12px;border-radius:12px}

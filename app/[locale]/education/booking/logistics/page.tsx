@@ -39,10 +39,10 @@ export default function LogisticsPrompt({ params }: Params) {
     .card{width:100%;max-width:520px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,0.05)}
     .title{font-size:20px;font-weight:800;margin-bottom:6px}
     .muted{color:var(--muted);font-size:13px;margin-bottom:12px}
-.check{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--border);border-radius:12px;margin-bottom:10px}
+    .check{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--border);border-radius:12px;margin-bottom:10px}
     .check input{margin-top:4px}
-    .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%}
-    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:inline-block;width:100%;text-align:center;margin-top:10px;padding:12px;border-radius:12px}
+    .btn{padding:12px;border-radius:12px;background:var(--primary);color:#fff;border:none;font-weight:700;width:100%;display:block}
+    .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--border);text-decoration:none;display:block;width:100%;text-align:center;padding:12px;border-radius:12px;margin-top:12px}
   </style>
 
   <div class="wrap">
@@ -61,7 +61,7 @@ export default function LogisticsPrompt({ params }: Params) {
       </label>
 
       <a class="btn" href="/${locale}/education/booking/student-confirm">${t.next}</a>
-      <a class="btn.ghost" href="/${locale}/education/student/dashboard">${t.back}</a>
+      <a class="btn ghost" href="/${locale}/education/student/dashboard">${t.back}</a>
     </div>
   </div>
   `;

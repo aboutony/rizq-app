@@ -16,31 +16,56 @@ export default async function TutorProfilePage({
   searchParams
 }: {
   params: { locale: string };
-  searchParams: { slug?: string; from?: string; return?: string };
+  searchParams: { slug?: string; from?: string };
 }) {
   noStore();
   const locale = params?.locale || 'en';
   const isAr = locale === 'ar';
   const slug = searchParams?.slug;
-  const returnUrl = searchParams?.return || '';
   const from = searchParams?.from || '';
-
-  const backHref =
-    returnUrl ? returnUrl :
-    (from === 'tutor' ? `/${locale}/education/tutors?from=tutor` : `/${locale}/education/tutors`);
+  const backHref = from === 'tutor'
+    ? `/${locale}/education/tutor/dashboard`
+    : `/${locale}/education/tutors`;
 
   const t = {
-    en: { back: 'Back', missing: 'Tutor not found.', lessons: 'Lesson Types & Pricing', none: 'No lesson types yet.', chat:'Start Chat', book:'Book Session' },
-    ar: { back: 'رجوع', missing: 'لم يتم العثور على المعلم.', lessons: 'أنواع الدروس والأسعار', none: 'لا توجد أنواع دروس بعد.', chat:'بدء المحادثة', book:'احجز جلسة' },
-    fr: { back: 'Retour', missing: 'Tuteur introuvable.', lessons: 'Types de cours & tarifs', none: 'Aucun type de cours pour le moment.', chat:'Démarrer le chat', book:'Réserver' }
+    en: {
+      title: 'Tutor Profile',
+      back: 'Back',
+      missing: 'Tutor not found.',
+      lessons: 'Lesson Types & Pricing',
+      disclaimerTitle: 'Disclaimer & Consent',
+      disclaimer1: 'RIZQ does not guarantee the authenticity of tutor documents, certificates, licenses, or career claims.',
+      disclaimer2: 'RIZQ is not responsible for any disputes, misunderstandings, or consequences between tutors and students.',
+      disclaimer3: 'If the student is under 18, a parent/guardian must consent before using the app.'
+    },
+    ar: {
+      title: 'ملف المعلم',
+      back: 'رجوع',
+      missing: 'لم يتم العثور على المعلم.',
+      lessons: 'أنواع الدروس والأسعار',
+      disclaimerTitle: 'إخلاء مسؤولية وموافقة',
+      disclaimer1: 'لا تضمن RIZQ صحة المستندات أو الشهادات أو التراخيص أو الخبرات التي يذكرها المدرّس.',
+      disclaimer2: 'RIZQ غير مسؤولة عن أي نزاعات أو سوء فهم أو عواقب قد تحدث بين المدرّس والطالب.',
+      disclaimer3: 'إذا كان الطالب دون 18 عامًا، يجب الحصول على موافقة ولي الأمر قبل استخدام التطبيق.'
+    },
+    fr: {
+      title: 'Profil du tuteur',
+back: 'Retour',
+      missing: 'Tuteur introuvable.',
+      lessons: 'Types de cours & tarifs',
+      disclaimerTitle: 'Clause de non‑responsabilité & consentement',
+      disclaimer1: 'RIZQ ne garantit pas l’authenticité des documents, certificats, licences ou expériences déclarées.',
+      disclaimer2: 'RIZQ n’est pas responsable des litiges, malentendus ou conséquences entre tuteur et élève.',
+      disclaimer3: 'Si l’élève a moins de 18 ans, un parent/tuteur doit donner son consentement.'
+    }
   } as const;
   const tr = t[locale as 'en'|'ar'|'fr'] || t.en;
 
   if (!slug) {
     const htmlMissing = `
-      <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:var(--bg);color:var(--text);padding:20px">
-        <a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
-        <div style="margin-top:12px;opacity:.8">${esc(tr.missing)}</div>
+      <div dir="${isAr ? 'rtl' : 'ltr'}" class="min-h-screen bg-[#0d1324] text-white p-6">
+        <a href="${backHref}" class="text-sm px-4 py-1 rounded-full border border-white/30 hover:bg-white/10">${esc(tr.back)}</a>
+        <div class="mt-4 text-white/70">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
   }
@@ -48,6 +73,7 @@ export default async function TutorProfilePage({
   const client = await pool.connect();
   let tutor: any = null;
   let lessonTypes: any[] = [];
+  let isFav = false;
   try {
     const res = await client.query(
       `SELECT 
@@ -65,6 +91,12 @@ export default async function TutorProfilePage({
     tutor = res.rows[0] || null;
 
     if (tutor) {
+      const fav = await client.query(
+        `SELECT 1 FROM student_favorites WHERE student_id = 'demo-student' AND tutor_profile_id = $1 LIMIT 1`,
+        [tutor.id]
+      );
+      isFav = fav.rows.length > 0;
+
       const lt = await client.query(
         `SELECT lt.label, lp.duration_minutes, lp.price_amount
          FROM lesson_types lt
@@ -81,9 +113,9 @@ export default async function TutorProfilePage({
 
   if (!tutor) {
     const htmlMissing = `
-      <div dir="${isAr ? 'rtl' : 'ltr'}" style="min-height:100vh;background:var(--bg);color:var(--text);padding:20px">
-<a href="${backHref}" style="padding:6px 12px;border-radius:999px;border:1px solid var(--primary);color:var(--primary);text-decoration:none;font-size:12px">${esc(tr.back)}</a>
-        <div style="margin-top:12px;opacity:.8">${esc(tr.missing)}</div>
+      <div dir="${isAr ? 'rtl' : 'ltr'}" class="min-h-screen bg-[#0d1324] text-white p-6">
+        <a href="${backHref}" class="text-sm px-4 py-1 rounded-full border border-white/30 hover:bg-white/10">${esc(tr.back)}</a>
+        <div class="mt-4 text-white/70">${esc(tr.missing)}</div>
       </div>`;
     return React.createElement('div', { dangerouslySetInnerHTML: { __html: htmlMissing } });
   }
@@ -93,55 +125,64 @@ export default async function TutorProfilePage({
 
   const html = `
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f8fafc;color:#0f172a}
-    [data-theme="dark"] body{background:#0d1324;color:#e5e7eb}
-    .wrap{max-width:900px;margin:0 auto;padding:24px}
-    .back{padding:6px 12px;border-radius:999px;border:1px solid #22c55e;color:#22c55e;text-decoration:none;font-size:12px}
-    .card{background:#ffffff;border:1px solid #e2e8f0;color:#0f172a;padding:18px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
-    [data-theme="dark"] .card{background:#111827;border:1px solid #1f2937;color:#e5e7eb;box-shadow:0 6px 18px rgba(0,0,0,.25)}
-    .row{display:flex;gap:14px;align-items:center}
-    .avatar{width:64px;height:64px;border-radius:50%;background:#e2e8f0}
-    [data-theme="dark"] .avatar{background:rgba(255,255,255,.15)}
-    .name{font-weight:800;font-size:22px}
-    .bio{opacity:.8;margin-top:4px}
-    .lesson{background:#f8fafc;border-radius:14px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between}
-    [data-theme="dark"] .lesson{background:rgba(255,255,255,.06)}
-    .actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
-    .btn{background:#22c55e;color:#0b1b13;border:none;padding:10px 14px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block}
-    .btn.ghost{background:transparent;color:#22c55e;border:1px solid #22c55e}
+    .heart{background:transparent;border:none;cursor:pointer;position:absolute;top:18px;right:18px;padding:0}
+    .heart svg{display:block}
   </style>
+  <div dir="${isAr ? 'rtl' : 'ltr'}" class="min-h-screen bg-[#0d1324] text-white">
+    <div class="p-4 md:p-8 max-w-4xl mx-auto">
+      <a href="${backHref}" class="text-sm px-4 py-1 rounded-full border border-white/30 hover:bg-white/10">${esc(tr.back)}</a>
 
-  <div dir="${isAr ? 'rtl' : 'ltr'}">
-    <div class="wrap">
-      <a class="back" href="${backHref}">${esc(tr.back)}</a>
-
-      <div class="card" style="margin-top:16px">
-        <div class="row">
-          <div class="avatar"></div>
+      <div class="mt-6 bg-white text-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100 relative">
+        ${from === 'tutor' ? '' : `
+          <form method="POST" action="/api/student/favorites/toggle">
+            <input type="hidden" name="tutor_id" value="${tutor.id}" />
+            <input type="hidden" name="action" value="${isFav ? 'remove' : 'add'}" />
+            <input type="hidden" name="redirect" value="/${locale}/education/tutor/profile?slug=${encodeURIComponent(slug)}" />
+            <button type="submit" class="heart" aria-label="Toggle favorite">
+<svg viewBox="0 0 24 24" width="18" height="18"
+                ${isFav ? 'fill="#ef4444" stroke="#ef4444"' : 'fill="none" stroke="rgba(55,65,81,.8)"'}
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+              </svg>
+            </button>
+          </form>
+        `}
+        <div class="flex items-center gap-4">
+          <div class="w-16 h-16 rounded-full bg-slate-200"></div>
           <div>
-            <div class="name">${esc(name)}</div>
-            <div class="bio">${esc(bio || '')}</div>
-            <div class="actions">
-              <a class="btn" href="/${locale}/education/chat?slug=${encodeURIComponent(slug)}&from=student">${esc(tr.chat)}</a>
-              <a class="btn ghost" href="/${locale}/education/calendar?from=student">${esc(tr.book)}</a>
-            </div>
+            <h1 class="text-2xl font-bold text-slate-800">${esc(name)}</h1>
+            <p class="text-slate-500 mt-1">${esc(bio || '')}</p>
           </div>
         </div>
       </div>
 
-      <div class="card" style="margin-top:16px">
-        <div style="font-weight:700">${esc(tr.lessons)}</div>
-        ${lessonTypes.length === 0 ? `<div style="opacity:.7;margin-top:8px">${esc(tr.none)}</div>` : `
-          ${lessonTypes.map((lt) => `
-            <div class="lesson">
-              <div>${esc(lt.label)}</div>
-              <div style="opacity:.7">${esc(lt.duration_minutes)} min • $${esc(lt.price_amount)}</div>
-            </div>
-          `).join('')}
+      <div class="mt-6 bg-white text-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100">
+        <h2 class="text-lg font-semibold text-slate-800 mb-4">${esc(tr.lessons)}</h2>
+        ${lessonTypes.length === 0 ? `
+          <p class="text-slate-500">—</p>
+        ` : `
+          <div class="space-y-3">
+            ${lessonTypes.map((lt) => `
+              <div class="flex items-center justify-between bg-slate-50 rounded-2xl p-3">
+                <div class="font-medium text-slate-700">${esc(lt.label)}</div>
+                <div class="text-sm text-slate-600">${esc(lt.duration_minutes)} min • $${esc(lt.price_amount)}</div>
+              </div>
+            `).join('')}
+          </div>
         `}
+      </div>
+
+      <div class="mt-6 bg-white text-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100">
+        <h2 class="text-lg font-semibold text-slate-800 mb-3">${esc(tr.disclaimerTitle)}</h2>
+        <ul class="text-slate-600 space-y-2 text-sm">
+          <li>${esc(tr.disclaimer1)}</li>
+          <li>${esc(tr.disclaimer2)}</li>
+          <li>${esc(tr.disclaimer3)}</li>
+        </ul>
       </div>
     </div>
   </div>
   `;
+
   return React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
 }
